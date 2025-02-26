@@ -3,7 +3,6 @@
 // College of Charleston
 
 // I WAS HERE - JULIAN
-//*CHANGE 1..... */
 //-------------Class to represent each block in tower in the stack
 public class Block 
 {
