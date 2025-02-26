@@ -1,6 +1,8 @@
 // Written by Julian Maiorino, Michelle Clark
 // CSCI 230 Spring 2025
-// College of Charleston 
+// College of Charleston
+
+// I WAS HERE - JULIAN
 
 //-------------Class to represent each block in tower in the stack
 public class Block 
