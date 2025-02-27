@@ -2,6 +2,7 @@
 // CSCI 230 Spring 2025
 // College of Charleston 
 
+// holds data for tower stack
 public class StackArray <T>
 {
     private Object[] stackArr;
