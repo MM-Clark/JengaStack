@@ -19,8 +19,6 @@ public class WinLoseScreen {
     private String[] loseImagePaths = {
             "STACK_GAME_FINAL_PROJECT_CSCI_230_CofC_Spring2025/RedEyedFace.jpg",
             "STACK_GAME_FINAL_PROJECT_CSCI_230_CofC_Spring2025/StretchFace.jpg",
-            "STACK_GAME_FINAL_PROJECT_CSCI_230_CofC_Spring2025/stretchFace.jpg",
-            "STACK_GAME_FINAL_PROJECT_CSCI_230_CofC_Spring2025/RedEyedFace.jpg"
     }; //STACK_GAME_FINAL_PROJECT_CSCI_230_CofC_Spring2025\RedEyedFace.jpg
     private String winImagePath = "STACK_GAME_FINAL_PROJECT_CSCI_230_CofC_Spring2025/testerImg.jpg"; 
 
