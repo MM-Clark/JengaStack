@@ -24,6 +24,8 @@ public class WinLoseScreen {
     }; //STACK_GAME_FINAL_PROJECT_CSCI_230_CofC_Spring2025\RedEyedFace.jpg
     private String winImagePath = "STACK_GAME_FINAL_PROJECT_CSCI_230_CofC_Spring2025/testerImg.jpg"; 
 
+    // may add audio if have time here as path
+
     public void showWinScreen(JFrame frame) throws IOException
     {
         // creating as BufferedImage to resize
