@@ -1,3 +1,7 @@
+// Written by Julian Maiorino, Michelle Clark
+// CSCI 230 Spring 2025
+// College of Charleston
+
 import java.awt.BorderLayout;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
