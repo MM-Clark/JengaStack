@@ -5,12 +5,14 @@
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.IOException;
 
 import javax.swing.*;
 
 // provides user interface functionality of when to add/remove JPanels, etc; also for pushing/popping stack
-public class Gui implements ActionListener
+public class Gui implements KeyListener
 {
     private JFrame frame;
     
@@ -54,6 +56,28 @@ public class Gui implements ActionListener
         // showStartScreen();
         frame.add(startScreen);
         getStackMaxSize();         //-------> get stack set up/instantiated
+
+        frame.addKeyListener(new KeyListener() {
+			public void keyTyped(KeyEvent e) {
+			}
+			
+            // left right functionality with key arrows
+			public void keyPressed(KeyEvent e) 
+            {
+				switch (e.getKeyCode()) 
+                {
+				    case KeyEvent.VK_LEFT:
+					    startScreen.moveBlockLeft();
+					    break;
+				    case KeyEvent.VK_RIGHT:
+					    startScreen.moveBlockRight();
+					    break;
+				} 
+			}
+			
+			public void keyReleased(KeyEvent e) {
+			}
+		});
 
         // frame.pack();            //---------> predetermined size by system
         frame.setVisible(true);
@@ -135,8 +159,20 @@ public class Gui implements ActionListener
     }
 
     @Override
-    public void actionPerformed(ActionEvent e) // for making buttons do things
-    {
-        
+    public void keyTyped(KeyEvent e) {
+        // TODO Auto-generated method stub
+        // throw new UnsupportedOperationException("Unimplemented method 'keyTyped'");
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        // TODO Auto-generated method stub
+        // throw new UnsupportedOperationException("Unimplemented method 'keyPressed'");
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+        // TODO Auto-generated method stub
+        // throw new UnsupportedOperationException("Unimplemented method 'keyReleased'");
     }
 }

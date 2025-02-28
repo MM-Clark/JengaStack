@@ -15,29 +15,43 @@ public class TetrisBlock
    private int yPos;
    private int speedX;
    private int speedY; // subject to change;
-   private int speed;
-   private int size;
+   private final int ONE_BLOCK_SIZE = 30;
    private Color color;
 
-   public TetrisBlock(int x, int y, int speedHorizontal, int speedVertical, int speed, Color color, int size)
+
+   private char[][] map;       // changed from boolean
+   private int rows, columns;
+   int currIdx;
+
+   public TetrisBlock(int x, int y, int speedHorizontal, int speedVertical, Color color)
    {
       xPos = x; // must use this keyword if any of parameter variable names are changed to match above class variables
       yPos = y;
       speedX = speedHorizontal;
       speedY = speedVertical;
-      this.speed = speed;
       this.color = color; 
-      this.size = size;
    }
 
    public void paint(Graphics g) 
    {
       g.setColor(color);
-      g.fillRect(xPos, yPos, size, size);
+      g.fillRect(xPos, yPos, ONE_BLOCK_SIZE, ONE_BLOCK_SIZE);
    }
 
-   public void makeBlockFall(){
+   public void makeBlockFall()
+   {
       // xPos += speedX;
       yPos += speedY;
-  }
+   }
+
+   public void moveBlockLeft()
+   {
+      xPos -= speedX;
+   }
+
+   public void moveBlockRight()
+   {
+      xPos += speedX;
+      // System.out.println(xPos);
+   }
 }

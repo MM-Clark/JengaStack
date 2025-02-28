@@ -2,15 +2,18 @@
 // CSCI 230 Spring 2025
 // College of Charleston
 import java.awt.*;
-import javax.swing.JPanel;
+import java.awt.event.ActionEvent;
 
-public class StartScreen extends JPanel 
+import javax.swing.*;
+
+public class StartScreen extends JPanel  
 {
     private final int WINDOW_WIDTH = 900, WINDOW_HEIGHT = 900;
     private TetrisBlock fallingBlock;
+    
     public StartScreen()
     {
-        fallingBlock = new TetrisBlock((WINDOW_WIDTH/2)-30, 10, 3, 3, 3, Color.YELLOW, 10);
+        fallingBlock = new TetrisBlock((WINDOW_WIDTH/2)-30, 10, 3, 1, Color.YELLOW);
     }
 
     public void paintComponent(Graphics g)
@@ -28,10 +31,19 @@ public class StartScreen extends JPanel
         fallingBlock.paint(g);
     }
 
-    public void updateBlockPos(){
-
+    public void updateBlockPos()
+    {
         //move the ball one frame
         fallingBlock.makeBlockFall();
-    
+    }
+
+    public void moveBlockLeft()
+    {
+        fallingBlock.moveBlockLeft();
+    }
+
+    public void moveBlockRight()
+    {
+        fallingBlock.moveBlockRight();
     }
 }
