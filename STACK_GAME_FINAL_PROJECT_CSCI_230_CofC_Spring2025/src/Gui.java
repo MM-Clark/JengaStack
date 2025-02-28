@@ -32,7 +32,8 @@ public class Gui implements ActionListener
 
     private StackArray<Block> stackTower;
     private WinLoseScreen wls;
-    TowerBlock t;
+    private TowerBlock t;
+    private StartScreen sr;
 
     // creates GUI initially, sets up JFrame
     public Gui() 
@@ -48,11 +49,32 @@ public class Gui implements ActionListener
         // frame set up
         frame.setTitle("Start Screen");
         frame.setSize(900, 900); //--------> manually set size, easier for placing boxes on x/y coordinates
-        getStartPanel(); // calls method below to get start panel
-        showStartScreen();
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        // getStartPanel(); // calls method below to get start panel
+        // showStartScreen();
+        sr = new StartScreen();
+        frame.add(sr);
 
         // frame.pack();            //---------> predetermined size by system
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
+
+        //make a new Timer
+        // Timer timer = new Timer(33, new ActionListener() {
+        //     @Override
+        //     public void actionPerformed(ActionEvent e) {
+            	
+        //     	// //game logic
+        //         // game.gameLogic();
+                
+        //         //repaint the screen
+        //         sr.repaint();
+
+        //     }
+        // });
+
+        //start the timer after it's been created
+        // timer.start();
     }
 
     private void getStartPanel() // start Screen JPanel
@@ -169,8 +191,23 @@ public class Gui implements ActionListener
         //********************************************************************************************************* */
         // switches to tower screen ***** TOWERBLOCK CLASS NEEDS TO INCREASE HEIGHT OVER TIME *********
         //***************************************************************************************************** */
-        t.go(frame);
+        t.showTower(frame);
 
+        //make a new Timer
+        Timer timer = new Timer(33, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	
+            	//game logic
+                t.updateHeight();
+                
+                //repaint the screen
+                
+            }
+        });
+
+        //start the timer after it's been created
+        timer.start();
         //***************************************************************************************************** */
         // Thread.sleep(1000); // to put in delay to show tower screen --> CAUSES TOWER TO NOT SHOW RIGHT NOW
         // showGuessScreen();

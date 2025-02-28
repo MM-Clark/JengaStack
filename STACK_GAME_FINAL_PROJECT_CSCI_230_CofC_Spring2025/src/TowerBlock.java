@@ -11,8 +11,8 @@ public class TowerBlock extends JPanel
    private final int SCREEN_DIMENSIONS = 900;
    private final int SCREEN_LEFT = 0;
    private final int SCREEN_BOTTOM = 900;
-   private final int X_POS = 450;
-   private final int Y_POS = 600;
+   private int X_POS = 450;
+   private int Y_POS = 600;
    private final int WIDTH = 50;
    private int height = 50; // subject to change;
 
@@ -28,7 +28,7 @@ public class TowerBlock extends JPanel
       g.fillRect(X_POS, Y_POS, WIDTH, height);
    }
 
-   public void go(JFrame frame) 
+   public void showTower(JFrame frame) 
    {
       // ---- the block will only show if directly added to JFrame, JPanel is no show for block ------
       TowerBlock block = new TowerBlock();
@@ -44,6 +44,6 @@ public class TowerBlock extends JPanel
 
    public void updateHeight()
    {
-      height += 300;
+      X_POS += 10;
    }
 }
