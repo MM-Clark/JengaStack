@@ -2,7 +2,7 @@
 // CSCI 230 Spring 2025
 // College of Charleston 
 
-// holds data for tower stack
+// holds tetris blocks that user will be given next
 public class StackArray <T>
 {
     private Object[] stackArr;
