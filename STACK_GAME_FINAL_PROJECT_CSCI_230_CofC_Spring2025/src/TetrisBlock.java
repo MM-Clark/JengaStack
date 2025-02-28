@@ -41,17 +41,45 @@ public class TetrisBlock
    public void makeBlockFall()
    {
       // xPos += speedX;
-      yPos += speedY;
+      if(!lockInPlace()) // if not time to lock in place, can move down block
+         yPos += speedY;
    }
 
    public void moveBlockLeft()
    {
-      xPos -= speedX;
+      if(!touchingSideOfScreen() && !lockInPlace()) // if not time to lock in place and block not touching side of screen, move left
+         xPos -= speedX;
+      // side touching dealt with in touchingSideOfScreen method
    }
 
    public void moveBlockRight()
    {
-      xPos += speedX;
+      if(!touchingSideOfScreen() && !lockInPlace())
+         xPos += speedX;
       // System.out.println(xPos);
+   }
+
+   public boolean touchingSideOfScreen()
+   {
+      if(xPos < 0)
+      {
+         xPos += 10;
+         return true;
+      }
+
+      else if(xPos > 860)
+      {
+         xPos -= 10;
+         return true;
+      }
+
+      return false;
+   } 
+
+   public boolean lockInPlace()  // to determine if to lock block in place at bottom of screen
+   {
+      if(yPos >= 700)
+         return true;
+      return false;
    }
 }
