@@ -21,8 +21,8 @@ public class Gui implements ActionListener
 
     private ButtonGroup yesNo;
 
-    private JPanel startScreen;
-    private JPanel guessScreen;
+    // private JPanel startScreen;
+    // private JPanel guessScreen;
 
     private JLabel prompt;
     private JLabel continueTower;
@@ -31,20 +31,20 @@ public class Gui implements ActionListener
     // private JPanel towerPanel; 
 
     private StackArray<Block> stackTower;
-    private WinLoseScreen wls;
-    private TowerBlock t;
-    private StartScreen sr;
+    private WinLoseScreen endScreen;
+    private TetrisBlock fallingBlock;
+    private StartScreen startScreen;
 
     // creates GUI initially, sets up JFrame
     public Gui() 
     {
         // declarations
         frame = new JFrame();
-        startScreen = new JPanel();
-        guessScreen = new JPanel();
+        // startScreen = new JPanel();
+        // guessScreen = new JPanel();
 
-        wls = new WinLoseScreen();
-        t = new TowerBlock();
+        startScreen = new StartScreen();
+        endScreen = new WinLoseScreen();
 
         // frame set up
         frame.setTitle("Start Screen");
@@ -53,12 +53,11 @@ public class Gui implements ActionListener
 
         // getStartPanel(); // calls method below to get start panel
         // showStartScreen();
-        sr = new StartScreen();
-        frame.add(sr);
+        frame.add(startScreen);
 
         // frame.pack();            //---------> predetermined size by system
         frame.setVisible(true);
-
+        getStackSize();         //-------> get stack set up
         //make a new Timer
         // Timer timer = new Timer(33, new ActionListener() {
         //     @Override
@@ -77,105 +76,106 @@ public class Gui implements ActionListener
         // timer.start();
     }
 
-    private void getStartPanel() // start Screen JPanel
-    {
-        // ---------- set up startScreen --------------
-        startScreen.setLayout(new BoxLayout(startScreen, BoxLayout.Y_AXIS)); // to make stuff align vertically
-        startScreen.setBackground(Color.BLACK);
-        //startScreen.add(Box.createVerticalGlue());        //-------> in case tries to get uncentered
+    // private void getStartPanel() // start Screen JPanel
+    // {
+    //     // ---------- set up startScreen --------------
+    //     startScreen.setLayout(new BoxLayout(startScreen, BoxLayout.Y_AXIS)); // to make stuff align vertically
+    //     startScreen.setBackground(Color.BLACK);
+    //     //startScreen.add(Box.createVerticalGlue());        //-------> in case tries to get uncentered
         
-        // welcome message
-        welcome = new JLabel("Welcome to Stack Jenga Horror Game!"); // this text can definitely be edited
-        welcome.setForeground(Color.RED); // so can any colors used, these are just filler for now
-        welcome.setAlignmentX(Component.CENTER_ALIGNMENT); // Center horizontally
-        startScreen.add(welcome);
+    //     // welcome message
+    //     welcome = new JLabel("Welcome to Stack Jenga Horror Game!"); // this text can definitely be edited
+    //     welcome.setForeground(Color.RED); // so can any colors used, these are just filler for now
+    //     welcome.setAlignmentX(Component.CENTER_ALIGNMENT); // Center horizontally
+    //     startScreen.add(welcome);
 
-        // Add vertical space
-        startScreen.add(Box.createVerticalStrut(30)); 
+    //     // Add vertical space
+    //     startScreen.add(Box.createVerticalStrut(30)); 
 
-        // start button
-        start = new JButton("START");
-        start.setPreferredSize(new Dimension(1200, 500));
-        start.setBackground(Color.RED);
-        start.setAlignmentX(Component.CENTER_ALIGNMENT); // Center horizontally
-        start.addActionListener(this);
-        startScreen.add(start);
+    //     // start button
+    //     start = new JButton("START");
+    //     start.setPreferredSize(new Dimension(1200, 500));
+    //     start.setBackground(Color.RED);
+    //     start.setAlignmentX(Component.CENTER_ALIGNMENT); // Center horizontally
+    //     start.addActionListener(this);
+    //     startScreen.add(start);
 
-        //startScreen.add(Box.createVerticalGlue());    //---> in case tries to get uncentered
-    }
+    //     //startScreen.add(Box.createVerticalGlue());    //---> in case tries to get uncentered
+    // }
 
-    private void showStartScreen()
-    {
-        frame.getContentPane().removeAll();
-        frame.add(startScreen);
-        frame.setVisible(true);
-    }
+    // private void showStartScreen()
+    // {
+    //     frame.getContentPane().removeAll();
+    //     frame.add(startScreen);
+    //     frame.setVisible(true);
+    // }
 
     // gets random stack size
     private void getStackSize()
     {
         // --------------- RANDOMLY DETERMINED SIZE OF STACK -----------------------------------------
         //-----------*********will need tweaking to improve*******--------------------
-        int min = 5; // definitely needs adjustment
-        int max = 10; // also needs adjustment
-        int rangeRandom = min + (int)(Math.random() * ((max - min) + 1));
-        int stackSize = rangeRandom;
+        int stackSize = 10; // **** trying to determine how many blocks to top of screen still *********
+        // int min = 5; 
+        // int max = 10; 
+        // int rangeRandom = min + (int)(Math.random() * ((max - min) + 1));
+        // int stackSize = rangeRandom;
         stackTower = new StackArray<Block>(stackSize);
     }
 
-    // sets up GuessScreen JPanel 
-    private void getGuessPanel() // for when user is stacking the tower
-    {
-        //----------set up guess panel--------------------
-        guessScreen.setBackground(Color.BLACK);
-        startScreen.setLayout(new BoxLayout(startScreen, BoxLayout.Y_AXIS)); // to make stuff align vertically
+    // // sets up GuessScreen JPanel 
+    // private void getGuessPanel() // for when user is stacking the tower
+    // {
+    //     //----------set up guess panel--------------------
+    //     guessScreen.setBackground(Color.BLACK);
+    //     startScreen.setLayout(new BoxLayout(startScreen, BoxLayout.Y_AXIS)); // to make stuff align vertically
 
-        // user directions
-        prompt = new JLabel("A random number has been assigned to you. Build the tower to the number.");
-        prompt.setForeground(Color.RED);
-        prompt.setAlignmentX(Component.CENTER_ALIGNMENT); // Center horizontally
-        guessScreen.add(prompt);
+    //     // user directions
+    //     prompt = new JLabel("A random number has been assigned to you. Build the tower to the number.");
+    //     prompt.setForeground(Color.RED);
+    //     prompt.setAlignmentX(Component.CENTER_ALIGNMENT); // Center horizontally
+    //     guessScreen.add(prompt);
 
-        // Add vertical space
-        guessScreen.add(Box.createVerticalStrut(30)); 
+    //     // Add vertical space
+    //     guessScreen.add(Box.createVerticalStrut(30)); 
 
-        //******************************************************************************************************** */
-        // ***** user prompt to keep building, HAVE HAD ISSUES GETTING BELOW PROMPT JLABEL ************* 
-        continueTower = new JLabel("\nDo you want to keep building the tower?"); // will fix dialogue with int i + for loop later
-        continueTower.setForeground(Color.WHITE);
-        continueTower.setAlignmentX(Component.CENTER_ALIGNMENT); // Center horizontally --> THIS NEEDS TO BE FIXED
-        guessScreen.add(continueTower);
-        //******************************************************************************************************** */
+    //     //******************************************************************************************************** */
+    //     // ***** user prompt to keep building, HAVE HAD ISSUES GETTING BELOW PROMPT JLABEL ************* 
+    //     continueTower = new JLabel("\nDo you want to keep building the tower?"); // will fix dialogue with int i + for loop later
+    //     continueTower.setForeground(Color.WHITE);
+    //     continueTower.setAlignmentX(Component.CENTER_ALIGNMENT); // Center horizontally --> THIS NEEDS TO BE FIXED
+    //     guessScreen.add(continueTower);
+    //     //******************************************************************************************************** */
 
-        // Add vertical space
-        guessScreen.add(Box.createVerticalStrut(30)); 
+    //     // Add vertical space
+    //     guessScreen.add(Box.createVerticalStrut(30)); 
 
-        // yes option
-        yes = new JRadioButton("Yes! Keep Going");
-        yes.addActionListener(this); // adds action listener to get user input 
-        guessScreen.add(yes); // *****    SEE END OF CODE FOR ACTION LISTENER METHOD   **********
+    //     // yes option
+    //     yes = new JRadioButton("Yes! Keep Going");
+    //     yes.addActionListener(this); // adds action listener to get user input 
+    //     guessScreen.add(yes); // *****    SEE END OF CODE FOR ACTION LISTENER METHOD   **********
 
-        // no option
-        no = new JRadioButton("No. Stop.");
-        no.addActionListener(this);
-        guessScreen.add(no);
+    //     // no option
+    //     no = new JRadioButton("No. Stop.");
+    //     no.addActionListener(this);
+    //     guessScreen.add(no);
 
-        // grouping yes/no buttons
-        yesNo = new ButtonGroup();
-        yesNo.add(yes);
-        yesNo.add(no);
+    //     // grouping yes/no buttons
+    //     yesNo = new ButtonGroup();
+    //     yesNo.add(yes);
+    //     yesNo.add(no);
 
-        guessScreen.add(yes);
-        guessScreen.add(no);
-    }
+    //     guessScreen.add(yes);
+    //     guessScreen.add(no);
+    // }
 
-    private void showGuessScreen()
-    {
-        // updating screen w/o glitching
-        frame.getContentPane().removeAll();;
-        frame.add(guessScreen);
-        frame.revalidate();
-    }
+    // private void showGuessScreen()
+    // {
+    //     // updating screen w/o glitching
+    //     frame.getContentPane().removeAll();;
+    //     frame.add(guessScreen);
+    //     frame.revalidate();
+    // }
 
     // action listener calls if user chooses yes
     public void yesAction() throws InterruptedException, IOException
@@ -191,23 +191,23 @@ public class Gui implements ActionListener
         //********************************************************************************************************* */
         // switches to tower screen ***** TOWERBLOCK CLASS NEEDS TO INCREASE HEIGHT OVER TIME *********
         //***************************************************************************************************** */
-        t.showTower(frame);
+        // fallingBlock.showTower(frame);
 
-        //make a new Timer
-        Timer timer = new Timer(33, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        // //make a new Timer
+        // Timer timer = new Timer(33, new ActionListener() {
+        //     @Override
+        //     public void actionPerformed(ActionEvent e) {
             	
-            	//game logic
-                t.updateHeight();
+        //     	//game logic
+        //         t.updateHeight();
                 
-                //repaint the screen
+        //         //repaint the screen
                 
-            }
-        });
+        //     }
+        // });
 
         //start the timer after it's been created
-        timer.start();
+        // timer.start();
         //***************************************************************************************************** */
         // Thread.sleep(1000); // to put in delay to show tower screen --> CAUSES TOWER TO NOT SHOW RIGHT NOW
         // showGuessScreen();
@@ -230,7 +230,7 @@ public class Gui implements ActionListener
 
     public void userLoses() throws IOException
     {
-        wls.showLoseScreen(frame);
+        endScreen.showLoseScreen(frame);
         
         // timer to show losing screen
         
@@ -244,7 +244,7 @@ public class Gui implements ActionListener
 
     public void userWins() throws IOException
     {
-        wls.showWinScreen(frame);
+        endScreen.showWinScreen(frame);
         // System.out.println("User wins!!!");
         // System.exit(0);
     }
@@ -252,27 +252,27 @@ public class Gui implements ActionListener
     @Override
     public void actionPerformed(ActionEvent e) // for making buttons do things
     {
-        if(e.getSource() == start) // start screen start button
-        {
-            getStackSize();
-            getGuessPanel();
-            showGuessScreen();
-        }
-        else if(e.getSource() == yes)
-        {
-            try {
-                yesAction();
-            } catch (InterruptedException | IOException e1) {
-                e1.printStackTrace();
-            }
-        }
-        else if(e.getSource() == no)
-        {
-            try {
-                noAction();
-            } catch (IOException e1) {
-                e1.printStackTrace();
-            }
-        }
+        // if(e.getSource() == start) // start screen start button
+        // {
+        //     getStackSize();
+        //     // getGuessPanel();
+        //     // showGuessScreen();
+        // }
+        // else if(e.getSource() == yes)
+        // {
+        //     try {
+        //         yesAction();
+        //     } catch (InterruptedException | IOException e1) {
+        //         e1.printStackTrace();
+        //     }
+        // }
+        // else if(e.getSource() == no)
+        // {
+        //     try {
+        //         noAction();
+        //     } catch (IOException e1) {
+        //         e1.printStackTrace();
+        //     }
+        // }
     }
 }

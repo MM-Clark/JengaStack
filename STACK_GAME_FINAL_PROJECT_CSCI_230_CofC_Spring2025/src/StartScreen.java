@@ -7,7 +7,11 @@ import javax.swing.JPanel;
 public class StartScreen extends JPanel 
 {
     private final int WINDOW_WIDTH = 900, WINDOW_HEIGHT = 900;
-
+    private TetrisBlock fallingBlock;
+    public StartScreen()
+    {
+        fallingBlock = new TetrisBlock((WINDOW_WIDTH/2)-30, 10, 3, 3, 3, Color.YELLOW, 10);
+    }
     public void paintComponent(Graphics g)
     {
         //draw the background, set color to BLACK and fill in a rectangle
@@ -18,5 +22,8 @@ public class StartScreen extends JPanel
         g.setColor(Color.YELLOW);
         //the drawString method needs a String to print, and a location to print it at.
         g.drawString("Welcome to Jenga Stack!", (WINDOW_WIDTH/2) - 50, (WINDOW_HEIGHT/30));
+        // g.drawString("Move mouse to move block", (WINDOW_WIDTH/2) - 50, (WINDOW_HEIGHT/30));
+
+        fallingBlock.paint(g);
     }
 }
