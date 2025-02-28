@@ -12,6 +12,7 @@ public class StartScreen extends JPanel
     {
         fallingBlock = new TetrisBlock((WINDOW_WIDTH/2)-30, 10, 3, 3, 3, Color.YELLOW, 10);
     }
+
     public void paintComponent(Graphics g)
     {
         //draw the background, set color to BLACK and fill in a rectangle
@@ -25,5 +26,12 @@ public class StartScreen extends JPanel
         // g.drawString("Move mouse to move block", (WINDOW_WIDTH/2) - 50, (WINDOW_HEIGHT/30));
 
         fallingBlock.paint(g);
+    }
+
+    public void updateBlockPos(){
+
+        //move the ball one frame
+        fallingBlock.makeBlockFall();
+    
     }
 }

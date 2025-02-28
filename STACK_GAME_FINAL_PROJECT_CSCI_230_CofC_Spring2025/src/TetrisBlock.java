@@ -36,22 +36,8 @@ public class TetrisBlock
       g.fillRect(xPos, yPos, size, size);
    }
 
-   // public void showTower(JFrame frame) 
-   // {
-   //    // ---- the block will only show if directly added to JFrame, JPanel is no show for block ------
-   //    TetrisBlock block = new TetrisBlock();
-   //    frame.getContentPane().removeAll();
-
-   //    // JLabel adding = new JLabel("Adding another level to the tower!");
-   //    // adding.setForeground(Color.GREEN);
-   //    // currPanel.add(adding); // add label 
-
-   //    frame.add(block, BorderLayout.CENTER); // add the tower block centered
-   //    frame.revalidate(); // update frame without glitching out (REPAINT DOES NOT WORK)
-   // }
-
-   // public void updateHeight()
-   // {
-   //    X_POS += 10;
-   // }
+   public void makeBlockFall(){
+      // xPos += speedX;
+      yPos += speedY;
+  }
 }
