@@ -37,6 +37,7 @@ public class Gui implements MouseMotionListener, KeyListener
     private StartScreen startScreen;
 
     private final int FRAME_SIZE = 900;
+    private boolean keyPressed = false;
     // creates GUI initially, sets up JFrame
     public Gui() 
     {
@@ -161,6 +162,9 @@ public class Gui implements MouseMotionListener, KeyListener
         // System.exit(0);
     }
 
+    //---------------------------------------------------------------------------------------------
+    // DEALS WITH MOUSE MOVEMENT
+    //---------------------------------------------------------------------------------------------
     @Override
     public void mouseDragged(java.awt.event.MouseEvent e) {
         // // TODO Auto-generated method stub
@@ -187,6 +191,11 @@ public class Gui implements MouseMotionListener, KeyListener
         }
     }
 
+    //********************************************************************************************** */
+    //----------------------------------------------------------------------------------------------
+    // Deals with keystrokes -- CURRENTLY WORK W/O IMPLEMENTING MOUSE LISTENER BUT NOT WITH MOUSE LISTENER
+    //----------------------------------------------------------------------------------------------
+    //********************************************************************************************** */
     @Override
     public void keyTyped(KeyEvent e) {
         
@@ -196,19 +205,22 @@ public class Gui implements MouseMotionListener, KeyListener
     public void keyPressed(KeyEvent e) {
         int keyCode = e.getKeyCode();
         switch (keyCode) 
-        {
-            case KeyEvent.VK_LEFT:
-                startScreen.moveBlockLeft();
-                break;
-            case KeyEvent.VK_RIGHT:
-                startScreen.moveBlockRight();
-                break;
+        {   
+            case KeyEvent.VK_SPACE:
+                if(keyPressed)
+                    startScreen.dropBlock();
+            // case KeyEvent.VK_LEFT:
+            //     startScreen.moveBlockLeft();
+            //     break;
+            // case KeyEvent.VK_RIGHT:
+            //     startScreen.moveBlockRight();
+            //     break;
         }
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-        // TODO Auto-generated method stub
-        // throw new UnsupportedOperationException("Unimplemented method 'keyReleased'");
+        keyPressed = false;
+        startScreen.repaint();
     }
 }

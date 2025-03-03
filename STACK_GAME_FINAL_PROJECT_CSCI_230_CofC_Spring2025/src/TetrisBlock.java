@@ -99,4 +99,10 @@ public class TetrisBlock
          return true;
       return false;
    }
+
+   public void dropBlock() //drop block down now
+   {
+      while(!lockInPlace())
+         yPos += (speedY * 3);
+   }
 }
