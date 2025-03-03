@@ -83,7 +83,7 @@ public class TetrisBlock
          return true;
       }
 
-      else if(xPos > 860)
+      else if(xPos > 830)
       {
          xPos -= 10;
          return true;

@@ -169,13 +169,16 @@ public class Gui implements MouseMotionListener, KeyListener
 
     @Override
     public void mouseMoved(java.awt.event.MouseEvent e) {
-        System.out.println(e.getX() + " / " + FRAME_SIZE/2);
+        // System.out.println(e.getX() + " / " + FRAME_SIZE/2);
+
+        // if mouse on left of center screen, move block left
         if(e.getX() < (FRAME_SIZE/2))
         {
             // int repeats = (int) (e.getX() / 20);
             // for(int i=0; i < repeats; i++)
             startScreen.moveBlockLeft(e.getX());
         }
+        // if mouse on right of center scren, move block right
         else if(e.getX() > (FRAME_SIZE/2))
         {
             // int repeats = (int) ((e.getX() - (FRAME_SIZE/2))/ 20);
