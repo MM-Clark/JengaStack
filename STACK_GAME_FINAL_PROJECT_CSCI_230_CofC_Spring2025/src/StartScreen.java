@@ -37,6 +37,16 @@ public class StartScreen extends JPanel
         fallingBlock.makeBlockFall();
     }
 
+    public void moveBlockLeft(int newPos)
+    {
+        fallingBlock.moveBlockLeft(newPos);
+    }
+
+    public void moveBlockRight(int newPos)
+    {
+        fallingBlock.moveBlockRight(newPos);
+    }
+
     public void moveBlockLeft()
     {
         fallingBlock.moveBlockLeft();

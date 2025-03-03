@@ -3,16 +3,16 @@
 // College of Charleston 
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.*;
 import java.io.IOException;
 
 import javax.swing.*;
 
+import org.w3c.dom.events.MouseEvent;
+
 // provides user interface functionality of when to add/remove JPanels, etc; also for pushing/popping stack
-public class Gui implements KeyListener
+public class Gui implements MouseMotionListener, KeyListener
 {
     private JFrame frame;
     
@@ -36,6 +36,7 @@ public class Gui implements KeyListener
     private WinLoseScreen endScreen;
     private StartScreen startScreen;
 
+    private final int FRAME_SIZE = 900;
     // creates GUI initially, sets up JFrame
     public Gui() 
     {
@@ -49,7 +50,7 @@ public class Gui implements KeyListener
 
         // frame set up
         frame.setTitle("Start Screen");
-        frame.setSize(900, 900); //--------> manually set size, easier for placing boxes on x/y coordinates
+        frame.setSize(FRAME_SIZE, FRAME_SIZE); //--------> manually set size, easier for placing boxes on x/y coordinates
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // getStartPanel(); // calls method below to get start panel
@@ -57,27 +58,29 @@ public class Gui implements KeyListener
         frame.add(startScreen);
         getStackMaxSize();         //-------> get stack set up/instantiated
 
-        frame.addKeyListener(new KeyListener() {
-			public void keyTyped(KeyEvent e) {
-			}
+        frame.addMouseMotionListener(this);
+        // IF USING ARROW KEY OPTION
+        // frame.addKeyListener(new KeyListener() {
+		// 	public void keyTyped(KeyEvent e) {
+		// 	}
 			
-            // left right functionality with key arrows
-			public void keyPressed(KeyEvent e) 
-            {
-				switch (e.getKeyCode()) 
-                {
-				    case KeyEvent.VK_LEFT:
-					    startScreen.moveBlockLeft();
-					    break;
-				    case KeyEvent.VK_RIGHT:
-					    startScreen.moveBlockRight();
-					    break;
-				} 
-			}
+        //     // left right functionality with key arrows
+		// 	public void keyPressed(KeyEvent e) 
+        //     {
+		// 		switch (e.getKeyCode()) 
+        //         {
+		// 		    case KeyEvent.VK_LEFT:
+		// 			    startScreen.moveBlockLeft();
+		// 			    break;
+		// 		    case KeyEvent.VK_RIGHT:
+		// 			    startScreen.moveBlockRight();
+		// 			    break;
+		// 		} 
+		// 	}
 			
-			public void keyReleased(KeyEvent e) {
-			}
-		});
+		// 	public void keyReleased(KeyEvent e) {
+		// 	}
+		// });
 
         // frame.pack();            //---------> predetermined size by system
         frame.setVisible(true);
@@ -159,15 +162,45 @@ public class Gui implements KeyListener
     }
 
     @Override
+    public void mouseDragged(java.awt.event.MouseEvent e) {
+        // // TODO Auto-generated method stub
+        // throw new UnsupportedOperationException("Unimplemented method 'mouseDragged'");
+    }
+
+    @Override
+    public void mouseMoved(java.awt.event.MouseEvent e) {
+        System.out.println(e.getX() + " / " + FRAME_SIZE/2);
+        if(e.getX() < (FRAME_SIZE/2))
+        {
+            // int repeats = (int) (e.getX() / 20);
+            // for(int i=0; i < repeats; i++)
+            startScreen.moveBlockLeft(e.getX());
+        }
+        else if(e.getX() > (FRAME_SIZE/2))
+        {
+            // int repeats = (int) ((e.getX() - (FRAME_SIZE/2))/ 20);
+            // for(int i=0; i < repeats; i++)
+            startScreen.moveBlockRight(e.getX());
+        }
+    }
+
+    @Override
     public void keyTyped(KeyEvent e) {
-        // TODO Auto-generated method stub
-        // throw new UnsupportedOperationException("Unimplemented method 'keyTyped'");
+        
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
-        // TODO Auto-generated method stub
-        // throw new UnsupportedOperationException("Unimplemented method 'keyPressed'");
+        int keyCode = e.getKeyCode();
+        switch (keyCode) 
+        {
+            case KeyEvent.VK_LEFT:
+                startScreen.moveBlockLeft();
+                break;
+            case KeyEvent.VK_RIGHT:
+                startScreen.moveBlockRight();
+                break;
+        }
     }
 
     @Override

@@ -45,17 +45,33 @@ public class TetrisBlock
          yPos += speedY;
    }
 
+   public void moveBlockLeft(int newPos)
+   {
+      if(!touchingSideOfScreen() && !lockInPlace()) // if not time to lock in place and block not touching side of screen, move left
+         while(xPos > newPos)
+            xPos -= speedX;
+      // side touching dealt with in touchingSideOfScreen method
+   }
+
+   public void moveBlockRight(int newPos)
+   {
+      if(!touchingSideOfScreen() && !lockInPlace())
+         while(xPos < newPos)
+            xPos += speedX;
+      // System.out.println(xPos);
+   }
+
    public void moveBlockLeft()
    {
       if(!touchingSideOfScreen() && !lockInPlace()) // if not time to lock in place and block not touching side of screen, move left
-         xPos -= speedX;
+            xPos -= speedX;
       // side touching dealt with in touchingSideOfScreen method
    }
 
    public void moveBlockRight()
    {
       if(!touchingSideOfScreen() && !lockInPlace())
-         xPos += speedX;
+            xPos += speedX;
       // System.out.println(xPos);
    }
 
