@@ -20,7 +20,7 @@ public class TetrisBlock
    private Color color;
 
 
-   private char[][] map;       // changed from boolean
+   private int[][] map;       
    private int rows, columns;
    int currIdx;
 

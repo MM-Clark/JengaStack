@@ -32,7 +32,7 @@ public class Gui implements MouseMotionListener, KeyListener
 
     // private JPanel towerPanel; 
 
-    private StackArray<Block> stackTower;
+    private StackArray<SingleBlock> stackTower;
     private WinLoseScreen endScreen;
     private StartScreen startScreen;
 
@@ -113,14 +113,14 @@ public class Gui implements MouseMotionListener, KeyListener
         // int max = 10; 
         // int rangeRandom = min + (int)(Math.random() * ((max - min) + 1));
         // int stackSize = rangeRandom;
-        stackTower = new StackArray<Block>(stackSize);
+        stackTower = new StackArray<SingleBlock>(stackSize);
     }
 
 
     // action listener calls if user chooses yes
     public void yesAction() throws InterruptedException, IOException
     {
-        Block newBlock = new Block(1, "block"); // temp block to put in stack
+        SingleBlock newBlock = new SingleBlock(1, "block"); // temp block to put in stack
         if(!stackTower.isFull())
             stackTower.push(newBlock); // stack tower is the stack
         else
