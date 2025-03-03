@@ -9,6 +9,7 @@ public class TetrisBlock
 {
    // final ints are capitalized b/c they are constants
    private final int SCREEN_DIMENSIONS = 900;
+   private final int LEFT_SCREEN_EDGE = 0, RIGHT_SCREEN_EDGE = 830, BOTTOM_OF_STACK_Y = 700;
    // private final int SCREEN_LEFT = 0;
    // private final int SCREEN_BOTTOM = 900;
    private int xPos;
@@ -77,13 +78,13 @@ public class TetrisBlock
 
    public boolean touchingSideOfScreen()
    {
-      if(xPos < 0)
+      if(xPos < LEFT_SCREEN_EDGE)
       {
          xPos += 10;
          return true;
       }
 
-      else if(xPos > 830)
+      else if(xPos > RIGHT_SCREEN_EDGE)
       {
          xPos -= 10;
          return true;
@@ -94,7 +95,7 @@ public class TetrisBlock
 
    public boolean lockInPlace()  // to determine if to lock block in place at bottom of screen
    {
-      if(yPos >= 700)
+      if(yPos >= BOTTOM_OF_STACK_Y)
          return true;
       return false;
    }
