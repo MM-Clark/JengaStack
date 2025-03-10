@@ -18,7 +18,7 @@ public class GameBoard extends JPanel
 
     // for falling block, initialized to start position on grid
     private int position_x = 0;
-    private int position_Y = 0;
+    private int position_Y = 4;
     private int tallestPartOfTower = 19;
 
     private static final Color COLOR_OCCUPIED = Color.LIGHT_GRAY;
@@ -162,31 +162,31 @@ public class GameBoard extends JPanel
                 break;
             // works
             case BlockTypes.S:
-            map[position_Y][position_x] = color;
-            map[position_Y+1][position_x] = color;
-            map[position_Y+1][position_x+1] = color;
-            map[position_Y+2][position_x+1] = color;
+            map[position_Y-2][position_x] = color;
+            map[position_Y-1][position_x] = color;
+            map[position_Y-1][position_x+1] = color;
+            map[position_Y][position_x+1] = color;
                 break;
             // works
             case BlockTypes.I:
+                map[position_Y-3][position_x] = color;
+                map[position_Y-2][position_x] = color;
+                map[position_Y-1][position_x] = color;
                 map[position_Y][position_x] = color;
-                map[position_Y+1][position_x] = color;
-                map[position_Y+2][position_x] = color;
-                map[position_Y+3][position_x] = color;
                 break;
             // works
             case BlockTypes.J:
+                map[position_Y-2][position_x+1] = color;
+                map[position_Y-1][position_x+1] = color;
                 map[position_Y][position_x+1] = color;
-                map[position_Y+1][position_x+1] = color;
-                map[position_Y+2][position_x+1] = color;
-                map[position_Y+2][position_x] = color;
+                map[position_Y][position_x] = color;
                 break;
             // works
             case BlockTypes.T:
+                map[position_Y-1][position_x+1] = color;
+                map[position_Y][position_x] = color;
                 map[position_Y][position_x+1] = color;
-                map[position_Y+1][position_x] = color;
-                map[position_Y+1][position_x+1] = color;
-                map[position_Y+1][position_x+2] = color; 
+                map[position_Y][position_x+2] = color; 
                 break;
             default:
         }
@@ -201,10 +201,13 @@ public class GameBoard extends JPanel
         paintShape(0);
 
         //move the block one grid down
-        if(!atBottom() && position_Y < 18)
+        if(!atBottom() && position_Y < 19)
             position_Y++;
         else
+        {
             paintShape(2);
+            repaint(); // fixing repaint
+        }
     }
 
     //********************************************************************* */
