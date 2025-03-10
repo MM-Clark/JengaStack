@@ -87,7 +87,7 @@ public class Gui implements MouseMotionListener, KeyListener
             public void actionPerformed(ActionEvent e) 
             {
 
-                gameScreen.updateBlockPos();
+                // gameScreen.updateBlockPos();
                 //repaint the screen
                 gameScreen.repaint();
             }

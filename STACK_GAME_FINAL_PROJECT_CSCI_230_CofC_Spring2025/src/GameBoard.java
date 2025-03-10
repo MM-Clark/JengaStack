@@ -16,12 +16,17 @@ public class GameBoard extends JPanel
     protected final int ROWS = 20;
     public final static int CELL_SIZE = 32;
 
+    // for falling block, initialized to start position on grid
+    private int position_x = 0;
+    private int position_Y = 0;
+
     private static final Color COLOR_OCCUPIED = Color.LIGHT_GRAY;
     private static final Color COLOR_EMPTY = Color.WHITE;
 
     int map[][] = new int[ROWS][COLUMNS];
+    protected int[] widths; // for falling block to render on screen
     private TetrisBlock fallingBlock;
-
+    protected BlockTypes fallingShape;
     //-----------------------------------------------------------------------------------------
     // constructor for making new game
     //------------------------------------------------------------------------------------------
@@ -35,11 +40,146 @@ public class GameBoard extends JPanel
         }
       
         // Get a new random shape
-        fallingBlock = TetrisBlock.newShape();
+        int fallingBlockType = fallingBlock.newShape();
+        getTypeOfShape(fallingBlockType);
+    }
+
+    public void getTypeOfShape(int currShapeType)
+    {
+        switch(currShapeType)
+        {
+            case 0:
+                fallingShape = BlockTypes.Z;
+                break;
+            case 1: 
+                fallingShape = BlockTypes.L;
+                break;
+            case 2:
+                fallingShape = BlockTypes.O;
+                break;
+            case 3: 
+                fallingShape = BlockTypes.S;
+                break;
+            case 4: 
+                fallingShape = BlockTypes.I;
+                break;
+            case 5:
+                fallingShape = BlockTypes.J;
+                break;
+            case 6:
+                fallingShape = BlockTypes.T;
+                break;
+            default:
+        }
+
+        //--------------------------------------------------------------------------------------------
+        // Get block type figured out
+        //--------------------------------------------------------------------------------------------
+                                        // stores the width of each of 4 rows ranging between -4 and 4 (-1 signifys left direction block) with 0th row as the top
+                                        // ex. L shape would be (1, 1, 2)
+        switch(fallingShape)
+        {
+            case BlockTypes.Z:
+                widths[0] = 0;
+                widths[1] = 1;
+                widths[2] = -2;
+                widths[3] = -1;
+                break;
+            case BlockTypes.L:
+                widths[0] = 0;
+                widths[1] = 1;
+                widths[2] = 1;
+                widths[3] = 2;
+                break;
+            case BlockTypes.O:
+                widths[0] = 0;
+                widths[1] = 0;
+                widths[2] = 2;
+                widths[3] = 2;
+                break;
+            case BlockTypes.S:
+                widths[0] = 0;
+                widths[1] = -1;
+                widths[2] = 2;
+                widths[3] = 1;
+                break;
+            case BlockTypes.I:
+                widths[0] = 1;
+                widths[1] = 1;
+                widths[2] = 1;
+                widths[3] = 1;
+                break;
+            case BlockTypes.J:
+                widths[0] = 0;
+                widths[1] = 1;
+                widths[2] = 1;
+                widths[3] = -2;
+                break;
+            case BlockTypes.T:
+                widths[0] = 0;
+                widths[1] = 0;
+                widths[2] = 1;
+                widths[3] = -3;     // only block with length 3, can use negative or positive because will be its own case in grid
+                break;
+            default:
+        }
+    }
+
+    public void newShapeUpdateGrid()
+    {
+        fallingShape = BlockTypes.Z;
+        switch(fallingShape)
+        {
+            // this case works
+            case BlockTypes.Z:
+                map[position_Y][position_x+1] = 1;
+                map[position_Y+1][position_x+1] = 1;
+                map[position_Y+1][position_x] = 1;
+                map[position_Y+2][position_x] = 1;
+                break;
+            case BlockTypes.L:
+                map[position_x][position_Y] = 1;
+                map[position_x][position_Y+1] = 1;
+                map[position_x][position_Y+2] = 1;
+                map[position_x+1][position_Y+3] = 1;
+                break;
+            case BlockTypes.O:
+                map[position_x+1][position_Y] = 1;
+                map[position_x][position_Y] = 1;
+                map[position_x+1][position_Y+1] = 1;
+                map[position_x][position_Y+1] = 1;
+                break;
+            // case BlockTypes.S:
+            //     widths[0] = 0;
+            //     widths[1] = -1;
+            //     widths[2] = 2;
+            //     widths[3] = 1;
+            //     break;
+            // case BlockTypes.I:
+            //     widths[0] = 1;
+            //     widths[1] = 1;
+            //     widths[2] = 1;
+            //     widths[3] = 1;
+            //     break;
+            // case BlockTypes.J:
+            //     widths[0] = 0;
+            //     widths[1] = 1;
+            //     widths[2] = 1;
+            //     widths[3] = -2;
+            //     break;
+            // case BlockTypes.T:
+            //     widths[0] = 0;
+            //     widths[1] = 0;
+            //     widths[2] = 1;
+            //     widths[3] = -3;     // only block with length 3, can use negative or positive because will be its own case in grid
+            //     break;
+            // default:
+        }
     }
 
     public void paint(Graphics g)
     {
+        newShapeUpdateGrid();
         //-----------------------------------------------------------------------------------------------------------------------------------
         // SET UP BACKGROUND
         //----------------------------------------------------------------------------------------------------------------------------------------------
@@ -88,11 +228,11 @@ public class GameBoard extends JPanel
         //------------------------------------------------------------------------------------------------------------------------------------------------
     }
 
-    public void updateBlockPos()
-    {
-        //move the ball one frame
-        fallingBlock.makeBlockFall();
-    }
+    // public void updateBlockPos()
+    // {
+    //     //move the ball one frame
+    //     fallingBlock.makeBlockFall();
+    // }
 
     public void moveBlockLeft(int newPos)
     {
