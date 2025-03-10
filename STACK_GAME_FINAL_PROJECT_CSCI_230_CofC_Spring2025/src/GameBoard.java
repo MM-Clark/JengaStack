@@ -193,9 +193,9 @@ public class GameBoard extends JPanel
             return false;
     }
 
-    public void updateBlockPos()
+    public void clearShape()
     {
-        //clear shape from grid first
+        //to clear shape from grid first
         switch(fallingShape)
         {
             // this case works
@@ -249,7 +249,12 @@ public class GameBoard extends JPanel
                 break;
             default:
         }
-        
+    }
+    public void updateBlockPos()
+    {
+        //clear shape from grid first
+        clearShape();
+
         //move the block one grid down
         if(!atBottom())
             position_Y++;
@@ -260,11 +265,18 @@ public class GameBoard extends JPanel
 
     public void moveBlockLeft()
     {
-        position_x--;
+        clearShape();
+        if(!isTouchingLeftScreen())
+            position_x--;
     }
 
+    public boolean isTouchingLeftScreen()
+    {
+        return position_x==0;
+    }
     public void moveBlockRight()
     {
+        clearShape();
         position_x++;
     }
 
@@ -277,50 +289,50 @@ public class GameBoard extends JPanel
     * Process + remove filled rows in game board to clear space at bottom in memory.
     * return the number of rows removed in the range of [0, 4]
     */
-   public int clearLines() 
-    {
-        // Starting from the last rows, check if a row is filled if so, move down
-        // the occupied square. Need to check all the way to the top-row
-        int row = ROWS - 1;
-        int rowsRemoved = 0;
-        boolean removeThisRow;
+    // public int clearLines() 
+    // {
+    //     // Starting from the last rows, check if a row is filled if so, move down
+    //     // the occupied square. Need to check all the way to the top-row
+    //     int row = ROWS - 1;
+    //     int rowsRemoved = 0;
+    //     boolean removeThisRow;
 
-        while (row >= 0) 
-        {
-            removeThisRow = true;
-            for (int col = 0; col < COLUMNS; col++) 
-            {
-                if (map[row][col] == 0) 
-                {
-                    removeThisRow = false;
-                    break;
-                }
-            }
+    //     while (row >= 0) 
+    //     {
+    //         removeThisRow = true;
+    //         for (int col = 0; col < COLUMNS; col++) 
+    //         {
+    //             if (map[row][col] == 0) 
+    //             {
+    //                 removeThisRow = false;
+    //                 break;
+    //             }
+    //         }
 
-            if (removeThisRow) 
-            {
-                // delete the row by moving down the occupied slots.
-                for (int row1 = row; row1 > 0; row1--) 
-                {
-                    for (int col1 = 0; col1 < COLUMNS; col1++) 
-                    {
-                        map[row1][col1] = map[row1 - 1][col1];
-                    }
-                }
-                rowsRemoved++;
-                // The top row shall be empty now.
-                for (int col = 0; col < COLUMNS; col++)
-                    map[0][col] = 0;
+    //         if (removeThisRow) 
+    //         {
+    //             // delete the row by moving down the occupied slots.
+    //             for (int row1 = row; row1 > 0; row1--) 
+    //             {
+    //                 for (int col1 = 0; col1 < COLUMNS; col1++) 
+    //                 {
+    //                     map[row1][col1] = map[row1 - 1][col1];
+    //                 }
+    //             }
+    //             rowsRemoved++;
+    //             // The top row shall be empty now.
+    //             for (int col = 0; col < COLUMNS; col++)
+    //                 map[0][col] = 0;
 
-                // No change in row number. Check this row again (recursion).
-            } 
-            else 
-            {
-                // next row on top
-                row--;
-            }
-        }
-        return rowsRemoved;
-    }
+    //             // No change in row number. Check this row again (recursion).
+    //         } 
+    //         else 
+    //         {
+    //             // next row on top
+    //             row--;
+    //         }
+    //     }
+    //     return rowsRemoved;
+    // }
 
 }
