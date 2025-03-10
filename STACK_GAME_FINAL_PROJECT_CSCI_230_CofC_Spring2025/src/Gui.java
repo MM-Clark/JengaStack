@@ -9,8 +9,6 @@ import java.io.IOException;
 
 import javax.swing.*;
 
-import org.w3c.dom.events.MouseEvent;
-
 // provides user interface functionality of when to add/remove JPanels, etc; also for pushing/popping stack
 public class Gui implements MouseMotionListener, KeyListener
 {
@@ -34,7 +32,7 @@ public class Gui implements MouseMotionListener, KeyListener
 
     private StackArray<SingleBlock> stackTower;
     private WinLoseScreen endScreen;
-    private StartScreen startScreen;
+    private GameBoard gameScreen;
 
     private final int FRAME_SIZE = 900;
     private boolean keyPressed = false;
@@ -46,20 +44,28 @@ public class Gui implements MouseMotionListener, KeyListener
         // startScreen = new JPanel();
         // guessScreen = new JPanel();
 
-        startScreen = new StartScreen();
+        gameScreen = new GameBoard();
         endScreen = new WinLoseScreen();
 
         // frame set up
         frame.setTitle("Start Screen");
         frame.setSize(FRAME_SIZE, FRAME_SIZE); //--------> manually set size, easier for placing boxes on x/y coordinates
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
         // getStartPanel(); // calls method below to get start panel
         // showStartScreen();
-        frame.add(startScreen);
+        frame.add(gameScreen);
         getStackMaxSize();         //-------> get stack set up/instantiated
 
-        frame.addMouseMotionListener(this);
+
+
+        //************************************************************************************* */
+        //------------ REINCORPORATE WHEN FALLING BLOCK IS NOT NULL!!!!!!!!!!!!!!!!!-------------
+        //************************************************************************************* */
+        // frame.addMouseMotionListener(this);
+        //***************************************************************************************/
+
+
+
         // IF USING ARROW KEY OPTION
         // frame.addKeyListener(new KeyListener() {
 		// 	public void keyTyped(KeyEvent e) {
@@ -93,9 +99,9 @@ public class Gui implements MouseMotionListener, KeyListener
             public void actionPerformed(ActionEvent e) 
             {
 
-                startScreen.updateBlockPos();
+                gameScreen.updateBlockPos();
                 //repaint the screen
-                startScreen.repaint();
+                gameScreen.repaint();
             }
         });
 
@@ -119,32 +125,35 @@ public class Gui implements MouseMotionListener, KeyListener
 
 
     // action listener calls if user chooses yes
-    public void yesAction() throws InterruptedException, IOException
-    {
-        SingleBlock newBlock = new SingleBlock(1, "block"); // temp block to put in stack
-        if(!stackTower.isFull())
-            stackTower.push(newBlock); // stack tower is the stack
-        else
-        {
-            System.out.println("Stack full...."); // error check
-            userLoses();
-        }
-    }
+    // public void yesAction() throws InterruptedException, IOException
+    // {
+    //     SingleBlock newBlock = new SingleBlock(1, "block"); // temp block to put in stack
+    //     if(!stackTower.isFull())
+    //         stackTower.push(newBlock); // stack tower is the stack
+    //     else
+    //     {
+    //         System.out.println("Stack full...."); // error check
+    //         userLoses();
+    //     }
+    // }
 
-    public void noAction() throws IOException
-    {
-        if(!stackTower.isFull())
-        {
-           System.out.println("User guessed less than stack size."); // error checking
-           userLoses();
-        }
-        else if(stackTower.isFull())
-        {
-            System.out.println("User guessed correct stack size."); // error checking
-            userWins();
-        }
-    }
+    // public void noAction() throws IOException
+    // {
+    //     if(!stackTower.isFull())
+    //     {
+    //        System.out.println("User guessed less than stack size."); // error checking
+    //        userLoses();
+    //     }
+    //     else if(stackTower.isFull())
+    //     {
+    //         System.out.println("User guessed correct stack size."); // error checking
+    //         userWins();
+    //     }
+    // }
 
+    //-------------------------------------------------------------------------------------------
+    // Methods to show end game screens 
+    //-------------------------------------------------------------------------------------------
     public void userLoses() throws IOException
     {
         endScreen.showLoseScreen(frame);
@@ -180,14 +189,14 @@ public class Gui implements MouseMotionListener, KeyListener
         {
             // int repeats = (int) (e.getX() / 20);
             // for(int i=0; i < repeats; i++)
-            startScreen.moveBlockLeft(e.getX());
+            gameScreen.moveBlockLeft(e.getX());
         }
         // if mouse on right of center scren, move block right
         else if(e.getX() > (FRAME_SIZE/2))
         {
             // int repeats = (int) ((e.getX() - (FRAME_SIZE/2))/ 20);
             // for(int i=0; i < repeats; i++)
-            startScreen.moveBlockRight(e.getX());
+            gameScreen.moveBlockRight(e.getX());
         }
     }
 
@@ -208,7 +217,7 @@ public class Gui implements MouseMotionListener, KeyListener
         {   
             case KeyEvent.VK_SPACE:
                 if(keyPressed)
-                    startScreen.dropBlock();
+                    gameScreen.dropBlock();
             // case KeyEvent.VK_LEFT:
             //     startScreen.moveBlockLeft();
             //     break;
@@ -221,6 +230,6 @@ public class Gui implements MouseMotionListener, KeyListener
     @Override
     public void keyReleased(KeyEvent e) {
         keyPressed = false;
-        startScreen.repaint();
+        gameScreen.repaint();
     }
 }
