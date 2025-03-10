@@ -34,8 +34,8 @@ public class GameBoard extends JPanel
                 map[row][col] = 0;  // empty
         }
       
-      // Get a new random shape
-      fallingBlock = TetrisBlock.newShape();
+        // Get a new random shape
+        fallingBlock = TetrisBlock.newShape();
     }
 
     public void paint(Graphics g)
@@ -46,6 +46,8 @@ public class GameBoard extends JPanel
         super.paintComponent(g);
         this.setBackground(Color.BLACK);     
     
+
+
         //------------------------------------------------------------------------------------------------------------------------------
         // SCORE + INSTRUCTIONS 
         // **** could make text different size + update x/y positions to avoid overlapping text **********
@@ -54,6 +56,8 @@ public class GameBoard extends JPanel
         g.drawString("Welcome to Jenga Stack!", (WINDOW_WIDTH/2) - 70, (WINDOW_HEIGHT/30)); //weird divided numbers are (x, y) positions
         g.drawString("Move mouse to move block", (WINDOW_WIDTH/2) - 70, ((WINDOW_HEIGHT/30) + 20));
         //--------------------------------------------------------------------------------------------------------------------------------
+
+
 
         //-------------------------------------------------------------------------------------------------------------------------------------------------
         // PAINT/UPDATE GRID
