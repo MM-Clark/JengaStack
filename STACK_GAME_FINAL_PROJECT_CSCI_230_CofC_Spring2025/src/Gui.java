@@ -87,7 +87,7 @@ public class Gui implements MouseMotionListener, KeyListener
             public void actionPerformed(ActionEvent e) 
             {
 
-                // gameScreen.updateBlockPos();
+                gameScreen.updateBlockPos();
                 //repaint the screen
                 gameScreen.repaint();
             }
@@ -171,14 +171,14 @@ public class Gui implements MouseMotionListener, KeyListener
         {
             // int repeats = (int) (e.getX() / 20);
             // for(int i=0; i < repeats; i++)
-            gameScreen.moveBlockLeft(e.getX());
+            gameScreen.moveBlockLeft();
         }
         // if mouse on right of center scren, move block right
         else if(e.getX() > (FRAME_SIZE/2))
         {
             // int repeats = (int) ((e.getX() - (FRAME_SIZE/2))/ 20);
             // for(int i=0; i < repeats; i++)
-            gameScreen.moveBlockRight(e.getX());
+            gameScreen.moveBlockRight();
         }
     }
 
@@ -197,9 +197,9 @@ public class Gui implements MouseMotionListener, KeyListener
         int keyCode = e.getKeyCode();
         switch (keyCode) 
         {   
-            case KeyEvent.VK_SPACE:
-                if(keyPressed)
-                    gameScreen.dropBlock();
+            // case KeyEvent.VK_SPACE:
+            //     if(keyPressed)
+            //         gameScreen.dropBlock();
             // case KeyEvent.VK_LEFT:
             //     startScreen.moveBlockLeft();
             //     break;
