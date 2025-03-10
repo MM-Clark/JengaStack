@@ -201,7 +201,7 @@ public class GameBoard extends JPanel
         paintShape(0);
 
         //move the block one grid down
-        if(!atBottom() && position_Y < 19)
+        if(!atBottom() && position_Y < 18)
             position_Y++;
         else
             paintShape(2);
