@@ -12,38 +12,22 @@ import javax.swing.*;
 // provides user interface functionality of when to add/remove JPanels, etc; also for pushing/popping stack
 public class Gui implements MouseMotionListener, KeyListener
 {
+    private final int FRAME_SIZE = 900;
+
     private JFrame frame;
-    
-    // private JButton start; 
-
-    // private JRadioButton yes;
-    // private JRadioButton no;
-
-    // private ButtonGroup yesNo;
-
-    // private JPanel startScreen;
-    // private JPanel guessScreen;
-
-    // private JLabel prompt;
-    // private JLabel continueTower;
-    // private JLabel welcome;
-
-    // private JPanel towerPanel; 
-
     private StackArray<SingleBlock> stackTower;
     private WinLoseScreen endScreen;
     private GameBoard gameScreen;
 
-    private final int FRAME_SIZE = 900;
     private boolean keyPressed = false;
+
+    //--------------------------------------------------------------------------------------------
     // creates GUI initially, sets up JFrame
+    //--------------------------------------------------------------------------------------------
     public Gui() 
     {
-        // declarations
+        //---------------- FRAME SET UP ------------------------------------------------------------
         frame = new JFrame();
-        // startScreen = new JPanel();
-        // guessScreen = new JPanel();
-
         gameScreen = new GameBoard();
         endScreen = new WinLoseScreen();
 
@@ -51,21 +35,19 @@ public class Gui implements MouseMotionListener, KeyListener
         frame.setTitle("Start Screen");
         frame.setSize(FRAME_SIZE, FRAME_SIZE); //--------> manually set size, easier for placing boxes on x/y coordinates
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        // getStartPanel(); // calls method below to get start panel
-        // showStartScreen();
+
         frame.add(gameScreen);
         getStackMaxSize();         //-------> get stack set up/instantiated
 
-
-
+        //-------------------------------------------------------------------------------------------
         //************************************************************************************* */
         //------------ REINCORPORATE WHEN FALLING BLOCK IS NOT NULL!!!!!!!!!!!!!!!!!-------------
         //************************************************************************************* */
         // frame.addMouseMotionListener(this);
         //***************************************************************************************/
+        //------------------------------------------------------------------------------------------- 
 
-
-
+        //-----------------------------------------------------------------------------------------  
         // IF USING ARROW KEY OPTION
         // frame.addKeyListener(new KeyListener() {
 		// 	public void keyTyped(KeyEvent e) {
@@ -88,10 +70,16 @@ public class Gui implements MouseMotionListener, KeyListener
 		// 	public void keyReleased(KeyEvent e) {
 		// 	}
 		// });
+        //------------------------------------------------------------------------------------------------------
 
-        // frame.pack();            //---------> predetermined size by system
+        // frame.pack();            //---------> set frame as predetermined size by system
         frame.setVisible(true);
+        //-------------------------------------------------------------------------------------------------
 
+
+        //---------------------------------------------------------------------------------------------
+        // ----------------------- TIMER SET UP ----------------------------------------------------------
+        //-----------------------------------------------------------------------------------------------
         //make a new Timer
         Timer timer = new Timer(33, new ActionListener() 
         {
@@ -107,19 +95,13 @@ public class Gui implements MouseMotionListener, KeyListener
 
         //start the timer after it's been created
         timer.start();
-
+        //------------------------------------------------------------------------------------------
     }
 
-    // gets random stack size
+    // gets stack size
     private void getStackMaxSize()
     {
-        // --------------- RANDOMLY DETERMINED SIZE OF STACK -----------------------------------------
-        //-----------*********will need tweaking to improve*******--------------------
-        int stackSize = 10; // **** trying to determine how many blocks to top of screen still *********
-        // int min = 5; 
-        // int max = 10; 
-        // int rangeRandom = min + (int)(Math.random() * ((max - min) + 1));
-        // int stackSize = rangeRandom;
+        int stackSize = 20; // **** trying to determine how many blocks to top of screen still *********
         stackTower = new StackArray<SingleBlock>(stackSize);
     }
 

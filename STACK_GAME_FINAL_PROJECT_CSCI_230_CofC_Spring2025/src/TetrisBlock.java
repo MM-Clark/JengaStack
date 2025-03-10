@@ -73,12 +73,16 @@ public class TetrisBlock extends GameBoard
 
       currBlock.currShapeType = rand.nextInt(SHAPES_MAP.length);
       // Set this shape's pattern. No need to copy the contents
+
+
       currBlock.map = SHAPES_MAP[currShapeType];
       currBlock.rows = map.length;
       currBlock.columns = map[0].length;
 
       currBlock.xPos = ((GameBoard.COLUMNS - currBlock.columns) / 2);
       currBlock.yPos = 10;
+
+
 
       // outerloop:
       // for (int row = 0; row < currBlock.rows; row++) {
@@ -98,9 +102,9 @@ public class TetrisBlock extends GameBoard
    public void paint(Graphics g) 
    {
       
-      int yOffset = 1;  // Apply a small Y_OFFSET for nicer display?!
+      int yOffset = SCREEN_DIMENSIONS/10;  // Apply a small Y_OFFSET for nicer display?!
    
-      g.setColor(SHAPES_COLOR[this.currShapeType]);
+      g.setColor(SHAPES_COLOR[TetrisBlock.currShapeType]);
       for (int row = 0; row < rows; row++) {
          for (int col = 0; col < columns; col++) {
             if (map[row][col]==1) {
@@ -118,14 +122,14 @@ public class TetrisBlock extends GameBoard
    {
       // xPos += speedX;
       if(!lockInPlace()) // if not time to lock in place, can move down block
-         yPos += speedY;
+         yPos += ONE_BLOCK_SIZE;
    }
 
    public void moveBlockLeft(int newPos)
    {
       if(!touchingSideOfScreen() && !lockInPlace()) // if not time to lock in place and block not touching side of screen, move left
          while(xPos > newPos)
-            xPos -= speedX;
+            xPos -= ONE_BLOCK_SIZE;
       // side touching dealt with in touchingSideOfScreen method
    }
 
@@ -133,21 +137,21 @@ public class TetrisBlock extends GameBoard
    {
       if(!touchingSideOfScreen() && !lockInPlace())
          while(xPos < newPos)
-            xPos += speedX;
+            xPos += ONE_BLOCK_SIZE;
       // System.out.println(xPos);
    }
 
    public void moveBlockLeft()
    {
       if(!touchingSideOfScreen() && !lockInPlace()) // if not time to lock in place and block not touching side of screen, move left
-            xPos -= speedX;
+            xPos -= ONE_BLOCK_SIZE;
       // side touching dealt with in touchingSideOfScreen method
    }
 
    public void moveBlockRight()
    {
       if(!touchingSideOfScreen() && !lockInPlace())
-            xPos += speedX;
+            xPos += ONE_BLOCK_SIZE;
       // System.out.println(xPos);
    }
 
@@ -155,13 +159,13 @@ public class TetrisBlock extends GameBoard
    {
       if(xPos < LEFT_SCREEN_EDGE)
       {
-         xPos += 10;
+         xPos += ONE_BLOCK_SIZE;
          return true;
       }
 
       else if(xPos > RIGHT_SCREEN_EDGE)
       {
-         xPos -= 10;
+         xPos -= ONE_BLOCK_SIZE;
          return true;
       }
 

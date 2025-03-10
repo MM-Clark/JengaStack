@@ -1,28 +1,30 @@
 // Written by Julian Maiorino, Michelle Clark
 // CSCI 230 Spring 2025
 // College of Charleston
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
-
 import javax.swing.*;
 
+//------------------------------------------------------------------------------------------------------
+// J PANEL CLASS FOR DRAWING GAMEBOARD - GRID, BLACK BACKGROUND, AND INSTRUCTIONS
+//-----------------------------------------------------------------------------------------------------
 public class GameBoard extends JPanel  
 {
     private final int WINDOW_WIDTH = 900, WINDOW_HEIGHT = 900;
-    private TetrisBlock fallingBlock;
-
     protected final static int COLUMNS = 22; 
     protected final int ROWS = 20;
-
     public final static int CELL_SIZE = 32;
 
     private static final Color COLOR_OCCUPIED = Color.LIGHT_GRAY;
     private static final Color COLOR_EMPTY = Color.WHITE;
 
     int map[][] = new int[ROWS][COLUMNS];
+    private TetrisBlock fallingBlock;
 
-    
-
+    //-----------------------------------------------------------------------------------------
+    // constructor for making new game
+    //------------------------------------------------------------------------------------------
     public void newGame() 
     {
         // Clear the map
@@ -38,22 +40,25 @@ public class GameBoard extends JPanel
 
     public void paint(Graphics g)
     {
+        //-----------------------------------------------------------------------------------------------------------------------------------
+        // SET UP BACKGROUND
+        //----------------------------------------------------------------------------------------------------------------------------------------------
         super.paintComponent(g);
         this.setBackground(Color.BLACK);     
-
-        //draw the background, set color to BLACK and fill in a rectangle
-        // g.setColor(Color.BLACK);
-        // g.fillRect(0, 0, WINDOW_WIDTH - 10, WINDOW_HEIGHT - 15);
     
-        // //update score
-        // g.setColor(Color.YELLOW);
-        // //the drawString method needs a String to print, and a location to print it at.
-        // g.drawString("Welcome to Jenga Stack!", (WINDOW_WIDTH/2) - 50, (WINDOW_HEIGHT/30));
-        // // g.drawString("Move mouse to move block", (WINDOW_WIDTH/2) - 50, (WINDOW_HEIGHT/30));
+        //------------------------------------------------------------------------------------------------------------------------------
+        // SCORE + INSTRUCTIONS 
+        // **** could make text different size + update x/y positions to avoid overlapping text **********
+        //-------------------------------------------------------------------------------------------------------------------------------
+        g.setColor(Color.YELLOW);
+        g.drawString("Welcome to Jenga Stack!", (WINDOW_WIDTH/2) - 70, (WINDOW_HEIGHT/30)); //weird divided numbers are (x, y) positions
+        g.drawString("Move mouse to move block", (WINDOW_WIDTH/2) - 70, ((WINDOW_HEIGHT/30) + 20));
+        //--------------------------------------------------------------------------------------------------------------------------------
 
-        // fallingBlock.paint(g);
-
-        int xOffset = WINDOW_WIDTH/10;   // apply a small y offset for nicer display?!
+        //-------------------------------------------------------------------------------------------------------------------------------------------------
+        // PAINT/UPDATE GRID
+        //------------------------------------------------------------------------------------------------------------------------------------------------
+        int xOffset = WINDOW_WIDTH/10;   // apply offsets to make the grid centered, 20 rows x 27 columns works for 90 offset (WINDOW_WIDTH or HEIGHT/10)
         int yOffset = WINDOW_HEIGHT/10;
         for (int row = 0; row < ROWS; row++) 
         {
@@ -66,9 +71,17 @@ public class GameBoard extends JPanel
                 g.fill3DRect(col*CELL_SIZE + xOffset, row*CELL_SIZE + yOffset, CELL_SIZE, CELL_SIZE, true);
             }
         }
+        //-------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+
+        //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+        // *************************************************************************************************************
+        // PAINT FALLING BLOCK
+        // **********************************************************************************************************************
+        //--------------------------------------------------------------------------------------------------------------------------------------
         // Also paint the Shape encapsulated
         // fallingBlock.paint(g);
+        //------------------------------------------------------------------------------------------------------------------------------------------------
     }
 
     public void updateBlockPos()
