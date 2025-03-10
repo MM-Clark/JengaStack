@@ -19,9 +19,11 @@ public class GameBoard extends JPanel
     // for falling block, initialized to start position on grid
     private int position_x = 0;
     private int position_Y = 0;
+    private int tallestPartOfTower = 19;
 
     private static final Color COLOR_OCCUPIED = Color.LIGHT_GRAY;
     private static final Color COLOR_EMPTY = Color.WHITE;
+    private static final Color COLOR_PERMANENTLY_OCCUPIED = Color.RED;
 
     int map[][] = new int[ROWS][COLUMNS];
     private TetrisBlock fallingBlock;
@@ -76,59 +78,7 @@ public class GameBoard extends JPanel
     {
         fallingShape = BlockTypes.T;
         // ALL SHAPES ARE LEFT-ALIGNED TO GRID
-        switch(fallingShape)
-        {
-            // this case works
-            case BlockTypes.Z:
-                map[position_Y][position_x+1] = 1;
-                map[position_Y+1][position_x+1] = 1;
-                map[position_Y+1][position_x] = 1;
-                map[position_Y+2][position_x] = 1;
-                break;
-            // this case works
-            case BlockTypes.L:
-                map[position_Y][position_x] = 1;
-                map[position_Y+1][position_x] = 1;
-                map[position_Y+2][position_x] = 1;
-                map[position_Y+2][position_x+1] = 1;
-                break;
-            //this works
-            case BlockTypes.O:
-                map[position_Y][position_x+1] = 1;
-                map[position_Y][position_x] = 1;
-                map[position_Y+1][position_x+1] = 1;
-                map[position_Y+1][position_x] = 1;
-                break;
-            // works
-            case BlockTypes.S:
-            map[position_Y][position_x] = 1;
-            map[position_Y+1][position_x] = 1;
-            map[position_Y+1][position_x+1] = 1;
-            map[position_Y+2][position_x+1] = 1;
-                break;
-            // works
-            case BlockTypes.I:
-                map[position_Y][position_x] = 1;
-                map[position_Y+1][position_x] = 1;
-                map[position_Y+2][position_x] = 1;
-                map[position_Y+3][position_x] = 1;
-                break;
-            // works
-            case BlockTypes.J:
-                map[position_Y][position_x+1] = 1;
-                map[position_Y+1][position_x+1] = 1;
-                map[position_Y+2][position_x+1] = 1;
-                map[position_Y+2][position_x] = 1;
-                break;
-            // works
-            case BlockTypes.T:
-                map[position_Y][position_x+1] = 1;
-                map[position_Y+1][position_x] = 1;
-                map[position_Y+1][position_x+1] = 1;
-                map[position_Y+1][position_x+2] = 1; 
-                break;
-            default:
-        }
+        paintShape(1);
     }
 
     public void paint(Graphics g)
@@ -164,6 +114,8 @@ public class GameBoard extends JPanel
             {
                 if(map[row][col] == 1) 
                     g.setColor(COLOR_OCCUPIED); 
+                else if(map[row][col] == 2)
+                    g.setColor(COLOR_PERMANENTLY_OCCUPIED);
                 else    
                     g.setColor(COLOR_EMPTY);
                 g.fill3DRect(col*CELL_SIZE + xOffset, row*CELL_SIZE + yOffset, CELL_SIZE, CELL_SIZE, true);
@@ -182,90 +134,95 @@ public class GameBoard extends JPanel
         //------------------------------------------------------------------------------------------------------------------------------------------------
     }
 
-    //********************************************************************* */
-    // working this out, have not gotten to clearing path of block yet
-    //********************************************************************* */
-    public boolean atBottom()
-    {
-        if(position_Y >= 19)
-            return true;
-        else
-            return false;
-    }
-
-    public void clearShape()
+    public void paintShape(int color)
     {
         //to clear shape from grid first
         switch(fallingShape)
         {
             // this case works
             case BlockTypes.Z:
-                map[position_Y][position_x+1] = 0;
-                map[position_Y+1][position_x+1] = 0;
-                map[position_Y+1][position_x] = 0;
-                map[position_Y+2][position_x] = 0;
+                map[position_Y][position_x+1] = color;
+                map[position_Y+1][position_x+1] = color;
+                map[position_Y+1][position_x] = color;
+                map[position_Y+2][position_x] = color;
                 break;
             // this case works
             case BlockTypes.L:
-                map[position_Y][position_x] = 0;
-                map[position_Y+1][position_x] = 0;
-                map[position_Y+2][position_x] = 0;
-                map[position_Y+2][position_x+1] = 0;
+                map[position_Y][position_x] = color;
+                map[position_Y+1][position_x] = color;
+                map[position_Y+2][position_x] = color;
+                map[position_Y+2][position_x+1] = color;
                 break;
             //this works
             case BlockTypes.O:
-                map[position_Y][position_x+1] = 0;
-                map[position_Y][position_x] = 0;
-                map[position_Y+1][position_x+1] = 0;
-                map[position_Y+1][position_x] = 0;
+                map[position_Y][position_x+1] = color;
+                map[position_Y][position_x] = color;
+                map[position_Y+1][position_x+1] = color;
+                map[position_Y+1][position_x] = color;
                 break;
             // works
             case BlockTypes.S:
-            map[position_Y][position_x] = 0;
-            map[position_Y+1][position_x] = 0;
-            map[position_Y+1][position_x+1] = 0;
-            map[position_Y+2][position_x+1] = 0;
+            map[position_Y][position_x] = color;
+            map[position_Y+1][position_x] = color;
+            map[position_Y+1][position_x+1] = color;
+            map[position_Y+2][position_x+1] = color;
                 break;
             // works
             case BlockTypes.I:
-                map[position_Y][position_x] = 0;
-                map[position_Y+1][position_x] = 0;
-                map[position_Y+2][position_x] = 0;
-                map[position_Y+3][position_x] = 0;
+                map[position_Y][position_x] = color;
+                map[position_Y+1][position_x] = color;
+                map[position_Y+2][position_x] = color;
+                map[position_Y+3][position_x] = color;
                 break;
             // works
             case BlockTypes.J:
-                map[position_Y][position_x+1] = 0;
-                map[position_Y+1][position_x+1] = 0;
-                map[position_Y+2][position_x+1] = 0;
-                map[position_Y+2][position_x] = 0;
+                map[position_Y][position_x+1] = color;
+                map[position_Y+1][position_x+1] = color;
+                map[position_Y+2][position_x+1] = color;
+                map[position_Y+2][position_x] = color;
                 break;
             // works
             case BlockTypes.T:
-                map[position_Y][position_x+1] = 0;
-                map[position_Y+1][position_x] = 0;
-                map[position_Y+1][position_x+1] = 0;
-                map[position_Y+1][position_x+2] = 0; 
+                map[position_Y][position_x+1] = color;
+                map[position_Y+1][position_x] = color;
+                map[position_Y+1][position_x+1] = color;
+                map[position_Y+1][position_x+2] = color; 
                 break;
             default:
         }
     }
+
+    //--------------------------------------------------------------------------------------
+    // DROP BLOCK
+    //---------------------------------------------------------------------------------------
     public void updateBlockPos()
     {
         //clear shape from grid first
-        clearShape();
+        paintShape(0);
 
         //move the block one grid down
-        if(!atBottom())
+        if(!atBottom() && position_Y < 19)
             position_Y++;
         else
-            position_Y--;
+            paintShape(2);
     }
 
+    //********************************************************************* */
+    // working this out, have not gotten to changing block color at bottom/setting bottom
+    //********************************************************************* */
+    public boolean atBottom()
+    {
+        for(int i=0; i<COLUMNS; i++)
+        {
+            if(map[tallestPartOfTower][i] == 1)
+                return true;
+        }
+        return false;
+    }
 
     public void moveBlockLeft()
     {
-        clearShape();
+        paintShape(0);
         if(!isTouchingLeftScreen())
             position_x--;
     }
@@ -274,9 +231,10 @@ public class GameBoard extends JPanel
     {
         return position_x==0;
     }
+
     public void moveBlockRight()
     {
-        clearShape();
+        paintShape(0);
         position_x++;
     }
 
