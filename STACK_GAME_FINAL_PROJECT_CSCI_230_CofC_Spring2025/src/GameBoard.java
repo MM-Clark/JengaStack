@@ -195,6 +195,61 @@ public class GameBoard extends JPanel
 
     public void updateBlockPos()
     {
+        //clear shape from grid first
+        switch(fallingShape)
+        {
+            // this case works
+            case BlockTypes.Z:
+                map[position_Y][position_x+1] = 0;
+                map[position_Y+1][position_x+1] = 0;
+                map[position_Y+1][position_x] = 0;
+                map[position_Y+2][position_x] = 0;
+                break;
+            // this case works
+            case BlockTypes.L:
+                map[position_Y][position_x] = 0;
+                map[position_Y+1][position_x] = 0;
+                map[position_Y+2][position_x] = 0;
+                map[position_Y+2][position_x+1] = 0;
+                break;
+            //this works
+            case BlockTypes.O:
+                map[position_Y][position_x+1] = 0;
+                map[position_Y][position_x] = 0;
+                map[position_Y+1][position_x+1] = 0;
+                map[position_Y+1][position_x] = 0;
+                break;
+            // works
+            case BlockTypes.S:
+            map[position_Y][position_x] = 0;
+            map[position_Y+1][position_x] = 0;
+            map[position_Y+1][position_x+1] = 0;
+            map[position_Y+2][position_x+1] = 0;
+                break;
+            // works
+            case BlockTypes.I:
+                map[position_Y][position_x] = 0;
+                map[position_Y+1][position_x] = 0;
+                map[position_Y+2][position_x] = 0;
+                map[position_Y+3][position_x] = 0;
+                break;
+            // works
+            case BlockTypes.J:
+                map[position_Y][position_x+1] = 0;
+                map[position_Y+1][position_x+1] = 0;
+                map[position_Y+2][position_x+1] = 0;
+                map[position_Y+2][position_x] = 0;
+                break;
+            // works
+            case BlockTypes.T:
+                map[position_Y][position_x+1] = 0;
+                map[position_Y+1][position_x] = 0;
+                map[position_Y+1][position_x+1] = 0;
+                map[position_Y+1][position_x+2] = 0; 
+                break;
+            default:
+        }
+        
         //move the block one grid down
         if(!atBottom())
             position_Y++;
