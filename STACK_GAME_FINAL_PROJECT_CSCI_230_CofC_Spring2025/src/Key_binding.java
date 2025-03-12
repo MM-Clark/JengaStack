@@ -11,7 +11,6 @@ import java.awt.event.KeyEvent;
 
 import javax.swing.*;
 
-// -------------- THIS CLASS DOES NOT WORK AT ALL --------------------------
 public class Key_binding 
 {
     private Action leftAction;
