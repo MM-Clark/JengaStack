@@ -8,6 +8,7 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
 
 import javax.swing.*;
 
@@ -19,6 +20,8 @@ public class Key_binding
     private WinLoseScreen endScreen;
     private GameBoard gameScreen;
     private final int FRAME_SIZE = 900;
+
+    private boolean gameOver = false;
 
     public Key_binding()
     {
@@ -77,7 +80,13 @@ public class Key_binding
             public void actionPerformed(ActionEvent e) 
             {
 
-                gameScreen.updateBlockPos();
+                gameOver = gameScreen.updateBlockPos();
+                if(gameOver)
+                {
+                    Timer timer = (Timer)e.getSource();
+                    timer.stop();
+                    System.out.println("END");
+                }
                 //repaint the screen
                 gameScreen.repaint();
             }
@@ -85,5 +94,15 @@ public class Key_binding
 
         //start the timer after it's been created
         timer.start();
+
+        if(gameOver)
+        {
+            try {
+                endScreen.showLoseScreen(frame);
+            } catch (IOException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
+        }
     }
 }

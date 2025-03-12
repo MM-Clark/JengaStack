@@ -3,7 +3,6 @@
 // College of Charleston
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import javax.swing.*;
 
 //------------------------------------------------------------------------------------------------------
@@ -12,7 +11,7 @@ import javax.swing.*;
 public class GameBoard extends JPanel  
 {
     private final int WINDOW_WIDTH = 900, WINDOW_HEIGHT = 900;
-    protected final static int COLUMNS = 22; 
+    protected final static int COLUMNS = 24; 
     protected final int ROWS = 20;
     public final static int CELL_SIZE = 32;
 
@@ -20,13 +19,16 @@ public class GameBoard extends JPanel
     private int position_x = 10;
     private int position_Y = 3;
     private int tallestPartOfTower = 19;
+    private boolean gameOver = false;
 
-    private static final Color COLOR_OCCUPIED = Color.LIGHT_GRAY;
-    private static final Color COLOR_EMPTY = Color.WHITE;
-    private static final Color COLOR_PERMANENTLY_OCCUPIED = Color.RED;
-
+    private static final Color COLOR_OCCUPIED = Color.RED; // for falling blocks
+    private static final Color COLOR_EMPTY = Color.WHITE; // for empty grid
+    private static final Color COLOR_PERMANENTLY_OCCUPIED = Color.BLUE; // for blocks that have fallen to the bottom
+    private static final Color COLOR_HIDDEN = Color.BLACK; // hidden rows for left/right barriers to avoid exceptions
+    private static final Color COLOR_DANGER_ZONE = Color.LIGHT_GRAY; // for cutoff of when your tower is too high + you lose, we don't have to use this idea
+    
     int map[][] = new int[ROWS][COLUMNS];
-    // private TetrisBlock fallingBlock = new TetrisBlock();
+
     protected BlockTypes fallingShape = BlockTypes.L;
     private StackArray<Integer> stackTower = new StackArray<Integer>(40); //for holding integers corresponding to block type
 
@@ -48,10 +50,13 @@ public class GameBoard extends JPanel
         }
     }
 
+    // -------------------------------------------------------------
+    //     GET NEW SHAPE
+    // -------------------------------------------------------------
     public void newShape()
     {
         // Get shapes to stack >> NEEDS EDITING SEVERELY
-        position_x = 10;
+        position_x = COLUMNS/2;
         position_Y = 3;
         int shapeType = -1;
         if(!stackTower.isEmpty())
@@ -154,28 +159,24 @@ public class GameBoard extends JPanel
         {
             for (int col = 0; col < COLUMNS; col++) 
             {
-                if(map[row][col] == 1) 
-                    g.setColor(COLOR_OCCUPIED); 
+                if(col == 0 || col == COLUMNS-1)
+                    g.setColor(COLOR_HIDDEN);
                 else if(map[row][col] == 2)
                     g.setColor(COLOR_PERMANENTLY_OCCUPIED);
+                else if(map[row][col] == 1) 
+                    g.setColor(COLOR_OCCUPIED); 
+                else if(row<=2)
+                    g.setColor(COLOR_DANGER_ZONE);
                 else    
                     g.setColor(COLOR_EMPTY);
                 g.fill3DRect(col*CELL_SIZE + xOffset, row*CELL_SIZE + yOffset, CELL_SIZE, CELL_SIZE, true);
             }
         }
-        //-------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-
-        //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-        // *************************************************************************************************************
-        // PAINT FALLING BLOCK
-        // **********************************************************************************************************************
-        //--------------------------------------------------------------------------------------------------------------------------------------
-        // Also paint the Shape encapsulated
-        // fallingBlock.paint(g);
-        //------------------------------------------------------------------------------------------------------------------------------------------------
     }
 
+    //---------------------------------------------------------------------------------
+    // updates grid/fills in shape coordinate locations in integer grid with new number
+    //---------------------------------------------------------------------------------
     public void paintShape(int color)
     {
         //to clear shape from grid first
@@ -234,9 +235,11 @@ public class GameBoard extends JPanel
     }
 
     //--------------------------------------------------------------------------------------
-    // DROP BLOCK
+    //            DROP BLOCK
     //---------------------------------------------------------------------------------------
-    public void updateBlockPos()
+    
+    // makes block fall
+    public boolean updateBlockPos()
     {
         //clear shape from grid first
         paintShape(0);
@@ -244,20 +247,23 @@ public class GameBoard extends JPanel
         //move the block one grid down
         if(atBottom() || isTouchingAnotherBlockBelow())
         {
-            paintShape(2);
-            newShape();
-            repaint(); // fixing repaint
+            paintShape(2); // makes block indicated as red in integer grid
+            gameOver = checkGameOver(); // check if tower too tall/in grey danger zone
+            if(!gameOver)
+            {
+                newShape();
+                repaint(); // fixing repaint
+            }
         }
         else
             position_Y++;
+        return gameOver;
     }
 
-    //********************************************************************* */
-    // working this out, have not gotten to changing block color at bottom/setting bottom
-    //********************************************************************* */
+    // tell if block is at bottom
     public boolean atBottom()
     {
-        if(position_Y > 18)
+        if(position_Y > ROWS - 2)
             return true;
         for(int i=0; i<COLUMNS; i++)
         {
@@ -267,6 +273,7 @@ public class GameBoard extends JPanel
         return false;
     }
 
+    // check if block has fallen onto another block, if so stay in place to avoid overlapping
     public boolean isTouchingAnotherBlockBelow()
     {
         //to clear shape from grid first, added one to all y values to avoid overlap
@@ -320,6 +327,10 @@ public class GameBoard extends JPanel
         return false;
     }
 
+    //---------------------------------------------------------------------
+    //   LEFT-RIGHT FUNCTIONALITY
+    //-----------------------------------------------------------------------
+
     public void moveBlockLeft()
     {
         if(!isTouchingLeftScreen() && !isTouchingAnotherBlockLeftRight())
@@ -352,15 +363,15 @@ public class GameBoard extends JPanel
             case BlockTypes.O:
             case BlockTypes.S:
             case BlockTypes.J:
-                if(position_x + 1 >= 20)
+                if(position_x + 1 >= COLUMNS-2)
                     return true;
                 break;
             case BlockTypes.I:
-                if(position_x >= 20)
+                if(position_x >= COLUMNS-2)
                     return true;
                 break;
             case BlockTypes.T:
-                if(position_x + 2 >= 20)
+                if(position_x + 2 >= COLUMNS-2)
                     return true;
                 break;
             default:
@@ -447,5 +458,13 @@ public class GameBoard extends JPanel
                 return false;
         }
         return false;
+    }
+
+    //-------------------------------------------------------------------------------
+    //       Check if game over / blocks have spilled into grey danger zone
+    //--------------------------------------------------------------------------------
+    public boolean checkGameOver()
+    {
+        return position_Y <= 2;
     }
 }

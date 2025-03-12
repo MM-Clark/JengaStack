@@ -2,12 +2,8 @@
 // CSCI 230 Spring 2025
 // College of Charleston 
 
-import java.awt.*;
-import java.awt.event.KeyListener;
-import java.awt.event.*;
 import java.io.IOException;
 
-import javax.swing.*;
 
 // provides user interface functionality of when to add/remove JPanels, etc; also for pushing/popping stack
 public class Gui 
@@ -26,29 +22,7 @@ public class Gui
     public Gui() 
     {
         Key_binding controlKeys = new Key_binding();
-
-        //---------------------------------------------------------------------------------------------
-        // // ----------------------- TIMER SET UP ----------------------------------------------------------
-        // //-----------------------------------------------------------------------------------------------
-        // //make a new Timer
-        // Timer timer = new Timer(275, new ActionListener() 
-        // {
-        //     @Override
-        //     public void actionPerformed(ActionEvent e) 
-        //     {
-
-        //         gameScreen.updateBlockPos();
-        //         //repaint the screen
-        //         gameScreen.repaint();
-        //     }
-        // });
-
-        // //start the timer after it's been created
-        // timer.start();
-        //------------------------------------------------------------------------------------------
     }
-
-
 
     //-------------------------------------------------------------------------------------------
     // Methods to show end game screens 
