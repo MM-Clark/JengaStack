@@ -83,7 +83,7 @@ public class GameBoard extends JPanel
                 getTypeOfShape(6);
                 break;
             default:
-                
+
         }
         
     }
@@ -242,7 +242,7 @@ public class GameBoard extends JPanel
         paintShape(0);
 
         //move the block one grid down
-        if(atBottom() || isTouchingAnotherBlock())
+        if(atBottom() || isTouchingAnotherBlockBelow())
         {
             paintShape(2);
             newShape();
@@ -267,7 +267,7 @@ public class GameBoard extends JPanel
         return false;
     }
 
-    public boolean isTouchingAnotherBlock()
+    public boolean isTouchingAnotherBlockBelow()
     {
         //to clear shape from grid first, added one to all y values to avoid overlap
         switch(fallingShape)
@@ -277,27 +277,11 @@ public class GameBoard extends JPanel
                 if((map[position_Y-1][position_x+1] == 2) || (map[position_Y][position_x+1] == 2) ||
                     (map[position_Y][position_x] == 2) || (map[position_Y+1][position_x] == 2))
                     return true;
-                // there is a block to the right (original x position of each point + 1)
-                else if((map[position_Y-2][position_x+2] == 2) || (map[position_Y-1][position_x+2] == 2) ||
-                    (map[position_Y-1][position_x+1] == 2) || (map[position_Y][position_x+1] == 2))
-                    return true;
-                //there is a block to the left (original x position of each point - 1)
-                else if((map[position_Y-2][position_x] == 2) || (map[position_Y-1][position_x] == 2) ||
-                    (map[position_Y-1][position_x-1] == 2) || (map[position_Y][position_x-1] == 2))
-                    return true;
                 break;
             case BlockTypes.L:
                 // there is a block below 
                 if((map[position_Y-1][position_x] == 2) || (map[position_Y][position_x] == 2) ||
                     (map[position_Y+1][position_x] == 2) || (map[position_Y+1][position_x+1] == 2))
-                    return true;
-                // there is a block to the right
-                else if((map[position_Y-2][position_x+1] == 2) || (map[position_Y-1][position_x+1] == 2) ||
-                    (map[position_Y][position_x+1] == 2) || (map[position_Y][position_x+2] == 2))
-                    return true;
-                // there is a block to the left
-                else if((map[position_Y-2][position_x-1] == 2) || (map[position_Y-1][position_x-1] == 2) ||
-                    (map[position_Y][position_x-1] == 2) || (map[position_Y][position_x] == 2))
                     return true;
                 break;
             case BlockTypes.O:
@@ -305,27 +289,11 @@ public class GameBoard extends JPanel
                 if((map[position_Y][position_x+1] == 2) || (map[position_Y][position_x] ==2 ) ||
                     (map[position_Y+1][position_x+1] == 2) || (map[position_Y+1][position_x] == 2))
                     return true;
-                // block to right
-                else if((map[position_Y-1][position_x+2] == 2) || (map[position_Y-1][position_x+1] ==2 ) ||
-                    (map[position_Y][position_x+2] == 2) || (map[position_Y][position_x+1] == 2))
-                    return true;
-                // block to left
-                else if((map[position_Y-1][position_x] == 2) || (map[position_Y-1][position_x-1] ==2 ) ||
-                    (map[position_Y][position_x] == 2) || (map[position_Y][position_x-1] == 2))
-                    return true;
                 break;
             case BlockTypes.S:
                 // block below
                 if((map[position_Y-1][position_x] == 2) || (map[position_Y][position_x] == 2) ||
                     (map[position_Y][position_x+1] == 2) || (map[position_Y+1][position_x+1] == 2))
-                    return true;
-                // block to right
-                else if((map[position_Y-2][position_x+1] == 2) || (map[position_Y-1][position_x+1] == 2) ||
-                    (map[position_Y-1][position_x+2] == 2) || (map[position_Y][position_x+2] == 2))
-                    return true;
-                // block to left
-                else if((map[position_Y-2][position_x-1] == 2) || (map[position_Y-1][position_x-1] == 2) ||
-                    (map[position_Y-1][position_x] == 2) || (map[position_Y][position_x] == 2))
                     return true;
                 break;
             case BlockTypes.I:
@@ -333,41 +301,17 @@ public class GameBoard extends JPanel
                 if((map[position_Y-1][position_x] == 2) || 
                     (map[position_Y][position_x] == 2) || (map[position_Y+1][position_x] == 2))
                     return true;
-                // block to right
-                else if((map[position_Y-2][position_x+1] == 2) || 
-                    (map[position_Y-1][position_x+1] == 2) || (map[position_Y][position_x+1] == 2))
-                    return true;
-                // block to left
-                else if((map[position_Y-2][position_x-1] == 2) || 
-                    (map[position_Y-1][position_x-1] == 2) || (map[position_Y][position_x-1] == 2))
-                    return true;
                 break;
             case BlockTypes.J:
                 // block below
                 if((map[position_Y-1][position_x+1] == 2) || (map[position_Y][position_x+1] == 2) ||
                     (map[position_Y+1][position_x+1] == 2) || (map[position_Y+1][position_x] == 2))
                     return true;
-                // block to right
-                if((map[position_Y-2][position_x+2] == 2) || (map[position_Y-1][position_x+2] == 2) ||
-                    (map[position_Y][position_x+2] == 2) || (map[position_Y][position_x+1] == 2))
-                    return true;
-                // block to left
-                if((map[position_Y-2][position_x] == 2) || (map[position_Y-1][position_x] == 2) ||
-                    (map[position_Y][position_x] == 2) || (map[position_Y][position_x-1] == 2))
-                    return true;
                 break;
             case BlockTypes.T:
                 // block below
                 if((map[position_Y][position_x+1] == 2) ||(map[position_Y+1][position_x] == 2) ||
                     (map[position_Y+1][position_x+1] == 2) || (map[position_Y+1][position_x+2] == 2))
-                    return true; 
-                // block to right
-                if((map[position_Y-1][position_x+2] == 2) ||(map[position_Y][position_x+1] == 2) ||
-                    (map[position_Y][position_x+2] == 2) || (map[position_Y][position_x+3] == 2))
-                    return true; 
-                // block to left
-                if((map[position_Y-1][position_x] == 2) ||(map[position_Y][position_x-1] == 2) ||
-                    (map[position_Y][position_x] == 2) || (map[position_Y][position_x+1] == 2))
                     return true; 
                 break;
             default:
@@ -378,7 +322,7 @@ public class GameBoard extends JPanel
 
     public void moveBlockLeft()
     {
-        if(!isTouchingLeftScreen() && !isTouchingAnotherBlock())
+        if(!isTouchingLeftScreen() && !isTouchingAnotherBlockLeftRight())
         {
             paintShape(0);
             position_x--;
@@ -392,7 +336,7 @@ public class GameBoard extends JPanel
 
     public void moveBlockRight()
     {
-        if(!isTouchingRightScreen() && !isTouchingAnotherBlock())
+        if(!isTouchingRightScreen() && !isTouchingAnotherBlockLeftRight())
         {
             paintShape(0);
             position_x++;
@@ -418,6 +362,86 @@ public class GameBoard extends JPanel
             case BlockTypes.T:
                 if(position_x + 2 >= 20)
                     return true;
+                break;
+            default:
+                return false;
+        }
+        return false;
+    }
+
+    public boolean isTouchingAnotherBlockLeftRight()
+    {
+        //to clear shape from grid first, added one to all y values to avoid overlap
+        switch(fallingShape)
+        {
+            case BlockTypes.Z:
+                // block to right (original x position of each point + 1)
+                if((map[position_Y-2][position_x+2] == 2) || (map[position_Y-1][position_x+2] == 2) ||
+                    (map[position_Y-1][position_x+1] == 2) || (map[position_Y][position_x+1] == 2))
+                    return true;
+                //there is a block to the left (original x position of each point - 1)
+                else if((map[position_Y-2][position_x] == 2) || (map[position_Y-1][position_x] == 2) ||
+                    (map[position_Y-1][position_x-1] == 2) || (map[position_Y][position_x-1] == 2))
+                    return true;
+                break;
+            case BlockTypes.L:
+                // there is a block to the right
+                if((map[position_Y-2][position_x+1] == 2) || (map[position_Y-1][position_x+1] == 2) ||
+                    (map[position_Y][position_x+1] == 2) || (map[position_Y][position_x+2] == 2))
+                    return true;
+                // there is a block to the left
+                else if((map[position_Y-2][position_x-1] == 2) || (map[position_Y-1][position_x-1] == 2) ||
+                    (map[position_Y][position_x-1] == 2) || (map[position_Y][position_x] == 2))
+                    return true;
+                break;
+            case BlockTypes.O:
+                // block to right
+                if((map[position_Y-1][position_x+2] == 2) || (map[position_Y-1][position_x+1] ==2 ) ||
+                    (map[position_Y][position_x+2] == 2) || (map[position_Y][position_x+1] == 2))
+                    return true;
+                // block to left
+                else if((map[position_Y-1][position_x] == 2) || (map[position_Y-1][position_x-1] ==2 ) ||
+                    (map[position_Y][position_x] == 2) || (map[position_Y][position_x-1] == 2))
+                    return true;
+                break;
+            case BlockTypes.S:
+                // block to right
+                if((map[position_Y-2][position_x+1] == 2) || (map[position_Y-1][position_x+1] == 2) ||
+                    (map[position_Y-1][position_x+2] == 2) || (map[position_Y][position_x+2] == 2))
+                    return true;
+                // block to left
+                else if((map[position_Y-2][position_x-1] == 2) || (map[position_Y-1][position_x-1] == 2) ||
+                    (map[position_Y-1][position_x] == 2) || (map[position_Y][position_x] == 2))
+                    return true;
+                break;
+            case BlockTypes.I:
+                // block to right
+                if((map[position_Y-2][position_x+1] == 2) || 
+                    (map[position_Y-1][position_x+1] == 2) || (map[position_Y][position_x+1] == 2))
+                    return true;
+                // block to left
+                else if((map[position_Y-2][position_x-1] == 2) || 
+                    (map[position_Y-1][position_x-1] == 2) || (map[position_Y][position_x-1] == 2))
+                    return true;
+                break;
+            case BlockTypes.J:
+                // block to right
+                if((map[position_Y-2][position_x+2] == 2) || (map[position_Y-1][position_x+2] == 2) ||
+                    (map[position_Y][position_x+2] == 2) || (map[position_Y][position_x+1] == 2))
+                    return true;
+                // block to left
+                else if((map[position_Y-2][position_x] == 2) || (map[position_Y-1][position_x] == 2) ||
+                    (map[position_Y][position_x] == 2) || (map[position_Y][position_x-1] == 2))
+                    return true;
+                break;
+            case BlockTypes.T:
+                if((map[position_Y-1][position_x+2] == 2) ||(map[position_Y][position_x+1] == 2) ||
+                    (map[position_Y][position_x+2] == 2) || (map[position_Y][position_x+3] == 2))
+                    return true; 
+                // block to left
+                else if((map[position_Y-1][position_x] == 2) ||(map[position_Y][position_x-1] == 2) ||
+                    (map[position_Y][position_x] == 2) || (map[position_Y][position_x+1] == 2))
+                    return true; 
                 break;
             default:
                 return false;
