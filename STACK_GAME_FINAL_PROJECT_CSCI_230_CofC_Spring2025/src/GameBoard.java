@@ -18,7 +18,7 @@ public class GameBoard extends JPanel
 
     // for falling block, initialized to start position on grid
     private int position_x = 0;
-    private int position_Y = 4;
+    private int position_Y = 2;
     private int tallestPartOfTower = 19;
 
     private static final Color COLOR_OCCUPIED = Color.LIGHT_GRAY;
@@ -52,10 +52,10 @@ public class GameBoard extends JPanel
     {
         // Get shapes to stack >> NEEDS EDITING SEVERELY
         position_x = 0;
-        position_Y = 4;
+        position_Y = 2;
         
         int shapeType = stackTower.pop() % 10;
-        System.out.println("Shape type number: " + shapeType);
+        // System.out.println("Shape type number: " + shapeType);
         switch(shapeType)
         {
             case 0:
@@ -209,7 +209,6 @@ public class GameBoard extends JPanel
                 break;
             // works
             case BlockTypes.I:
-                map[position_Y-3][position_x] = color;
                 map[position_Y-2][position_x] = color;
                 map[position_Y-1][position_x] = color;
                 map[position_Y][position_x] = color;
@@ -297,7 +296,7 @@ public class GameBoard extends JPanel
                 break;
             // works
             case BlockTypes.I:
-                if((map[position_Y-2][position_x] == 2) || (map[position_Y-1][position_x] == 2) || 
+                if((map[position_Y-1][position_x] == 2) || 
                     (map[position_Y][position_x] == 2) || (map[position_Y+1][position_x] == 2))
                     return true;
                 break;
