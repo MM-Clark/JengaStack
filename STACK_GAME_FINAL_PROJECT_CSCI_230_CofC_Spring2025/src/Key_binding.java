@@ -84,8 +84,9 @@ public class Key_binding
                 if(gameOver)
                 {
                     Timer timer = (Timer)e.getSource();
-                    timer.stop();
                     System.out.println("END");
+                    showLoseScreen();
+                    timer.stop();
                 }
                 //repaint the screen
                 gameScreen.repaint();
@@ -94,15 +95,15 @@ public class Key_binding
 
         //start the timer after it's been created
         timer.start();
+    }
 
-        if(gameOver)
-        {
-            try {
-                endScreen.showLoseScreen(frame);
-            } catch (IOException e1) {
-                // TODO Auto-generated catch block
-                e1.printStackTrace();
-            }
+    public void showLoseScreen()
+    {
+        try {
+            endScreen.showLoseScreen(frame);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
         }
     }
 }
