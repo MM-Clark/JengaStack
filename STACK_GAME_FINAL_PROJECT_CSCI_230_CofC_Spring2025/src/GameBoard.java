@@ -334,66 +334,36 @@ public class GameBoard extends JPanel
 
     public void moveBlockRight()
     {
-        if(!isTouchingAnotherBlock())
+        if(!isTouchingRightScreen() && !isTouchingAnotherBlock())
         {
             paintShape(0);
             position_x++;
         }
     }
 
-    // public void dropBlock()
-    // {
-    //     fallingBlock.dropBlock();
-    // }
-
-    /**
-    * Process + remove filled rows in game board to clear space at bottom in memory.
-    * return the number of rows removed in the range of [0, 4]
-    */
-    // public int clearLines() 
-    // {
-    //     // Starting from the last rows, check if a row is filled if so, move down
-    //     // the occupied square. Need to check all the way to the top-row
-    //     int row = ROWS - 1;
-    //     int rowsRemoved = 0;
-    //     boolean removeThisRow;
-
-    //     while (row >= 0) 
-    //     {
-    //         removeThisRow = true;
-    //         for (int col = 0; col < COLUMNS; col++) 
-    //         {
-    //             if (map[row][col] == 0) 
-    //             {
-    //                 removeThisRow = false;
-    //                 break;
-    //             }
-    //         }
-
-    //         if (removeThisRow) 
-    //         {
-    //             // delete the row by moving down the occupied slots.
-    //             for (int row1 = row; row1 > 0; row1--) 
-    //             {
-    //                 for (int col1 = 0; col1 < COLUMNS; col1++) 
-    //                 {
-    //                     map[row1][col1] = map[row1 - 1][col1];
-    //                 }
-    //             }
-    //             rowsRemoved++;
-    //             // The top row shall be empty now.
-    //             for (int col = 0; col < COLUMNS; col++)
-    //                 map[0][col] = 0;
-
-    //             // No change in row number. Check this row again (recursion).
-    //         } 
-    //         else 
-    //         {
-    //             // next row on top
-    //             row--;
-    //         }
-    //     }
-    //     return rowsRemoved;
-    // }
-
+    public boolean isTouchingRightScreen()
+    {
+        switch(fallingShape)
+        {
+            case BlockTypes.Z:
+            case BlockTypes.L:
+            case BlockTypes.O:
+            case BlockTypes.S:
+            case BlockTypes.J:
+                if(position_x + 1 >= 21)
+                    return true;
+                break;
+            case BlockTypes.I:
+                if(position_x >= 21)
+                    return true;
+                break;
+            case BlockTypes.T:
+                if(position_x + 2 >= 21)
+                    return true;
+                break;
+            default:
+                return false;
+        }
+        return false;
+    }
 }

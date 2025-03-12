@@ -39,7 +39,7 @@ public class Key_binding
         {
             public void actionPerformed(ActionEvent e)
             {
-                System.out.println("left key pressed");
+                // System.out.println("left key pressed");
                 gameScreen.moveBlockLeft();
                 gameScreen.repaint();
             }
@@ -48,7 +48,7 @@ public class Key_binding
         {
             public void actionPerformed(ActionEvent e)
             {
-                System.out.println("right key pressed");
+                // System.out.println("right key pressed");
                 gameScreen.moveBlockRight();
                 gameScreen.repaint();
             }
