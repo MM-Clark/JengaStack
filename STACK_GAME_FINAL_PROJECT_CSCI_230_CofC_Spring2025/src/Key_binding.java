@@ -76,6 +76,7 @@ public class Key_binding
         {
             System.out.println("left key pressed");
             gameScreen.moveBlockLeft();
+            gameScreen.repaint();
         }
     }
 
@@ -85,6 +86,7 @@ public class Key_binding
         {
             System.out.println("right key pressed");
             gameScreen.moveBlockRight();
+            gameScreen.repaint();
         }
     }
 }

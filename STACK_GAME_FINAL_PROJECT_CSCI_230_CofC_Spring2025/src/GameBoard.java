@@ -28,7 +28,7 @@ public class GameBoard extends JPanel
     int map[][] = new int[ROWS][COLUMNS];
     // private TetrisBlock fallingBlock = new TetrisBlock();
     protected BlockTypes fallingShape = BlockTypes.L;
-    private StackArray<BlockTypes> stackTower = new StackArray<BlockTypes>(40); //for holding blocks
+    private StackArray<Integer> stackTower = new StackArray<Integer>(40); //for holding integers corresponding to block type
 
     //-----------------------------------------------------------------------------------------
     // constructor for making new game
@@ -41,8 +41,11 @@ public class GameBoard extends JPanel
             for (int col = 0; col < COLUMNS; col++) 
                 map[row][col] = 0;  // empty
         }
-      
-        //getTypeOfShape(fallingBlockType);
+        
+        for(int i=0; i < 40; i++)
+        {
+            stackTower.push(i);     // this part needs some work for randomization
+        }
     }
 
     public void newShape()
@@ -50,37 +53,37 @@ public class GameBoard extends JPanel
         // Get shapes to stack >> NEEDS EDITING SEVERELY
         position_x = 0;
         position_Y = 4;
-        for(int i=0; i < 40; i++)
+        
+        int shapeType = stackTower.pop() % 10;
+        System.out.println("Shape type number: " + shapeType);
+        switch(shapeType)
         {
-            int shapeType = i%10;
-            switch(shapeType)
-            {
-                case 0:
-                case 1:
-                    getTypeOfShape(0);
-                    break;
-                case 2:
-                case 3:
-                    getTypeOfShape(1);
-                    break;
-                case 4:
-                    getTypeOfShape(2);
-                    break;
-                case 5:
-                    getTypeOfShape(3);
-                    break;
-                case 7:
-                    getTypeOfShape(4);
-                    break;
-                case 8:
-                    getTypeOfShape(5);
-                    break;
-                case 9:
-                    getTypeOfShape(6);
-                    break;
-                default:
-            }
+            case 0:
+            case 3:
+                getTypeOfShape(0);
+                break;
+            case 2:
+            case 1:
+                getTypeOfShape(1);
+                break;
+            case 4:
+                getTypeOfShape(2);
+                break;
+            case 5:
+                getTypeOfShape(3);
+                break;
+            case 7:
+                getTypeOfShape(4);
+                break;
+            case 8:
+                getTypeOfShape(5);
+                break;
+            case 9:
+                getTypeOfShape(6);
+                break;
+            default:
         }
+        
     }
 
     public void getTypeOfShape(int currShapeType)
@@ -238,14 +241,14 @@ public class GameBoard extends JPanel
         paintShape(0);
 
         //move the block one grid down
-        if(!atBottom() && position_Y < 19)
-            position_Y++;
-        else
+        if(atBottom() || isTouchingAnotherBlock())
         {
             paintShape(2);
             newShape();
             repaint(); // fixing repaint
         }
+        else
+            position_Y++;
     }
 
     //********************************************************************* */
@@ -253,6 +256,8 @@ public class GameBoard extends JPanel
     //********************************************************************* */
     public boolean atBottom()
     {
+        if(position_Y > 18)
+            return true;
         for(int i=0; i<COLUMNS; i++)
         {
             if(map[tallestPartOfTower][i] == 1)
@@ -261,11 +266,66 @@ public class GameBoard extends JPanel
         return false;
     }
 
+    public boolean isTouchingAnotherBlock()
+    {
+        //to clear shape from grid first, added one to all y values to avoid overlap
+        switch(fallingShape)
+        {
+            // this case works
+            case BlockTypes.Z:
+                if((map[position_Y-1][position_x+1] == 2) || (map[position_Y][position_x+1] == 2) ||
+                    (map[position_Y][position_x] == 2) || (map[position_Y+1][position_x] == 2))
+                    return true;
+                break;
+            // this case works
+            case BlockTypes.L:
+                if((map[position_Y-1][position_x] == 2) || (map[position_Y][position_x] == 2) ||
+                    (map[position_Y+1][position_x] == 2) || (map[position_Y+1][position_x+1] == 2))
+                    return true;
+                break;
+            //this works
+            case BlockTypes.O:
+                if((map[position_Y][position_x+1] == 2) || (map[position_Y][position_x] ==2 ) ||
+                    (map[position_Y+1][position_x+1] == 2) || (map[position_Y+1][position_x] == 2))
+                    return true;
+                break;
+            // works
+            case BlockTypes.S:
+                if((map[position_Y-1][position_x] == 2) || (map[position_Y][position_x] == 2) ||
+                    (map[position_Y][position_x+1] == 2) || (map[position_Y+1][position_x+1] == 2))
+                    return true;
+                break;
+            // works
+            case BlockTypes.I:
+                if((map[position_Y-2][position_x] == 2) || (map[position_Y-1][position_x] == 2) || 
+                    (map[position_Y][position_x] == 2) || (map[position_Y+1][position_x] == 2))
+                    return true;
+                break;
+            // works
+            case BlockTypes.J:
+                if((map[position_Y-1][position_x+1] == 2) || (map[position_Y][position_x+1] == 2) ||
+                    (map[position_Y+1][position_x+1] == 2) || (map[position_Y+1][position_x] == 2))
+                    return true;
+                break;
+            // works
+            case BlockTypes.T:
+                if((map[position_Y][position_x+1] == 2) ||(map[position_Y+1][position_x] == 2) ||
+                    (map[position_Y+1][position_x+1] == 2) || (map[position_Y+1][position_x+2] == 2))
+                    return true; 
+                break;
+            default:
+                return false;
+        }
+        return false;
+    }
+
     public void moveBlockLeft()
     {
-        paintShape(0);
-        if(!isTouchingLeftScreen())
+        if(!isTouchingLeftScreen() && !isTouchingAnotherBlock())
+        {
+            paintShape(0);
             position_x--;
+        }
     }
 
     public boolean isTouchingLeftScreen()
@@ -275,8 +335,11 @@ public class GameBoard extends JPanel
 
     public void moveBlockRight()
     {
-        paintShape(0);
-        position_x++;
+        if(!isTouchingAnotherBlock())
+        {
+            paintShape(0);
+            position_x++;
+        }
     }
 
     // public void dropBlock()
