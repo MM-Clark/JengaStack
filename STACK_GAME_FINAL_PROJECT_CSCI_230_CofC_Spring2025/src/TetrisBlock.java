@@ -59,14 +59,14 @@ public class TetrisBlock extends GameBoard
    private final Random rand = new Random(); // to get random shape
 
    private TetrisBlock currBlock;
-   public int newShape()
+
+   public void newShape()
    {
-      if(currBlock == null)
-         currBlock = new TetrisBlock();
+      // if(currBlock == null)
+      //    currBlock = new TetrisBlock();
       getCurrShapeType();
       // Set this shape's pattern. No need to copy the contents
       
-      return currShapeType;
    }
       
    public int getCurrShapeType()
@@ -74,65 +74,4 @@ public class TetrisBlock extends GameBoard
       int currShapeType = rand.nextInt(BlockTypes.values().length);
       return currShapeType;
    }
-
-   // public void makeBlockFall()
-   // {
-   //    // xPos += speedX;
-   //    if(!lockInPlace()) // if not time to lock in place, can move down block
-   //       yPos += ONE_BLOCK_SIZE;
-   // }
-
-   // public void moveBlockLeft(int newPos)
-   // {
-   //    if(!touchingSideOfScreen() && !lockInPlace()) // if not time to lock in place and block not touching side of screen, move left
-   //       while(xPos > newPos)
-   //          xPos -= ONE_BLOCK_SIZE;
-   //    // side touching dealt with in touchingSideOfScreen method
-   // }
-
-   // public void moveBlockRight(int newPos)
-   // {
-   //    if(!touchingSideOfScreen() && !lockInPlace())
-   //       while(xPos < newPos)
-   //          xPos += ONE_BLOCK_SIZE;
-   //    // System.out.println(xPos);
-   // }
-
-   // public void moveBlockLeft()
-   // {
-   //    if(!touchingSideOfScreen() && !lockInPlace()) // if not time to lock in place and block not touching side of screen, move left
-   //          xPos -= ONE_BLOCK_SIZE;
-   //    // side touching dealt with in touchingSideOfScreen method
-   // }
-
-   // public void moveBlockRight()
-   // {
-   //    if(!touchingSideOfScreen() && !lockInPlace())
-   //          xPos += ONE_BLOCK_SIZE;
-   //    // System.out.println(xPos);
-   // }
-
-   // public boolean touchingSideOfScreen()
-   // {
-   //    if(xPos < LEFT_SCREEN_EDGE)
-   //    {
-   //       xPos += ONE_BLOCK_SIZE;
-   //       return true;
-   //    }
-
-   //    else if(xPos > RIGHT_SCREEN_EDGE)
-   //    {
-   //       xPos -= ONE_BLOCK_SIZE;
-   //       return true;
-   //    }
-
-   //    return false;
-   // } 
-
-   // public boolean lockInPlace()  // to determine if to lock block in place at bottom of screen
-   // {
-   //    if(yPos >= BOTTOM_OF_STACK_Y)
-   //       return true;
-   //    return false;
-   // }
 }

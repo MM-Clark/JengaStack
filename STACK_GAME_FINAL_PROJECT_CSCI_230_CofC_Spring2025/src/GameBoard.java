@@ -26,8 +26,10 @@ public class GameBoard extends JPanel
     private static final Color COLOR_PERMANENTLY_OCCUPIED = Color.RED;
 
     int map[][] = new int[ROWS][COLUMNS];
-    private TetrisBlock fallingBlock;
-    protected BlockTypes fallingShape;
+    // private TetrisBlock fallingBlock = new TetrisBlock();
+    protected BlockTypes fallingShape = BlockTypes.L;
+    private StackArray<BlockTypes> stackTower = new StackArray<BlockTypes>(40); //for holding blocks
+
     //-----------------------------------------------------------------------------------------
     // constructor for making new game
     //------------------------------------------------------------------------------------------
@@ -40,9 +42,45 @@ public class GameBoard extends JPanel
                 map[row][col] = 0;  // empty
         }
       
-        // Get a new random shape
-        int fallingBlockType = fallingBlock.newShape();
-        getTypeOfShape(fallingBlockType);
+        //getTypeOfShape(fallingBlockType);
+    }
+
+    public void newShape()
+    {
+        // Get shapes to stack >> NEEDS EDITING SEVERELY
+        position_x = 0;
+        position_Y = 4;
+        for(int i=0; i < 40; i++)
+        {
+            int shapeType = i%10;
+            switch(shapeType)
+            {
+                case 0:
+                case 1:
+                    getTypeOfShape(0);
+                    break;
+                case 2:
+                case 3:
+                    getTypeOfShape(1);
+                    break;
+                case 4:
+                    getTypeOfShape(2);
+                    break;
+                case 5:
+                    getTypeOfShape(3);
+                    break;
+                case 7:
+                    getTypeOfShape(4);
+                    break;
+                case 8:
+                    getTypeOfShape(5);
+                    break;
+                case 9:
+                    getTypeOfShape(6);
+                    break;
+                default:
+            }
+        }
     }
 
     public void getTypeOfShape(int currShapeType)
@@ -76,7 +114,6 @@ public class GameBoard extends JPanel
 
     public void newShapeUpdateGrid()
     {
-        fallingShape = BlockTypes.T;
         // ALL SHAPES ARE LEFT-ALIGNED TO GRID
         paintShape(1);
     }
@@ -141,24 +178,24 @@ public class GameBoard extends JPanel
         {
             // this case works
             case BlockTypes.Z:
-                map[position_Y][position_x+1] = color;
-                map[position_Y+1][position_x+1] = color;
-                map[position_Y+1][position_x] = color;
-                map[position_Y+2][position_x] = color;
+                map[position_Y-2][position_x+1] = color;
+                map[position_Y-1][position_x+1] = color;
+                map[position_Y-1][position_x] = color;
+                map[position_Y][position_x] = color;
                 break;
             // this case works
             case BlockTypes.L:
+                map[position_Y-2][position_x] = color;
+                map[position_Y-1][position_x] = color;
                 map[position_Y][position_x] = color;
-                map[position_Y+1][position_x] = color;
-                map[position_Y+2][position_x] = color;
-                map[position_Y+2][position_x+1] = color;
+                map[position_Y][position_x+1] = color;
                 break;
             //this works
             case BlockTypes.O:
+                map[position_Y-1][position_x+1] = color;
+                map[position_Y-1][position_x] = color;
                 map[position_Y][position_x+1] = color;
                 map[position_Y][position_x] = color;
-                map[position_Y+1][position_x+1] = color;
-                map[position_Y+1][position_x] = color;
                 break;
             // works
             case BlockTypes.S:
@@ -206,6 +243,7 @@ public class GameBoard extends JPanel
         else
         {
             paintShape(2);
+            newShape();
             repaint(); // fixing repaint
         }
     }
