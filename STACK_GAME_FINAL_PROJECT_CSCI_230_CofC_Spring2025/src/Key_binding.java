@@ -16,19 +16,20 @@ public class Key_binding
 {
     private Action leftAction;
     private Action rightAction;
+
     private JFrame frame;
-    private WinLoseScreen endScreen;
     private GameBoard gameScreen;
+    // private WinLoseScreen endScreen;
     private final int FRAME_SIZE = 900;
 
     private boolean gameOver = false;
 
-    public Key_binding()
+    public Key_binding(JFrame frameIn, GameBoard gameScreenIn)
     {
         //---------------- FRAME SET UP ------------------------------------------------------------
-        frame = new JFrame();
-        gameScreen = new GameBoard();
-        endScreen = new WinLoseScreen();
+        frame = frameIn;
+        gameScreen = gameScreenIn;
+        // endScreen = endScreenIn;
 
         frame.setTitle("Start Screen");
         frame.setSize(FRAME_SIZE, FRAME_SIZE); //--------> manually set size, easier for placing boxes on x/y coordinates
@@ -46,6 +47,7 @@ public class Key_binding
                 gameScreen.repaint();
             }
         };
+
         rightAction = new AbstractAction("Right")
         {
             public void actionPerformed(ActionEvent e)
@@ -66,7 +68,7 @@ public class Key_binding
         // add panel to frame
         //-------------------------------------------
         frame.add(gameScreen);
-        gameScreen.newGame();
+        gameScreen.newGame(frame);
         // frame.pack();            //---------> set frame as predetermined size by system
         frame.setVisible(true);
         //-------------------------------------------------------------------------------------------------
@@ -80,12 +82,12 @@ public class Key_binding
             public void actionPerformed(ActionEvent e) 
             {
 
-                gameOver = gameScreen.updateBlockPos();
+                gameScreen.updateBlockPos();
                 if(gameOver)
                 {
                     Timer timer = (Timer)e.getSource();
                     System.out.println("END");
-                    showLoseScreen();
+                    // showLoseScreen();
                     timer.stop();
                 }
                 //repaint the screen
@@ -95,15 +97,5 @@ public class Key_binding
 
         //start the timer after it's been created
         timer.start();
-    }
-
-    public void showLoseScreen()
-    {
-        try {
-            endScreen.showLoseScreen(frame);
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
     }
 }

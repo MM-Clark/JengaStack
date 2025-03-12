@@ -4,15 +4,16 @@
 
 import java.io.IOException;
 
+import javax.swing.JFrame;
+
 
 // provides user interface functionality of when to add/remove JPanels, etc; also for pushing/popping stack
 public class Gui 
 {
     // private final int FRAME_SIZE = 900;
 
-    // private JFrame frame;
-    // private WinLoseScreen endScreen;
-    // private GameBoard gameScreen;
+    private JFrame frame = new JFrame();
+    private GameBoard gameScreen = new GameBoard();
 
     private boolean keyPressed = false;
 
@@ -21,6 +22,6 @@ public class Gui
     //--------------------------------------------------------------------------------------------
     public Gui() 
     {
-        Key_binding controlKeys = new Key_binding();
+        Key_binding controlKeys = new Key_binding(frame, gameScreen);
     }
 }

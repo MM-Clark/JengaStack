@@ -3,12 +3,14 @@
 // College of Charleston
 
 import java.awt.*;
+import java.io.IOException;
+
 import javax.swing.*;
 
 //------------------------------------------------------------------------------------------------------
 // J PANEL CLASS FOR DRAWING GAMEBOARD - GRID, BLACK BACKGROUND, AND INSTRUCTIONS
 //-----------------------------------------------------------------------------------------------------
-public class GameBoard extends JPanel  
+public class GameBoard extends JPanel
 {
     private final int WINDOW_WIDTH = 900, WINDOW_HEIGHT = 900;
     protected final static int COLUMNS = 24; 
@@ -31,12 +33,14 @@ public class GameBoard extends JPanel
 
     protected BlockTypes fallingShape = BlockTypes.L;
     private StackArray<Integer> stackTower = new StackArray<Integer>(40); //for holding integers corresponding to block type
-
+    private WinLoseScreen endScreen = new WinLoseScreen();
+    private JFrame frame;
     //-----------------------------------------------------------------------------------------
     // constructor for making new game
     //------------------------------------------------------------------------------------------
-    public void newGame() 
+    public void newGame(JFrame frame) 
     {
+        this.frame = frame;
         // Clear the map
         for (int row = 0; row < ROWS; row++) 
         {
@@ -253,6 +257,15 @@ public class GameBoard extends JPanel
             {
                 newShape();
                 repaint(); // fixing repaint
+            }
+            else
+            {
+                try {
+                    endScreen.showLoseScreen(frame);
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
             }
         }
         else
