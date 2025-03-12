@@ -7,14 +7,15 @@
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 
 import javax.swing.*;
 
 // -------------- THIS CLASS DOES NOT WORK AT ALL --------------------------
 public class Key_binding 
 {
-    private Key_binding.LeftAction leftAction;
-    private Key_binding.RightAction rightAction;
+    private Action leftAction;
+    private Action rightAction;
     private JFrame frame;
     private WinLoseScreen endScreen;
     private GameBoard gameScreen;
@@ -27,29 +28,46 @@ public class Key_binding
         gameScreen = new GameBoard();
         endScreen = new WinLoseScreen();
 
-        // frame set up
         frame.setTitle("Start Screen");
         frame.setSize(FRAME_SIZE, FRAME_SIZE); //--------> manually set size, easier for placing boxes on x/y coordinates
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+        //-------------------------------------
+        //   SET UP ARROW KEYS
+        //-------------------------------------
+        leftAction = new AbstractAction("Left")
+        {
+            public void actionPerformed(ActionEvent e)
+            {
+                System.out.println("left key pressed");
+                gameScreen.moveBlockLeft();
+                gameScreen.repaint();
+            }
+        };
+        rightAction = new AbstractAction("Right")
+        {
+            public void actionPerformed(ActionEvent e)
+            {
+                System.out.println("right key pressed");
+                gameScreen.moveBlockRight();
+                gameScreen.repaint();
+            }
+        };
+
+        gameScreen.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0), "left");
+        gameScreen.getActionMap().put("left", leftAction);
+
+        gameScreen.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0), "right");
+        gameScreen.getActionMap().put("right", rightAction);
+
+        //-----------------------------------------
+        // add panel to frame
+        //-------------------------------------------
         frame.add(gameScreen);
         gameScreen.newGame();
         // frame.pack();            //---------> set frame as predetermined size by system
         frame.setVisible(true);
         //-------------------------------------------------------------------------------------------------
-
-
-        //-------------------------------------
-        //   SET UP ARROW KEYS
-        //-------------------------------------
-        leftAction = new LeftAction();
-        rightAction = new RightAction();
-
-        gameScreen.getInputMap().put(KeyStroke.getKeyStroke("LEFT"), leftAction);
-        gameScreen.getActionMap().put("leftAction", leftAction);
-
-        gameScreen.getInputMap().put(KeyStroke.getKeyStroke("RIGHT"), rightAction);
-        gameScreen.getActionMap().put("rightAction", rightAction);
 
         // ----------------------- TIMER SET UP ----------------------------------------------------------
         //-----------------------------------------------------------------------------------------------
@@ -68,25 +86,5 @@ public class Key_binding
 
         //start the timer after it's been created
         timer.start();
-    }
-
-    private class LeftAction extends AbstractAction
-    {
-        public void actionPerformed(ActionEvent e)
-        {
-            System.out.println("left key pressed");
-            gameScreen.moveBlockLeft();
-            gameScreen.repaint();
-        }
-    }
-
-    private class RightAction extends AbstractAction
-    {
-        public void actionPerformed(ActionEvent e)
-        {
-            System.out.println("right key pressed");
-            gameScreen.moveBlockRight();
-            gameScreen.repaint();
-        }
     }
 }
