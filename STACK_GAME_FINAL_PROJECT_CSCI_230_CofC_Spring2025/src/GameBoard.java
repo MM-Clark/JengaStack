@@ -18,7 +18,7 @@ public class GameBoard extends JPanel
     public final static int CELL_SIZE = 32;
 
     // for falling block, initialized to start position on grid
-    private int position_x = 10;
+    private int position_x = (COLUMNS/2)-2;
     private int position_Y = 3;
     private int tallestPartOfTower = 19;
     private boolean gameOver = false;
@@ -60,7 +60,7 @@ public class GameBoard extends JPanel
     public void newShape()
     {
         // Get shapes to stack >> NEEDS EDITING SEVERELY
-        position_x = COLUMNS/2;
+        position_x = (COLUMNS/2)-2;
         position_Y = 3;
         int shapeType = -1;
         if(!stackTower.isEmpty())
