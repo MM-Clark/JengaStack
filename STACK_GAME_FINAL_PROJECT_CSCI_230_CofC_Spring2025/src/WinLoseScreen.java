@@ -14,6 +14,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
+// end screen for Tetris 
 public class WinLoseScreen {
     //************* must add images to outside src folder + use absolute path b/c github ****************/
     private String[] loseImagePaths = {

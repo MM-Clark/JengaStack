@@ -2,7 +2,9 @@
 // CSCI 230 Spring 2025
 // College of Charleston 
 
-// holds tetris blocks that user will be given next
+// holds tetris blocks that user will be given next in GameBoard class
+// implemented as int array in the class for now, uses integer to determine shape 
+// from BlockTypes and to then determine coordinates to fill for shape type
 public class StackArray <T>
 {
     private Object[] stackArr;

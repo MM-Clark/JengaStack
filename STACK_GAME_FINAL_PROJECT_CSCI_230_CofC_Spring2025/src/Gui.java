@@ -22,6 +22,6 @@ public class Gui
     //--------------------------------------------------------------------------------------------
     public Gui() 
     {
-        Key_binding controlKeys = new Key_binding(frame, gameScreen);
+        Key_binding controlKeys = new Key_binding(frame, gameScreen); // see Key_Binding Class
     }
 }

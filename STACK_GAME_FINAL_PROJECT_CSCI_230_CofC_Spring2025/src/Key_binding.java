@@ -35,9 +35,9 @@ public class Key_binding
         frame.setSize(FRAME_SIZE, FRAME_SIZE); //--------> manually set size, easier for placing boxes on x/y coordinates
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        //-------------------------------------
-        //   SET UP ARROW KEYS
-        //-------------------------------------
+        //-----------------------------------------------------------------------------------------
+        //   SET UP ARROW KEYS (CAN CHANGE TO MOUSE AT SOME POINT, MOUSE LISTENER DID NOT LIKE ME)
+        //-------------------------------------------------------------------------------------------
         leftAction = new AbstractAction("Left")
         {
             public void actionPerformed(ActionEvent e)
@@ -73,7 +73,7 @@ public class Key_binding
         frame.setVisible(true);
         //-------------------------------------------------------------------------------------------------
 
-        // ----------------------- TIMER SET UP ----------------------------------------------------------
+        // ----------------------- TIMER SET UP TO RUN TETRIS  ----------------------------------------------------------
         //-----------------------------------------------------------------------------------------------
         //make a new Timer
         Timer timer = new Timer(275, new ActionListener() 
@@ -85,9 +85,9 @@ public class Key_binding
                 gameScreen.updateBlockPos();
                 if(gameOver)
                 {
-                    Timer timer = (Timer)e.getSource();
-                    System.out.println("END");
-                    // showLoseScreen();
+                    Timer timer = (Timer)e.getSource(); //*************** */
+                    System.out.println("END"); // THIS DOESN'T WORK YET
+                    // showLoseScreen();        //*********************** */
                     timer.stop();
                 }
                 //repaint the screen
