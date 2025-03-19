@@ -44,9 +44,10 @@ public class GameBoard extends JPanel
     private final Color COLOR_OCCUPIED = new Color(254, 32, 32); // RED - for falling blocks
     private final Color COLOR_BORDER_TEMP = new Color(144,21,0); // DARK RED - border for falling blocks
 
-    // CYANS FOR TOWER BLOCKS AT BOTTOM (contrasts with red -- but can definitely change)
-    private final Color COLOR_PERMANENTLY_OCCUPIED = new Color(0, 232, 255); // CYAN - for blocks that have fallen to the bottom
-    private final Color COLOR_BORDER_PERMANENT = new Color(0, 152, 225); //DARK CYAN - for permanently occupying block borders
+    // BEIGES FOR TOWER BLOCKS AT BOTTOM (makes it creepier...? -- but probably needs to be more subtle)
+    // (right now this beige has too much red/green probably because it looks alive instead of dead)
+    private final Color COLOR_PERMANENTLY_OCCUPIED = new Color(168, 147, 126); // DARK BEIGE - for blocks that have fallen to the bottom
+    private final Color COLOR_BORDER_PERMANENT = new Color(148, 127, 106); //DARKER BEIGE - for permanently occupying block borders
     
     // BOARD COLORS -- not for falling/fallen blocks
     // off white -- can change (note pure white is harsh on eyes)
