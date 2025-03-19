@@ -19,6 +19,8 @@ public class Key_binding
 
     private JFrame frame;
     private GameBoard gameScreen;
+    private WinLoseScreen endScreen; // end screen 
+
     // private WinLoseScreen endScreen;
     private final int FRAME_SIZE = 900;
 
@@ -29,6 +31,7 @@ public class Key_binding
         //---------------- FRAME SET UP ------------------------------------------------------------
         frame = frameIn;
         gameScreen = gameScreenIn;
+        endScreen = new WinLoseScreen(); 
         // endScreen = endScreenIn;
 
         frame.setTitle("Start Screen");
@@ -68,7 +71,7 @@ public class Key_binding
         // add panel to frame
         //-------------------------------------------
         frame.add(gameScreen);
-        gameScreen.newGame(frame);
+        gameScreen.newGame();
         // frame.pack();            //---------> set frame as predetermined size by system
         frame.setVisible(true);
         //-------------------------------------------------------------------------------------------------
@@ -85,12 +88,16 @@ public class Key_binding
                 gameOver = gameScreen.updateBlockPos();
                 if(gameOver)
                 {
+                    // show lose screen
+                    try {
+                        endScreen.showLoseScreen(frame); 
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
                     Timer timer = (Timer)e.getSource(); //*************** */
-                    // System.out.println("END"); // this is now functional yayyyy
-                    // showLoseScreen();        //*********************** */
                     timer.stop();
                 }
-                //repaint the screen
+                //repaint the screen if not gameover
                 gameScreen.repaint();
             }
         });

@@ -71,16 +71,11 @@ public class GameBoard extends JPanel
     protected BlockTypes fallingShape = BlockTypes.L; // representation of falling block, determines shape type
                                                     // and how will be drawn on screen
     private StackArray<Integer> stackTower = new StackArray<Integer>(STACK_MAX_LOAD); //for holding integers corresponding to block type
-    private WinLoseScreen endScreen = new WinLoseScreen(); // end screen 
-    private JFrame frame; // initialized as same frame from Gui and Key_binding class 
     //-----------------------------------------------------------------------------------------
     // constructor for making new game
     //------------------------------------------------------------------------------------------
-    public void newGame(JFrame frame) 
+    public void newGame() 
     {
-        // set frame
-        this.frame = frame;
-
         // Clear the map, 0=empty, 1=falling block part, 2=tower part
         for (int row = 0; row < ROWS; row++) 
         {
@@ -314,18 +309,6 @@ public class GameBoard extends JPanel
             {
                 newShape(); // get another shape
                 repaint(); // repaint the screen to show updates
-            }
-            else // game is over, show lose screen
-            {
-                // *****************************************
-                // THIS DOESN'T WORK YET
-                // *****************************************
-                try {
-                    endScreen.showLoseScreen(frame); 
-                } catch (IOException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
             }
         }
         else
