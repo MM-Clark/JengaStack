@@ -309,7 +309,7 @@ public class GameBoard extends JPanel
         if(atBottom() || isTouchingAnotherBlockBelow()) // if block is at bottom of screen or in stack, 
         {                                               // get new block or end the game
             paintShape(2); // makes block indicated as red in integer grid
-            gameOver = checkGameOver(); // check if tower too tall/in grey danger zone
+            gameOver = checkTowerTooTall(); // check if tower too tall/in grey danger zone
             if(!gameOver) // game is not over, keep getting new blocks and doing Tetris
             {
                 newShape(); // get another shape
@@ -330,7 +330,7 @@ public class GameBoard extends JPanel
         }
         else
             position_Y++; // make the block move one grid space down
-        return gameOver; 
+        return gameOver;  // return whether game is over to key_binding class to stop timer
     }
 
     // tell if block is at bottom
@@ -568,7 +568,7 @@ public class GameBoard extends JPanel
     //-------------------------------------------------------------------------------
     //       Check if game over / blocks have spilled into grey danger zone
     //--------------------------------------------------------------------------------
-    public boolean checkGameOver()
+    public boolean checkTowerTooTall()
     {
         //**************************************************** */
         //******             THIS NEEDS WORK ***************** */

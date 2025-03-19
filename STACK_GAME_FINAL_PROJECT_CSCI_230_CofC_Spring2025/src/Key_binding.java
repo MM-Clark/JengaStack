@@ -82,11 +82,11 @@ public class Key_binding
             public void actionPerformed(ActionEvent e) 
             {
 
-                gameScreen.updateBlockPos();
+                gameOver = gameScreen.updateBlockPos();
                 if(gameOver)
                 {
                     Timer timer = (Timer)e.getSource(); //*************** */
-                    System.out.println("END"); // THIS DOESN'T WORK YET
+                    // System.out.println("END"); // this is now functional yayyyy
                     // showLoseScreen();        //*********************** */
                     timer.stop();
                 }
