@@ -112,6 +112,8 @@ public class GameBoard extends JPanel
         // allow for easy computing for programmer to check functionality 
         if(!stackTower.isEmpty())
             shapeType = stackTower.pop() % 10;
+        else
+            return; // **************** must fix this
 
         switch(shapeType)
         {
@@ -245,7 +247,7 @@ public class GameBoard extends JPanel
     //---------------------------------------------------------------------------------
     public void paintShape(int color)
     {
-        //to clear shape from grid first
+        //to paint shape a certain color (0, 1, or 2) on grid
         switch(fallingShape)
         {
             case BlockTypes.Z:
@@ -266,27 +268,23 @@ public class GameBoard extends JPanel
                 map[position_Y][position_x+1] = color;
                 map[position_Y][position_x] = color;
                 break;
-            // works
             case BlockTypes.S:
-            map[position_Y-2][position_x] = color;
-            map[position_Y-1][position_x] = color;
-            map[position_Y-1][position_x+1] = color;
-            map[position_Y][position_x+1] = color;
+                map[position_Y-2][position_x] = color;
+                map[position_Y-1][position_x] = color;
+                map[position_Y-1][position_x+1] = color;
+                map[position_Y][position_x+1] = color;
                 break;
-            // works
             case BlockTypes.I:
                 map[position_Y-2][position_x] = color;
                 map[position_Y-1][position_x] = color;
                 map[position_Y][position_x] = color;
                 break;
-            // works
             case BlockTypes.J:
                 map[position_Y-2][position_x+1] = color;
                 map[position_Y-1][position_x+1] = color;
                 map[position_Y][position_x+1] = color;
                 map[position_Y][position_x] = color;
                 break;
-            // works
             case BlockTypes.T:
                 map[position_Y-1][position_x+1] = color;
                 map[position_Y][position_x] = color;
@@ -359,11 +357,19 @@ public class GameBoard extends JPanel
                 if((map[position_Y-1][position_x+1] == 2) || (map[position_Y][position_x+1] == 2) ||
                     (map[position_Y][position_x] == 2) || (map[position_Y+1][position_x] == 2))
                     return true;
+                // on same block
+                if((map[position_Y-2][position_x+1] == 2) || (map[position_Y-1][position_x+1] == 2) ||
+                    (map[position_Y-1][position_x] == 2) || (map[position_Y][position_x] == 2))
+                    return true;
                 break;
             case BlockTypes.L:
                 // there is a block below 
                 if((map[position_Y-1][position_x] == 2) || (map[position_Y][position_x] == 2) ||
                     (map[position_Y+1][position_x] == 2) || (map[position_Y+1][position_x+1] == 2))
+                    return true;
+                // on another block
+                if((map[position_Y-2][position_x] == 2) || (map[position_Y-1][position_x] == 2) ||
+                    (map[position_Y][position_x] == 2) || (map[position_Y][position_x+1] == 2))
                     return true;
                 break;
             case BlockTypes.O:
@@ -371,11 +377,19 @@ public class GameBoard extends JPanel
                 if((map[position_Y][position_x+1] == 2) || (map[position_Y][position_x] ==2 ) ||
                     (map[position_Y+1][position_x+1] == 2) || (map[position_Y+1][position_x] == 2))
                     return true;
+                // on block
+                if((map[position_Y-1][position_x+1] == 2) || (map[position_Y-1][position_x] ==2 ) ||
+                    (map[position_Y][position_x+1] == 2) || (map[position_Y][position_x] == 2))
+                    return true;
                 break;
             case BlockTypes.S:
                 // block below
                 if((map[position_Y-1][position_x] == 2) || (map[position_Y][position_x] == 2) ||
                     (map[position_Y][position_x+1] == 2) || (map[position_Y+1][position_x+1] == 2))
+                    return true;
+                // on block
+                if((map[position_Y-2][position_x] == 2) || (map[position_Y-1][position_x] == 2) ||
+                    (map[position_Y-1][position_x+1] == 2) || (map[position_Y][position_x+1] == 2))
                     return true;
                 break;
             case BlockTypes.I:
@@ -383,17 +397,29 @@ public class GameBoard extends JPanel
                 if((map[position_Y-1][position_x] == 2) || 
                     (map[position_Y][position_x] == 2) || (map[position_Y+1][position_x] == 2))
                     return true;
+                // on block
+                if((map[position_Y-2][position_x] == 2) || 
+                    (map[position_Y-1][position_x] == 2) || (map[position_Y][position_x] == 2))
+                    return true;
                 break;
             case BlockTypes.J:
                 // block below
                 if((map[position_Y-1][position_x+1] == 2) || (map[position_Y][position_x+1] == 2) ||
                     (map[position_Y+1][position_x+1] == 2) || (map[position_Y+1][position_x] == 2))
                     return true;
+                // on block
+                if((map[position_Y-2][position_x+1] == 2) || (map[position_Y-1][position_x+1] == 2) ||
+                    (map[position_Y][position_x+1] == 2) || (map[position_Y][position_x] == 2))
+                    return true;
                 break;
             case BlockTypes.T:
                 // block below
                 if((map[position_Y][position_x+1] == 2) ||(map[position_Y+1][position_x] == 2) ||
                     (map[position_Y+1][position_x+1] == 2) || (map[position_Y+1][position_x+2] == 2))
+                    return true; 
+                // on block
+                if((map[position_Y-1][position_x+1] == 2) ||(map[position_Y][position_x] == 2) ||
+                    (map[position_Y][position_x+1] == 2) || (map[position_Y][position_x+2] == 2))
                     return true; 
                 break;
             default:
