@@ -15,8 +15,6 @@ public class Gui
     private JFrame frame = new JFrame();
     private GameBoard gameScreen = new GameBoard();
 
-    private boolean keyPressed = false;
-
     //--------------------------------------------------------------------------------------------
     // creates GUI initially, sets up JFrame
     //--------------------------------------------------------------------------------------------

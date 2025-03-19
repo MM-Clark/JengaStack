@@ -61,7 +61,7 @@ public class GameBoard extends JPanel
     private final Color COLOR_TEXT = new Color(255, 239, 0); // CANARY YELLOW - text/directions
 
     //---------------------------------------------------------------------------------------
-    //  BOARD            0=empty spot       1=falling block in this spot        2=tower here
+    //  BOARD SETUP          0=empty spot       1=falling block in this spot        2=tower here
     //----------------------------------------------------------------------------------------
     int map[][] = new int[ROWS][COLUMNS]; // grid for blocks to move and stack on
 
@@ -70,7 +70,9 @@ public class GameBoard extends JPanel
     //----------------------------------------------
     protected BlockTypes fallingShape = BlockTypes.L; // representation of falling block, determines shape type
                                                     // and how will be drawn on screen
-    private StackArray<Integer> stackTower = new StackArray<Integer>(STACK_MAX_LOAD); //for holding integers corresponding to block type
+    private StackArray<Integer> stackTower; //for holding integers corresponding to block type
+    
+    
     //-----------------------------------------------------------------------------------------
     // constructor for making new game
     //------------------------------------------------------------------------------------------
@@ -82,6 +84,8 @@ public class GameBoard extends JPanel
             for (int col = 0; col < COLUMNS; col++) 
                 map[row][col] = 0;  // empty
         }
+        //declare stack size
+        stackTower = new StackArray<Integer>(STACK_MAX_LOAD);
         // push in integers to stack, will use switch statement in newShape() method to determine 
         // shape type from these integers
         for(int i=0; i < STACK_MAX_LOAD; i++) 
@@ -96,9 +100,9 @@ public class GameBoard extends JPanel
     public void newShape()
     {
         // reset falling positions so does not fall starting at bottom of screen
-        position_x = (COLUMNS/2)-2;
-        position_Y = 3;
-        int shapeType = -1;
+        position_x = (COLUMNS/2)-2; // ************ this could be edited because is slightly left from center
+        position_Y = 2; // currently done to avoid glitching
+        int shapeType = -1; // purposely invalid shape type
 
         // stack should not be empty at any point during game b/c is size 40 
         // and shapes are greater than size 1, also grid is only 22x20 playeable area
@@ -108,7 +112,7 @@ public class GameBoard extends JPanel
         if(!stackTower.isEmpty())
             shapeType = stackTower.pop() % 10;
         else
-            return; // **************** must fix this
+            return; // **************** this could be an error message
 
         switch(shapeType)
         {
@@ -553,9 +557,10 @@ public class GameBoard extends JPanel
     //--------------------------------------------------------------------------------
     public boolean checkTowerTooTall()
     {
-        //**************************************************** */
-        //******             THIS NEEDS WORK ***************** */
-        //**************************************************** */
-        return position_Y - 2 <= 2; // aka max top coordinate-y has entered danger zone
+        // T shape is only 2 blocks tall (y, y-1 are filled)
+        if(fallingShape == BlockTypes.T)
+            return position_Y - 1 <= 2;
+        // all other shapes are 3 blocks tall (y, y-1, y-2 are filled)
+        return position_Y - 2 <= 2; // max top coordinate-y has entered danger zone
     }
 }
