@@ -21,6 +21,12 @@ public class GameBoard extends JPanel
                                             // when doing any other way >> **22 FUNCTIONAL COLUMNS**
     protected final int ROWS = 20; // number of rows in grid
     public final static int CELL_SIZE = 32; // how big each grid cell is 
+    
+    // smallest block is size 3, board is 440 square blocks area (22x20 playable space)
+    // 440/3 is 147 rounded up, but only 1/7 blocks is size 3, all others are size 4
+    // so 440/4 = 110 and the average between 147 and 110 is 129 --> should account with padding for 
+    // if player somehow succeeds and fills most of board
+    private final int STACK_MAX_LOAD = 129; // amount of blocks in stack
 
     //-------------------------------------------------
     // PRIMITIVE TYPES 
@@ -30,23 +36,29 @@ public class GameBoard extends JPanel
     private int position_Y = 3; // initial y position of block when falling
     private int tallestPartOfTower = 19; // for determining if block is at bottom row + needs to stop falling
     private boolean gameOver = false; // for determining when the game is over for displaying win lose screen
-
+        
     //------------------------------------------------
     //  COLORS
     //------------------------------------------------
-    // REDS FOR FALLING BLOCKS
-    private static final Color COLOR_OCCUPIED = new Color(254, 32, 32); // RED - for falling blocks
-    private static final Color COLOR_BORDER_TEMP = new Color(144,21,0); // DARK RED - border for falling blocks
+    // REDS FOR FALLING BLOCKS (can change)
+    private final Color COLOR_OCCUPIED = new Color(254, 32, 32); // RED - for falling blocks
+    private final Color COLOR_BORDER_TEMP = new Color(144,21,0); // DARK RED - border for falling blocks
 
     // CYANS FOR TOWER BLOCKS AT BOTTOM (contrasts with red -- but can definitely change)
-    private static final Color COLOR_PERMANENTLY_OCCUPIED = new Color(0, 232, 255); // CYAN - for blocks that have fallen to the bottom
-    private static final Color COLOR_BORDER_PERMANENT = new Color(0, 152, 225); //DARK CYAN - for permanently occupying block borders
+    private final Color COLOR_PERMANENTLY_OCCUPIED = new Color(0, 232, 255); // CYAN - for blocks that have fallen to the bottom
+    private final Color COLOR_BORDER_PERMANENT = new Color(0, 152, 225); //DARK CYAN - for permanently occupying block borders
     
     // BOARD COLORS -- not for falling/fallen blocks
-    private static final Color COLOR_EMPTY = Color.WHITE; // for empty grid
-    private static final Color COLOR_HIDDEN = Color.BLACK; // hidden rows for left/right barriers to avoid exceptions
-    private static final Color COLOR_DANGER_ZONE = Color.LIGHT_GRAY; // for cutoff of when your tower is too high + you lose, we don't have to use this idea
-    
+    // off white -- can change (note pure white is harsh on eyes)
+    private final Color COLOR_EMPTY = new Color(255, 252, 232); // OFF WHITE - for empty grid
+    //*********** CANNOT change hidden row color b/c won't match board (unless change board color too) ***********
+    // off-black to lower eye strain
+    private final Color COLOR_HIDDEN = new Color(16, 16, 0); // hidden rows for left/right barriers to avoid exceptions
+    // almond-ish -- can change color
+    private final Color COLOR_DANGER_ZONE = new Color(228, 207, 186); // for cutoff of when your tower is too high + you lose, we don't have to use this idea
+    // yellow-ish -- definitely can change this color
+    private final Color COLOR_TEXT = new Color(255, 239, 0); // CANARY YELLOW - text/directions
+
     //---------------------------------------------------------------------------------------
     //  BOARD            0=empty spot       1=falling block in this spot        2=tower here
     //----------------------------------------------------------------------------------------
@@ -57,7 +69,7 @@ public class GameBoard extends JPanel
     //----------------------------------------------
     protected BlockTypes fallingShape = BlockTypes.L; // representation of falling block, determines shape type
                                                     // and how will be drawn on screen
-    private StackArray<Integer> stackTower = new StackArray<Integer>(40); //for holding integers corresponding to block type
+    private StackArray<Integer> stackTower = new StackArray<Integer>(STACK_MAX_LOAD); //for holding integers corresponding to block type
     private WinLoseScreen endScreen = new WinLoseScreen(); // end screen 
     private JFrame frame; // initialized as same frame from Gui and Key_binding class 
     //-----------------------------------------------------------------------------------------
@@ -76,7 +88,7 @@ public class GameBoard extends JPanel
         }
         // push in integers to stack, will use switch statement in newShape() method to determine 
         // shape type from these integers
-        for(int i=0; i < 40; i++)
+        for(int i=0; i < STACK_MAX_LOAD; i++) 
         {
             stackTower.push(i);     // this part needs some work for randomization
         }
@@ -159,20 +171,24 @@ public class GameBoard extends JPanel
         }
     }
 
+    // METHOD FOR PAINTING NEW FALLING SHAPE 
     public void newShapeUpdateGrid()
     {
         // ALL SHAPES ARE LEFT-ALIGNED TO GRID
         paintShape(1); // paint block as a falling block on grid
     }
 
+    //------------------------------------------------------------------------------------
+    // PAINT METHOD
+    //-------------------------------------------------------------------------------------
     public void paint(Graphics g)
     {
-        newShapeUpdateGrid(); // get a new shape
+        newShapeUpdateGrid(); // paint falling shape
         //-----------------------------------------------------------------------------------------------------------------------------------
         // SET UP BACKGROUND
         //----------------------------------------------------------------------------------------------------------------------------------------------
         super.paintComponent(g); // paint existing frame components
-        this.setBackground(Color.BLACK); // set background    
+        this.setBackground(COLOR_HIDDEN); // set background    
     
 
 
@@ -180,7 +196,7 @@ public class GameBoard extends JPanel
         // SCORE + INSTRUCTIONS 
         // **** could make text different size + update x/y positions to avoid overlapping text **********
         //-------------------------------------------------------------------------------------------------------------------------------
-        g.setColor(Color.YELLOW); 
+        g.setColor(COLOR_TEXT); 
         g.drawString("Welcome to Jenga Stack!", (WINDOW_WIDTH/2) - 70, (WINDOW_HEIGHT/30)); //weird divided numbers are (x, y) positions
         g.drawString("Move mouse to move block", (WINDOW_WIDTH/2) - 70, ((WINDOW_HEIGHT/30) + 20));
         //--------------------------------------------------------------------------------------------------------------------------------
