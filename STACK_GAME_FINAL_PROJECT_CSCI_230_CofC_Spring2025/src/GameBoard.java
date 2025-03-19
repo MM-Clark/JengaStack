@@ -573,6 +573,6 @@ public class GameBoard extends JPanel
         //**************************************************** */
         //******             THIS NEEDS WORK ***************** */
         //**************************************************** */
-        return position_Y <= 2; // aka y has entered danger zone
+        return position_Y - 2 <= 2; // aka max top coordinate-y has entered danger zone
     }
 }
