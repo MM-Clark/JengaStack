@@ -34,9 +34,16 @@ public class GameBoard extends JPanel
     //------------------------------------------------
     //  COLORS
     //------------------------------------------------
-    private static final Color COLOR_OCCUPIED = Color.RED; // for falling blocks
+    // REDS FOR FALLING BLOCKS
+    private static final Color COLOR_OCCUPIED = new Color(254, 32, 32); // RED - for falling blocks
+    private static final Color COLOR_BORDER_TEMP = new Color(144,21,0); // DARK RED - border for falling blocks
+
+    // CYANS FOR TOWER BLOCKS AT BOTTOM (contrasts with red -- but can definitely change)
+    private static final Color COLOR_PERMANENTLY_OCCUPIED = new Color(0, 232, 255); // CYAN - for blocks that have fallen to the bottom
+    private static final Color COLOR_BORDER_PERMANENT = new Color(0, 152, 225); //DARK CYAN - for permanently occupying block borders
+    
+    // BOARD COLORS -- not for falling/fallen blocks
     private static final Color COLOR_EMPTY = Color.WHITE; // for empty grid
-    private static final Color COLOR_PERMANENTLY_OCCUPIED = Color.BLUE; // for blocks that have fallen to the bottom
     private static final Color COLOR_HIDDEN = Color.BLACK; // hidden rows for left/right barriers to avoid exceptions
     private static final Color COLOR_DANGER_ZONE = Color.LIGHT_GRAY; // for cutoff of when your tower is too high + you lose, we don't have to use this idea
     
@@ -189,6 +196,7 @@ public class GameBoard extends JPanel
         {
             for (int col = 0; col < COLUMNS; col++) 
             {
+                //-------------- FILL CELL COLORS -------------------------------------------
                 if(col == 0 || col == COLUMNS-1) // hidden columns on left/right side are this case
                     g.setColor(COLOR_HIDDEN); // black
                 else if(map[row][col] == 2) // tower 
@@ -200,6 +208,16 @@ public class GameBoard extends JPanel
                 else    
                     g.setColor(COLOR_EMPTY); // white
                 g.fill3DRect(col*CELL_SIZE + xOffset, row*CELL_SIZE + yOffset, CELL_SIZE, CELL_SIZE, true); // fill cell
+                
+                // ----------- BORDER OF CELL COLORS --------------------------------------------------
+                if(map[row][col] == 2 || map[row][col] == 1)
+                {
+                    if(map[row][col]==2)
+                        g.setColor(COLOR_BORDER_PERMANENT);
+                    else
+                        g.setColor(COLOR_BORDER_TEMP);
+                    g.draw3DRect(col*CELL_SIZE + xOffset, row*CELL_SIZE + yOffset, CELL_SIZE, CELL_SIZE, true); // fill cell
+                }
             }
         }
     }
