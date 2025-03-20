@@ -3,7 +3,6 @@
 // College of Charleston
 
 import java.awt.*;
-import java.io.IOException;
 
 import javax.swing.*;
 

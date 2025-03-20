@@ -74,6 +74,7 @@ public class Key_binding
         gameScreen.newGame();
         // frame.pack();            //---------> set frame as predetermined size by system
         frame.setVisible(true);
+        endScreen.playRandomGameSound();
         //-------------------------------------------------------------------------------------------------
 
         // ----------------------- TIMER SET UP TO RUN TETRIS  ----------------------------------------------------------
@@ -86,6 +87,7 @@ public class Key_binding
             {
 
                 gameOver = gameScreen.updateBlockPos();
+
                 if(gameOver)
                 {
                     // show lose screen

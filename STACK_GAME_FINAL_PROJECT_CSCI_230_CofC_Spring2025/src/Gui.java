@@ -2,8 +2,6 @@
 // CSCI 230 Spring 2025
 // College of Charleston 
 
-import java.io.IOException;
-
 import javax.swing.JFrame;
 
 
