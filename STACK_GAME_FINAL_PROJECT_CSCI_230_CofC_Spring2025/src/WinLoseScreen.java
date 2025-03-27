@@ -25,7 +25,7 @@ public class WinLoseScreen {
             "STACK_GAME_FINAL_PROJECT_CSCI_230_CofC_Spring2025/images/ThreeRedFigures.jpg",
             "STACK_GAME_FINAL_PROJECT_CSCI_230_CofC_Spring2025/images/testerImg.jpg" // MUST BE LAST PATH FOR DEMO PURPOSES
     }; //STACK_GAME_FINAL_PROJECT_CSCI_230_CofC_Spring2025\RedEyedFace.jpg
-    private String winImagePath = "STACK_GAME_FINAL_PROJECT_CSCI_230_CofC_Spring2025/images/testerImg.jpg"; 
+    private String winImagePath = "STACK_GAME_FINAL_PROJECT_CSCI_230_CofC_Spring2025/images/BalloonGhostWinScreen.jpg"; 
 
     // tried to do audio built in -- needs wav files
     private String[] audioPaths = {

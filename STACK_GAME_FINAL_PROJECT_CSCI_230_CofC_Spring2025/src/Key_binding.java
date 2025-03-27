@@ -25,6 +25,7 @@ public class Key_binding
     private final int FRAME_SIZE = 900;
 
     private boolean gameOver = false;
+    private boolean gameWon = false;
 
     public Key_binding(JFrame frameIn, GameBoard gameScreenIn)
     {
@@ -86,15 +87,28 @@ public class Key_binding
             public void actionPerformed(ActionEvent e) 
             {
 
-                gameOver = gameScreen.updateBlockPos();
+                gameOver = gameScreen.updateBlockPos(); // make block fall
+                gameWon = gameScreen.checkScoreForWin(); // add to score
 
-                if(gameOver)
+                if(gameOver || gameWon)
                 {
-                    // show lose screen
-                    try {
-                        endScreen.showLoseScreen(frame); 
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
+                    if(gameOver)
+                    {
+                        // show lose screen
+                        try {
+                            endScreen.showLoseScreen(frame); 
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
+                    }
+                    else
+                    {
+                        // show win screen
+                        try {
+                            endScreen.showWinScreen(frame); 
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
                     }
                     Timer timer = (Timer)e.getSource(); //*************** */
                     timer.stop();

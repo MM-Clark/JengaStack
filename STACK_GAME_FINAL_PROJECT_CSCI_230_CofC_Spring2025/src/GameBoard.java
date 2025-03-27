@@ -15,6 +15,7 @@ public class GameBoard extends JPanel
     // FINAL/CONSTANT FIELDS 
     //------------------------------------------------
     private final int WINDOW_WIDTH = 900, WINDOW_HEIGHT = 900; // dimensions of JFrame/game window
+    private final int LEFT_CORNER_X = 30; // for where score is shown
     protected final static int COLUMNS = 24; // number of columns in grid, two are blacked out to 
                                             // serve as left/right barriers because of glitching
                                             // when doing any other way >> **22 FUNCTIONAL COLUMNS**
@@ -35,7 +36,7 @@ public class GameBoard extends JPanel
     private int position_Y = 3; // initial y position of block when falling
     private int tallestPartOfTower = 19; // for determining if block is at bottom row + needs to stop falling
     private boolean gameOver = false; // for determining when the game is over for displaying win lose screen
-        
+    private int score;    
     //------------------------------------------------
     //  COLORS
     //------------------------------------------------
@@ -91,6 +92,7 @@ public class GameBoard extends JPanel
         {
             stackTower.push(i);     // this part needs some work for randomization
         }
+        score = 0; // reset score
     }
 
     // ----------------------------------------------------------------------------------
@@ -200,6 +202,7 @@ public class GameBoard extends JPanel
         g.setColor(COLOR_TEXT); 
         g.drawString("Welcome to Jenga Stack!", (WINDOW_WIDTH/2) - 70, (WINDOW_HEIGHT/30)); //weird divided numbers are (x, y) positions
         g.drawString("Move mouse to move block", (WINDOW_WIDTH/2) - 70, ((WINDOW_HEIGHT/30) + 20));
+        g.drawString("SCORE: " + score, LEFT_CORNER_X, (WINDOW_HEIGHT/30));
         //--------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -311,12 +314,20 @@ public class GameBoard extends JPanel
             if(!gameOver) // game is not over, keep getting new blocks and doing Tetris
             {
                 newShape(); // get another shape
+                score+=200; // update score
                 repaint(); // repaint the screen to show updates
             }
         }
         else
             position_Y++; // make the block move one grid space down
         return gameOver;  // return whether game is over to key_binding class to stop timer
+    }
+
+    public boolean checkScoreForWin()
+    {
+        if(score >= 20000) // 20,000 is 100 blocks on grid
+            return true;
+        return false;
     }
 
     // tell if block is at bottom
