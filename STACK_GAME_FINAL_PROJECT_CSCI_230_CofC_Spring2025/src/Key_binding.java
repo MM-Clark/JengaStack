@@ -16,6 +16,7 @@ public class Key_binding
 {
     private Action leftAction;
     private Action rightAction;
+    private Action spaceAction;
 
     private JFrame frame;
     private GameBoard gameScreen;
@@ -42,7 +43,7 @@ public class Key_binding
         //-----------------------------------------------------------------------------------------
         //   SET UP ARROW KEYS (CAN CHANGE TO MOUSE AT SOME POINT, MOUSE LISTENER DID NOT LIKE ME)
         //-------------------------------------------------------------------------------------------
-        leftAction = new AbstractAction("Left")
+        leftAction = new AbstractAction("left")
         {
             public void actionPerformed(ActionEvent e)
             {
@@ -52,7 +53,7 @@ public class Key_binding
             }
         };
 
-        rightAction = new AbstractAction("Right")
+        rightAction = new AbstractAction("right")
         {
             public void actionPerformed(ActionEvent e)
             {
@@ -62,12 +63,37 @@ public class Key_binding
             }
         };
 
+        //*************************************  */
+        // REPLAY DOES NOT WORK                  */
+        //************************************** */
+        spaceAction = new AbstractAction("space") 
+        {
+            public void actionPerformed(ActionEvent e)
+            {
+                resetFrame();
+                startGame();
+            }
+        };
+
+        // add left-right functionality to gameplay screen
         gameScreen.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0), "left");
         gameScreen.getActionMap().put("left", leftAction);
 
         gameScreen.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0), "right");
         gameScreen.getActionMap().put("right", rightAction);
 
+        // add space to replay to end screen
+        endScreen.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_SPACE, 0), "right");
+        endScreen.getActionMap().put("space", spaceAction);
+
+        //************************************ */
+        // Still need mouse functionality      */
+        //************************************ */
+        startGame();
+    }
+
+    public void startGame()
+    {
         //-----------------------------------------
         // add panel to frame
         //-------------------------------------------
@@ -75,7 +101,7 @@ public class Key_binding
         gameScreen.newGame();
         // frame.pack();            //---------> set frame as predetermined size by system
         frame.setVisible(true);
-        endScreen.playRandomGameSound(); // set up background music
+        endScreen.playBackgroundGameSound(); // set up background music
         //-------------------------------------------------------------------------------------------------
 
         // ----------------------- TIMER SET UP TO RUN TETRIS  ----------------------------------------------------------
@@ -128,5 +154,13 @@ public class Key_binding
 
         //start the timer after it's been created
         timer.start();
+    }
+
+    //-----------------------------
+    // clear out frame
+    //-----------------------------
+    public void resetFrame()
+    {
+        frame.getContentPane().removeAll();
     }
 }

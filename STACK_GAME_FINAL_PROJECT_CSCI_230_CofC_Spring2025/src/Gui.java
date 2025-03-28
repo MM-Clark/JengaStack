@@ -8,16 +8,15 @@ import javax.swing.JFrame;
 // provides user interface functionality of when to add/remove JPanels, etc; also for pushing/popping stack
 public class Gui 
 {
-    // private final int FRAME_SIZE = 900;
-
     private JFrame frame = new JFrame();
     private GameBoard gameScreen = new GameBoard();
-
+    private Key_binding controlKeys;
     //--------------------------------------------------------------------------------------------
     // creates GUI initially, sets up JFrame
     //--------------------------------------------------------------------------------------------
     public Gui() 
     {
-        Key_binding controlKeys = new Key_binding(frame, gameScreen); // see Key_Binding Class
+        controlKeys = new Key_binding(frame, gameScreen); // see Key_Binding Class, controls functionality of keyboard input
+                                    // ******* can still change to mouse if preferred (easier to test with poor dexterity)
     }
 }

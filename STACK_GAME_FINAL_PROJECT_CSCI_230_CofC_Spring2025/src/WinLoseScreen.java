@@ -17,7 +17,7 @@ import javax.swing.*;
 import javax.sound.sampled.*;
 
 // end screen for Tetris, plays audio as well for game
-public class WinLoseScreen {
+public class WinLoseScreen extends JPanel {
     //************* must add images to outside src folder + use absolute path b/c github ****************/
     private String[] loseImagePaths = {
             "STACK_GAME_FINAL_PROJECT_CSCI_230_CofC_Spring2025/images/RedEyedFace.jpg",
@@ -97,7 +97,7 @@ public class WinLoseScreen {
         frame.revalidate();
     }
 
-    public void playRandomGameSound()
+    public void playBackgroundGameSound()
     {
         //-------------------------------------------------------------
         //   Get audio path for background gameplay sound
