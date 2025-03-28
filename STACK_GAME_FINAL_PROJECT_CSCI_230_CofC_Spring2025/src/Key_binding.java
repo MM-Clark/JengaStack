@@ -75,7 +75,7 @@ public class Key_binding
         gameScreen.newGame();
         // frame.pack();            //---------> set frame as predetermined size by system
         frame.setVisible(true);
-        endScreen.playRandomGameSound();
+        endScreen.playRandomGameSound(); // set up background music
         //-------------------------------------------------------------------------------------------------
 
         // ----------------------- TIMER SET UP TO RUN TETRIS  ----------------------------------------------------------
@@ -90,15 +90,23 @@ public class Key_binding
                 gameOver = gameScreen.updateBlockPos(); // make block fall
                 gameWon = gameScreen.checkScoreForWin(); // add to score
 
-                if(gameOver || gameWon)
+                if(gameOver || gameWon) // if user lost or user won
                 {
-                    if(gameOver)
+                    if(gameOver) // user lost
                     {
                         // show lose screen
                         try {
+                            //************************************************* */
+                            //***** DONE IN WAY THAT DOES NOT SUPPORT  ******** */
+                            //*************   REPLAY BACKGROUND MUSIC!   ****** */
+                            //************************************************* */
                             endScreen.showLoseScreen(frame); 
+                            endScreen.createJumpScareSound(); // set up jumpscare sound
+                            endScreen.playJumpScareSound(); // play jumpscare sound
                         } catch (IOException ex) {
                             ex.printStackTrace();
+                        } catch (InterruptedException e1) {
+                            e1.printStackTrace();
                         }
                     }
                     else

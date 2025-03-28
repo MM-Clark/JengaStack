@@ -16,7 +16,7 @@ import javax.swing.*;
 
 import javax.sound.sampled.*;
 
-// end screen for Tetris 
+// end screen for Tetris, plays audio as well for game
 public class WinLoseScreen {
     //************* must add images to outside src folder + use absolute path b/c github ****************/
     private String[] loseImagePaths = {
@@ -34,7 +34,10 @@ public class WinLoseScreen {
         "STACK_GAME_FINAL_PROJECT_CSCI_230_CofC_Spring2025/sounds/QuickFoxLazyDog.wav"
     };
 
-    Clip clip;
+    // audio clips
+    Clip backgroundMusic;
+    Clip jumpScareMusic;
+
     // may add audio if have time here as path --> currently have two mp3 files 
     // QuickFoxLazyDog is "The quick fox jumped over the lazy dog" distorted, reversed, equalized, slowed
     // SallySeashells is "Sammy collects seashells by the seashores on Sundays" distorted, reversed, inverted, equalized, slowed
@@ -107,9 +110,9 @@ public class WinLoseScreen {
         try {
             File soundFile = new File(audioPath);
             AudioInputStream audioIn = AudioSystem.getAudioInputStream(soundFile);
-            clip = AudioSystem.getClip();
-            clip.open(audioIn);
-            clip.start();
+            backgroundMusic = AudioSystem.getClip();
+            backgroundMusic.open(audioIn);
+            backgroundMusic.start();
             // Keep the program running until the sound finishes playing
         } catch (UnsupportedAudioFileException | IOException | LineUnavailableException ex) {
             ex.printStackTrace();
@@ -124,11 +127,31 @@ public class WinLoseScreen {
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                clip.start();
+                backgroundMusic.start();
             }
         });
 
         //start the timer after it's been created
         audioTimer.start();
+    }
+
+    public void createJumpScareSound()
+    {
+        String audioPath = audioPaths[2];
+        try {
+            File soundFile = new File(audioPath);
+            AudioInputStream audioIn = AudioSystem.getAudioInputStream(soundFile);
+            jumpScareMusic = AudioSystem.getClip();
+            jumpScareMusic.open(audioIn);
+            // Keep the program running until the sound finishes playing
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public void playJumpScareSound() throws InterruptedException
+    {
+        backgroundMusic.stop(); // halt background music
+        jumpScareMusic.start(); // start jumpscare sound  
     }
 }
