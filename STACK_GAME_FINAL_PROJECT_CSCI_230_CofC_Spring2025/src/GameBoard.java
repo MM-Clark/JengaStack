@@ -95,7 +95,8 @@ public class GameBoard extends JPanel
         // shape type from these integers
         for(int i=0; i < STACK_MAX_LOAD; i++) 
         {
-            stackTower.push(i%10);     // this part needs some work for randomization --> did this because realized >100 values will not fall into 0-9 range w/o it
+            // prime number modding to increase randomization...? inspired by the hash table....
+            stackTower.push(i%17);     // this part needs some work for randomization --> did this because realized >100 values will not fall into 0-9 range w/o it
         }
         score = 0; // reset score
     }
@@ -116,7 +117,7 @@ public class GameBoard extends JPanel
         // integer is modded by 10 to reduce switch statement cases but 
         // allow for easy computing for programmer to check functionality 
         if(!stackTower.isEmpty())
-            shapeType = stackTower.pop() % 10;
+            shapeType = stackTower.pop()%10;
         else
             return; // **************** this could be an error message
 
