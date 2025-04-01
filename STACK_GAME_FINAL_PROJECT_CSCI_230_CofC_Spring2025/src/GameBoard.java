@@ -60,17 +60,22 @@ public class GameBoard extends JPanel
     // yellow-ish -- definitely can change this color
     private final Color COLOR_TEXT = new Color(255, 239, 0); // CANARY YELLOW - text/directions
 
+    //------------------------------------------------
+    //  SOUND
+    //------------------------------------------------
+    private SoundPlayer soundPlayer = new SoundPlayer();
+
     //---------------------------------------------------------------------------------------
     //  BOARD SETUP          0=empty spot       1=falling block in this spot        2=tower here
     //----------------------------------------------------------------------------------------
-    int map[][] = new int[ROWS][COLUMNS]; // grid for blocks to move and stack on
+    int map[][] = new int[ROWS][COLUMNS];               // grid for blocks to move and stack on
 
     //----------------------------------------------
     // FUNCTIONAL GAME OBJECTS AND ARRAYS
     //----------------------------------------------
-    protected BlockTypes fallingShape = BlockTypes.L; // representation of falling block, determines shape type
-                                                    // and how will be drawn on screen
-    private StackArray<Integer> stackTower; //for holding integers corresponding to block type
+    protected BlockTypes fallingShape = BlockTypes.L;   // representation of falling block, determines shape type
+                                                        // and how will be drawn on screen
+    private StackArray<Integer> stackTower;             //for holding integers corresponding to block type
     
     
     //-----------------------------------------------------------------------------------------
@@ -307,19 +312,22 @@ public class GameBoard extends JPanel
         paintShape(0);
 
         //move the block one grid down
-        if(atBottom() || isTouchingAnotherBlockBelow()) // if block is at bottom of screen or in stack, 
+        if(atBottom() || isTouchingAnotherBlockBelow()) // if block is at bottom of screen or in stack,
         {                                               // get new block or end the game
             paintShape(2); // makes block indicated as red in integer grid
+            soundPlayer.landSFX(); // sound when block has landed
             gameOver = checkTowerTooTall(); // check if tower too tall/in grey danger zone
+
             if(!gameOver) // game is not over, keep getting new blocks and doing Tetris
             {
-                newShape(); // get another shape
-                score+=200; // update score
-                repaint(); // repaint the screen to show updates
+                newShape();            // get another shape
+                score+=200;            // update score
+                repaint();             // repaint the screen to show updates
             }
         }
         else
             position_Y++; // make the block move one grid space down
+            // soundPlayer.fallSFX();  // play fall SFX // NEVERMIND, THIS SOUND IS REALLY ANNOYING. Might get a better one later
         return gameOver;  // return whether game is over to key_binding class to stop timer
     }
 
@@ -435,6 +443,11 @@ public class GameBoard extends JPanel
         {
             paintShape(0); // clear old shape
             position_x--; // move shape one grid space left
+            soundPlayer.moveSFX(); // play move sound
+        }
+        else
+        {
+            soundPlayer.cancelSFX(); // sound when block cannot move
         }
     }
 
@@ -449,6 +462,11 @@ public class GameBoard extends JPanel
         {
             paintShape(0); // clear old shape
             position_x++; // move shape one grid space right
+            soundPlayer.moveSFX(); // play move sound
+        }
+        else
+        {
+            soundPlayer.cancelSFX(); // sound when block cannot move
         }
     }
 
