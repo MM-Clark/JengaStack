@@ -95,7 +95,7 @@ public class GameBoard extends JPanel
         // shape type from these integers
         for(int i=0; i < STACK_MAX_LOAD; i++) 
         {
-            stackTower.push(i);     // this part needs some work for randomization
+            stackTower.push(i%10);     // this part needs some work for randomization --> did this because realized >100 values will not fall into 0-9 range w/o it
         }
         score = 0; // reset score
     }
