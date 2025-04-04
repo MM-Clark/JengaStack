@@ -67,6 +67,36 @@ public class SoundPlayer
         clip.start();
     }
 
+    // the sound is going to loop automatically here
+    private static void playSoundLoop(Clip clip, float volume)
+    {
+        // stop other potential audio clip from playing
+        clip.stop();
+
+        // set volume of clip
+        FloatControl control = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+        float range = control.getMinimum();
+        float result = range * (1 - volume / 100.0f);
+        control.setValue(result);
+        clip.start();
+
+        // rewind audio clip to start from the beginning
+        clip.setFramePosition(0);
+        
+        // play audio clip
+        clip.start();
+
+        // loop for the whole game
+        clip.loop(Clip.LOOP_CONTINUOUSLY);
+    }
+
+    // helper method to stop a sound
+    private static void stopSound(Clip clip)
+    {
+        // stop audio clip from playing
+        clip.stop();
+    }
+
     // call these methods to play sound effects
     public static void moveSFX() {playSound(moveSound);}
     public static void landSFX() {playSound(landSound);}
