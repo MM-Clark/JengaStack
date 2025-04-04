@@ -101,7 +101,10 @@ public class Key_binding
         gameScreen.newGame();
         // frame.pack();            //---------> set frame as predetermined size by system
         frame.setVisible(true);
-        endScreen.playBackgroundGameSound(); // set up background music
+
+        // load sounds and start playing music
+        SoundPlayer.loadSounds();
+        SoundPlayer.playMusic();
         //-------------------------------------------------------------------------------------------------
 
         // ----------------------- TIMER SET UP TO RUN TETRIS  ----------------------------------------------------------
@@ -112,7 +115,6 @@ public class Key_binding
             @Override
             public void actionPerformed(ActionEvent e) 
             {
-
                 gameOver = gameScreen.updateBlockPos(); // make block fall
                 gameWon = gameScreen.checkScoreForWin(); // add to score
 
@@ -126,13 +128,9 @@ public class Key_binding
                             //***** DONE IN WAY THAT DOES NOT SUPPORT  ******** */
                             //*************   REPLAY BACKGROUND MUSIC!   ****** */
                             //************************************************* */
-                            endScreen.showLoseScreen(frame); 
-                            endScreen.createJumpScareSound(); // set up jumpscare sound
-                            endScreen.playJumpScareSound(); // play jumpscare sound
+                            endScreen.showLoseScreen(frame);
                         } catch (IOException ex) {
                             ex.printStackTrace();
-                        } catch (InterruptedException e1) {
-                            e1.printStackTrace();
                         }
                     }
                     else

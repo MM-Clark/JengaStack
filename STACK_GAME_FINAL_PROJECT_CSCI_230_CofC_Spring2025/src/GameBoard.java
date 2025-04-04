@@ -36,7 +36,7 @@ public class GameBoard extends JPanel
     private int position_Y = 3; // initial y position of block when falling
     private int tallestPartOfTower = 19; // for determining if block is at bottom row + needs to stop falling
     private boolean gameOver = false; // for determining when the game is over for displaying win lose screen
-    private int score;    
+    private int score;
     //------------------------------------------------
     //  COLORS
     //------------------------------------------------
@@ -59,11 +59,6 @@ public class GameBoard extends JPanel
     private final Color COLOR_DANGER_ZONE = new Color(228, 207, 186); // for cutoff of when your tower is too high + you lose, we don't have to use this idea
     // yellow-ish -- definitely can change this color
     private final Color COLOR_TEXT = new Color(255, 239, 0); // CANARY YELLOW - text/directions
-
-    //------------------------------------------------
-    //  SOUND
-    //------------------------------------------------
-    private SoundPlayer soundPlayer = new SoundPlayer();
 
     //---------------------------------------------------------------------------------------
     //  BOARD SETUP          0=empty spot       1=falling block in this spot        2=tower here
@@ -93,7 +88,8 @@ public class GameBoard extends JPanel
         stackTower = new StackArray<Integer>(STACK_MAX_LOAD);
         // push in integers to stack, will use switch statement in newShape() method to determine 
         // shape type from these integers
-        for(int i=0; i < STACK_MAX_LOAD; i++) 
+
+        for(int i=0; i < STACK_MAX_LOAD; i++)
         {
             // prime number modding to increase randomization...? inspired by the hash table....
             stackTower.push(i%11);     // this part needs some work for randomization --> did this because realized >100 values will not fall into 0-9 range w/o it
@@ -317,7 +313,7 @@ public class GameBoard extends JPanel
         if(atBottom() || isTouchingAnotherBlockBelow()) // if block is at bottom of screen or in stack,
         {                                               // get new block or end the game
             paintShape(2); // makes block indicated as red in integer grid
-            soundPlayer.landSFX(); // sound when block has landed
+            SoundPlayer.landSFX(); // sound when block has landed
             gameOver = checkTowerTooTall(); // check if tower too tall/in grey danger zone
 
             if(!gameOver) // game is not over, keep getting new blocks and doing Tetris
@@ -329,7 +325,7 @@ public class GameBoard extends JPanel
         }
         else
             position_Y++; // make the block move one grid space down
-            // soundPlayer.fallSFX();  // play fall SFX // NEVERMIND, THIS SOUND IS REALLY ANNOYING. Might get a better one later
+            // SoundPlayer.fallSFX();  // play fall SFX // NEVERMIND, THIS SOUND IS REALLY ANNOYING. Might get a better one later
         return gameOver;  // return whether game is over to key_binding class to stop timer
     }
 
@@ -445,11 +441,11 @@ public class GameBoard extends JPanel
         {
             paintShape(0); // clear old shape
             position_x--; // move shape one grid space left
-            soundPlayer.moveSFX(); // play move sound
+            SoundPlayer.moveSFX(); // play move sound
         }
         else
         {
-            soundPlayer.cancelSFX(); // sound when block cannot move
+            SoundPlayer.cancelSFX(); // sound when block cannot move
         }
     }
 
@@ -464,11 +460,11 @@ public class GameBoard extends JPanel
         {
             paintShape(0); // clear old shape
             position_x++; // move shape one grid space right
-            soundPlayer.moveSFX(); // play move sound
+            SoundPlayer.moveSFX(); // play move sound
         }
         else
         {
-            soundPlayer.cancelSFX(); // sound when block cannot move
+            SoundPlayer.cancelSFX(); // sound when block cannot move
         }
     }
 
