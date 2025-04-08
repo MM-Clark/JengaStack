@@ -19,7 +19,7 @@ public class WinLoseScreen extends JPanel {
             "STACK_GAME_FINAL_PROJECT_CSCI_230_CofC_Spring2025/images/RedEyedFace.jpg",
             "STACK_GAME_FINAL_PROJECT_CSCI_230_CofC_Spring2025/images/StretchFace.jpg",
             "STACK_GAME_FINAL_PROJECT_CSCI_230_CofC_Spring2025/images/ThreeRedFigures.jpg",
-            "STACK_GAME_FINAL_PROJECT_CSCI_230_CofC_Spring2025/images/testerImg.jpg" // MUST BE LAST PATH FOR DEMO PURPOSES
+            // "STACK_GAME_FINAL_PROJECT_CSCI_230_CofC_Spring2025/images/testerImg.jpg" //commented out, got image prepared to use for demo
     }; //STACK_GAME_FINAL_PROJECT_CSCI_230_CofC_Spring2025\RedEyedFace.jpg
     private String winImagePath = "STACK_GAME_FINAL_PROJECT_CSCI_230_CofC_Spring2025/images/BalloonGhostWinScreen.jpg";
 
@@ -56,7 +56,7 @@ public class WinLoseScreen extends JPanel {
 
         // randomization, works w/ two images as tested
         Random random = new Random();
-        int randomIndex = random.nextInt(loseImagePaths.length-1);
+        int randomIndex = random.nextInt(loseImagePaths.length);
         String randomImagePath = loseImagePaths[randomIndex]; // change randomIndex to loseImagePaths.length-1 for demo if need to avoid disturbing imagery
 
         // creating as BufferedImage to resize

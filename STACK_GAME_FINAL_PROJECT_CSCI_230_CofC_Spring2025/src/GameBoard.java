@@ -26,7 +26,7 @@ public class GameBoard extends JPanel
     // 440/3 is 147 rounded up, but only 1/7 blocks is size 3, all others are size 4
     // so 440/4 = 110 and the average between 147 and 110 is 129 --> should account with padding for 
     // if player somehow succeeds and fills most of board
-    private final int STACK_MAX_LOAD = 129; // amount of blocks in stack
+    private final int STACK_MAX_LOAD = 300; // amount of blocks in stack -- could make lower to force user to use what they get
 
     //-------------------------------------------------
     // PRIMITIVE TYPES 
@@ -97,14 +97,17 @@ public class GameBoard extends JPanel
         score = 0; // reset score
     }
 
+    public void makeFallingBlockAtTopOfScreen()
+    {
+        // reset falling positions so does not fall starting at bottom of screen
+        position_x = (COLUMNS/2)-2; // ************ this could be edited because is slightly left from center
+        position_Y = 2; // currently done to avoid glitching
+    }
     // ----------------------------------------------------------------------------------
     //     GET NEW SHAPES BY RESETTING X/Y POSITIONS, GETTING NEW SHAPE BY POPPING STACK
     // ----------------------------------------------------------------------------------
     public void newShape()
     {
-        // reset falling positions so does not fall starting at bottom of screen
-        position_x = (COLUMNS/2)-2; // ************ this could be edited because is slightly left from center
-        position_Y = 2; // currently done to avoid glitching
         int shapeType = -1; // purposely invalid shape type
 
         // stack should not be empty at any point during game b/c is size 40 
@@ -115,8 +118,10 @@ public class GameBoard extends JPanel
         if(!stackTower.isEmpty())
             shapeType = stackTower.pop();
         else
+        {
+            gameOver = true; // user switched too many blocks 
             return; // **************** this could be an error message
-
+        }
         switch(shapeType)
         {
             case 0:
@@ -318,14 +323,15 @@ public class GameBoard extends JPanel
 
             if(!gameOver) // game is not over, keep getting new blocks and doing Tetris
             {
+                makeFallingBlockAtTopOfScreen(); // reset x/y position of falling block 
                 newShape();            // get another shape
-                score+=200;            // update score
+                score += 200;            // update score
                 repaint();             // repaint the screen to show updates
             }
         }
         else
             position_Y++; // make the block move one grid space down
-            // SoundPlayer.fallSFX();  // play fall SFX // NEVERMIND, THIS SOUND IS REALLY ANNOYING. Might get a better one later
+            SoundPlayer.fallSFX();  // play fall SFX // NEVERMIND, THIS SOUND IS REALLY ANNOYING. Might get a better one later
         return gameOver;  // return whether game is over to key_binding class to stop timer
     }
 
@@ -440,9 +446,9 @@ public class GameBoard extends JPanel
         if(!isTouchingLeftScreen() && !isTouchingAnotherBlockLeftRight())
         {
             paintShape(0); // clear old shape
-            position_x--; // move shape one grid space left
-            SoundPlayer.moveSFX(); // play move sound
-        }
+            position_x--; // move shape one grid space left ****************************************************************************
+            SoundPlayer.moveSFX(); // play move sound --> ***may want to check if creates a lag w/barriers b/c thread might stop to play
+        }                                                   // *************************************************************************
         else
         {
             SoundPlayer.cancelSFX(); // sound when block cannot move

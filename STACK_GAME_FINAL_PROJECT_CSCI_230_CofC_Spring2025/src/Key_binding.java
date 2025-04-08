@@ -17,6 +17,7 @@ public class Key_binding
     private Action leftAction;
     private Action rightAction;
     private Action spaceAction;
+    private Action rAction;
 
     private JFrame frame;
     private GameBoard gameScreen;
@@ -75,6 +76,18 @@ public class Key_binding
             }
         };
 
+        //---------------------------------------------------//
+        //         change block type mid-fall                //
+        //---------------------------------------------------//
+        rAction = new AbstractAction("r")
+        {
+            public void actionPerformed(ActionEvent e)
+            {
+                gameScreen.paintShape(0);
+                gameScreen.newShape();
+            }
+        };
+
         // add left-right functionality to gameplay screen
         gameScreen.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0), "left");
         gameScreen.getActionMap().put("left", leftAction);
@@ -82,13 +95,14 @@ public class Key_binding
         gameScreen.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0), "right");
         gameScreen.getActionMap().put("right", rightAction);
 
+        // add get-new-block-type to gameplay screen
+        gameScreen.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_R, 0), "r");
+        gameScreen.getActionMap().put("r", rAction);
+
         // add space to replay to end screen
         endScreen.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_SPACE, 0), "right");
         endScreen.getActionMap().put("space", spaceAction);
 
-        //************************************ */
-        // Still need mouse functionality      */
-        //************************************ */
         startGame();
     }
 

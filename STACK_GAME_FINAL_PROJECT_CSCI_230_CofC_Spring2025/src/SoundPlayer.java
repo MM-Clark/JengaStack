@@ -70,6 +70,10 @@ public class SoundPlayer
     // the sound is going to loop automatically here
     private static void playSoundLoop(Clip clip, float volume)
     {
+        //-----------------------------------------------------------------------------------------------------------------
+        // NOTE: this says clip is null at beginning of program, at lines 78, 107, 121, 106 and Runner class at line 19
+        //-----------------------------------------------------------------------------------------------------------------
+
         // stop other potential audio clip from playing
         clip.stop();
 
