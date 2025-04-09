@@ -55,8 +55,7 @@ public class WinLoseScreen extends JPanel {
         //--------------------------------------------------------
 
         // randomization, works w/ two images as tested
-        Random random = new Random();
-        int randomIndex = random.nextInt(loseImagePaths.length);
+        int randomIndex = Randomizer.getRandomNumber(0, loseImagePaths.length);
         String randomImagePath = loseImagePaths[randomIndex]; // change randomIndex to loseImagePaths.length-1 for demo if need to avoid disturbing imagery
 
         // creating as BufferedImage to resize

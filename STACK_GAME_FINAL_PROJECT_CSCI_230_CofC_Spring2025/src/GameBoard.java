@@ -93,7 +93,7 @@ public class GameBoard extends JPanel
         for(int i=0; i < STACK_MAX_LOAD; i++)
         {
             
-            int randomShapeNum = 
+            int randomShapeNum = Randomizer.getRandomNumber(0, 7);
             // prime number modding to increase randomization...? inspired by the hash table....
             stackTower.push(randomShapeNum);     // this part needs some work for randomization --> did this because realized >100 values will not fall into 0-9 range w/o it
         }   // change to %7 ***************************************************************
@@ -110,10 +110,9 @@ public class GameBoard extends JPanel
     //-------------------------------------------------------------------------------------------------------
     public void createGoalTower()
     {
-        Random random = new Random();
-        int randomBaseSize = random.nextInt(COLUMNS-1);
+        int randomBaseSize = Randomizer.getRandomNumber(0, COLUMNS-1);
         
-        int randomDecreaseColumnsSize = random.nextInt(3);
+        int randomDecreaseColumnsSize = Randomizer.getRandomNumber(0, 3);
 
         int rowNum = ROWS - 1; 
         while(randomBaseSize > 0)
