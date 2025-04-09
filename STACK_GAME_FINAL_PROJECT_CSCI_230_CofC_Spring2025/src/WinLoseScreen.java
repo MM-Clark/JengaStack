@@ -7,7 +7,6 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.Random;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -45,7 +44,7 @@ public class WinLoseScreen extends JPanel {
         frame.revalidate();
 
         //SoundPlayer.winSFX();     // ideally we should play a win SFX
-        SoundPlayer.stopMusic();
+        // SoundPlayer.stopMusic();
     }
     
     public void showLoseScreen(JFrame frame) throws IOException
@@ -77,7 +76,7 @@ public class WinLoseScreen extends JPanel {
         frame.revalidate();
 
         // stop music and play jumpscare sound
-        SoundPlayer.stopMusic();
-        SoundPlayer.jumpscareSFX();
+        // SoundPlayer.stopMusic();
+        // SoundPlayer.jumpscareSFX();
     }
 }
