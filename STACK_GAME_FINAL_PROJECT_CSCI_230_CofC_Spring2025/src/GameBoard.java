@@ -3,6 +3,7 @@
 // College of Charleston
 
 import java.awt.*;
+import java.util.Random;
 
 import javax.swing.*;
 
@@ -92,10 +93,37 @@ public class GameBoard extends JPanel
         for(int i=0; i < STACK_MAX_LOAD; i++)
         {
             // prime number modding to increase randomization...? inspired by the hash table....
-            stackTower.push(i%11);     // this part needs some work for randomization --> did this because realized >100 values will not fall into 0-9 range w/o it
-        }
+            stackTower.push(i%7);     // this part needs some work for randomization --> did this because realized >100 values will not fall into 0-9 range w/o it
+        }   // change to %7 ***************************************************************
         score = 0; // reset score
+        createGoalTower(); // ************************** make goal tower ************************************
     }
+
+    //-------------------------------------------------------------------------------------------------------
+    //-------------------------------------------------------------------------------------------------------
+    // 
+    //                  Function to make a random tower for user to replicate -- switch cases 
+    // 
+    //-------------------------------------------------------------------------------------------------------
+    //-------------------------------------------------------------------------------------------------------
+    public void createGoalTower()
+    {
+        Random random = new Random();
+        int randomBaseSize = random.nextInt(COLUMNS-1);
+        
+        int randomDecreaseColumnsSize = random.nextInt(3);
+
+        int rowNum = ROWS - 1; 
+        while(randomBaseSize > 0)
+        {
+            for(int i=randomBaseSize; i>0; i--)
+                map[rowNum][i] = 4; 
+            
+            randomBaseSize -= randomDecreaseColumnsSize;
+        }
+    }
+    //-----------------------------------------------------------------------------------------------
+    //-----------------------------------------------------------------------------------------------
 
     public void makeFallingBlockAtTopOfScreen()
     {
@@ -122,35 +150,40 @@ public class GameBoard extends JPanel
             gameOver = true; // user switched too many blocks 
             return; // **************** this could be an error message
         }
-        switch(shapeType)
-        {
-            case 0:
-            case 3:
-                getTypeOfShape(0); // Z
-                break;
-            case 2:
-            case 7:
-                getTypeOfShape(1); // L
-                break;
-            case 4:
-            case 10:
-                getTypeOfShape(2); // O
-                break;
-            case 5:
-                getTypeOfShape(3); // S
-                break;
-            case 1:
-                getTypeOfShape(4); // I
-                break;
-            case 8:
-                getTypeOfShape(5); // J
-                break;
-            case 9:
-                getTypeOfShape(6); // T
-                break;
-            default:
 
-        }   
+        //*************************************************** */
+        getTypeOfShape(shapeType);
+        //*************************************************** */
+
+        // switch(shapeType) // switch to mod 7!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        // {
+        //     case 0:
+        //     case 3:
+        //         getTypeOfShape(0); // Z
+        //         break;
+        //     case 2:
+        //         getTypeOfShape(1); // L
+        //         break;
+        //     case 4:
+        //     case 10:
+        //         getTypeOfShape(2); // O
+        //         break;
+        //     case 5:
+        //         getTypeOfShape(3); // S
+        //         break;
+        //     case 1:
+        //     case 7:
+        //         getTypeOfShape(4); // I
+        //         break;
+        //     case 8:
+        //         getTypeOfShape(5); // J
+        //         break;
+        //     case 9:
+        //         getTypeOfShape(6); // T
+        //         break;
+        //     default:
+
+        // }   
     }
 
     public void getTypeOfShape(int currShapeType)
