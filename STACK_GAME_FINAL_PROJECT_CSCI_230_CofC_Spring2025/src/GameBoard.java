@@ -92,8 +92,8 @@ public class GameBoard extends JPanel
 
         for(int i=0; i < STACK_MAX_LOAD; i++)
         {
-            Random random = new Random();
-            int randomShapeNum = random.nextInt(7);
+            
+            int randomShapeNum = 
             // prime number modding to increase randomization...? inspired by the hash table....
             stackTower.push(randomShapeNum);     // this part needs some work for randomization --> did this because realized >100 values will not fall into 0-9 range w/o it
         }   // change to %7 ***************************************************************
