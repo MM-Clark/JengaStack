@@ -276,123 +276,123 @@ public class GameBoard extends JPanel
         switch(fallingShape)
         {
             case BlockTypes.Z:
-                if(originalMap[position_Y-2][position_x+1] == 0 && color==0)
+                if(originalMap[position_Y-2][position_x+1] == 0 || color!=0)
                     map[position_Y-2][position_x+1] = color;
                 else
                     map[position_Y-2][position_x+1] = 4;
-                if(originalMap[position_Y-1][position_x+1] == 0 && color==0)
+                if(originalMap[position_Y-1][position_x+1] == 0 || color!=0)
                     map[position_Y-1][position_x+1] = color;
                 else
                     map[position_Y-1][position_x+1] = 4;
-                if(map[position_Y-1][position_x] == 0 && color==0)
+                if(originalMap[position_Y-1][position_x] == 0 || color!=0)
                     map[position_Y-1][position_x] = color;
                 else
                     map[position_Y-1][position_x] = 4;
-                if(map[position_Y][position_x] == 0 && color==0)
+                if(originalMap[position_Y][position_x] == 0 || color!=0)
                     map[position_Y][position_x] = color;
                 else
                     map[position_Y][position_x] = 4;
                 break;
             case BlockTypes.L:
-                if(map[position_Y-2][position_x] == 0 && color==0)
+                if(originalMap[position_Y-2][position_x] == 0 || color!=0)
                     map[position_Y-2][position_x] = color;
                 else
                     map[position_Y-2][position_x] = 4;
-                if(map[position_Y-1][position_x] == 0 && color==0)
+                if(originalMap[position_Y-1][position_x] == 0 || color!=0)
                     map[position_Y-1][position_x] = color;
                 else
                     map[position_Y-1][position_x] = 4;
-                if(map[position_Y][position_x] == 0 && color==0)
+                if(originalMap[position_Y][position_x] == 0 || color!=0)
                     map[position_Y][position_x] = color;
                 else
                     map[position_Y][position_x] = 4;
-                if(map[position_Y][position_x+1] == 0 && color==0)
+                if(originalMap[position_Y][position_x+1] == 0 || color!=0)
                     map[position_Y][position_x+1] = color;
                 else
                     map[position_Y][position_x+1] = 4;
                 break;
             case BlockTypes.O:
-                if(map[position_Y-1][position_x+1] == 0 && color==0)
+                if(originalMap[position_Y-1][position_x+1] == 0 || color!=0)
                     map[position_Y-1][position_x+1] = color;
                 else
                     map[position_Y-1][position_x+1] = 4;
-                if(map[position_Y-1][position_x] == 0 && color==0)
+                if(originalMap[position_Y-1][position_x] == 0 || color!=0)
                     map[position_Y-1][position_x] = color;
                 else
                     map[position_Y-1][position_x] = 4;
-                if(map[position_Y][position_x+1] == 0 && color==0)
+                if(originalMap[position_Y][position_x+1] == 0 || color!=0)
                     map[position_Y][position_x+1] = color; 
                 else
                     map[position_Y][position_x+1] = 4;
-                if(map[position_Y][position_x] == 0 && color==0)
+                if(originalMap[position_Y][position_x] == 0 || color!=0)
                     map[position_Y][position_x] = color;
                 else
                     map[position_Y][position_x] = 4; 
                 break;
             case BlockTypes.S:
-                if(map[position_Y-2][position_x] == 0 && color==0)
+                if(originalMap[position_Y-2][position_x] == 0 || color!=0)
                     map[position_Y-2][position_x] = color;
                 else
                     map[position_Y-2][position_x] = 4;
-                if(map[position_Y-1][position_x] == 0 && color==0) 
+                if(originalMap[position_Y-1][position_x] == 0 || color!=0) 
                     map[position_Y-1][position_x] = color;
                 else
                     map[position_Y-1][position_x] = 4;
-                if(map[position_Y-1][position_x+1] == 0 && color==0)
+                if(originalMap[position_Y-1][position_x+1] == 0 || color!=0)
                     map[position_Y-1][position_x+1] = color;
                 else
                     map[position_Y-1][position_x+1] = 4;
-                if(map[position_Y][position_x+1] == 0 && color==0)
+                if(originalMap[position_Y][position_x+1] == 0 || color!=0)
                     map[position_Y][position_x+1] = color;
                 else
                     map[position_Y][position_x+1] = 4;
                 break;
             case BlockTypes.I:
-                if(map[position_Y-2][position_x] == 0 && color==0)
+                if(originalMap[position_Y-2][position_x] == 0 || color!=0)
                     map[position_Y-2][position_x] = color;
                 else
                     map[position_Y-2][position_x] = 4;
-                if(map[position_Y-1][position_x] == 0 && color==0)
+                if(originalMap[position_Y-1][position_x] == 0 || color!=0)
                     map[position_Y-1][position_x] = color;
                 else
                     map[position_Y-1][position_x] = 4;
-                if(map[position_Y][position_x] == 0 && color==0)
+                if(originalMap[position_Y][position_x] == 0 || color!=0)
                     map[position_Y][position_x] = color;
                 else
                     map[position_Y][position_x] = 4;
                 break;
             case BlockTypes.J:
-                if(map[position_Y-2][position_x+1] == 0 && color==0)
+                if(originalMap[position_Y-2][position_x+1] == 0 || color!=0)
                     map[position_Y-2][position_x+1] = color;
                 else
                     map[position_Y-2][position_x+1] = 4;
-                if(map[position_Y-1][position_x+1] == 0 && color==0)
+                if(originalMap[position_Y-1][position_x+1] == 0 || color!=0)
                     map[position_Y-1][position_x+1] = color;
                 else
                     map[position_Y-1][position_x+1] = 4;
-                if(map[position_Y][position_x+1] == 0 && color==0)
+                if(originalMap[position_Y][position_x+1] == 0 || color!=0)
                     map[position_Y][position_x+1] = color;
                 else
                     map[position_Y][position_x+1] = 4;
-                if(map[position_Y][position_x] == 0 && color==0)
+                if(originalMap[position_Y][position_x] == 0 || color!=0)
                     map[position_Y][position_x] = color;
                 else
                     map[position_Y][position_x] = 4;
                 break;
             case BlockTypes.T:
-                if(map[position_Y-1][position_x+1] == 0 && color==0)
+                if(originalMap[position_Y-1][position_x+1] == 0 || color!=0)
                     map[position_Y-1][position_x+1] = color;
                 else
                     map[position_Y-1][position_x+1] = 4;
-                if(map[position_Y][position_x] == 0 && color==0)
+                if(originalMap[position_Y][position_x] == 0 || color!=0)
                     map[position_Y][position_x] = color;
                 else
                     map[position_Y][position_x] = 4;
-                if(map[position_Y][position_x+1] == 0 && color==0)
+                if(originalMap[position_Y][position_x+1] == 0 || color!=0)
                     map[position_Y][position_x+1] = color;
                 else
                     map[position_Y][position_x+1] = 4;
-                if(map[position_Y][position_x+2] == 0 && color==0)
+                if(originalMap[position_Y][position_x+2] == 0 || color!=0)
                     map[position_Y][position_x+2] = color; 
                 else
                     map[position_Y][position_x+2] = 4;
