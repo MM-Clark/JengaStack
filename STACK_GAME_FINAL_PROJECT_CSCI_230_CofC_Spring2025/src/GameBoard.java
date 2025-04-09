@@ -36,7 +36,8 @@ public class GameBoard extends JPanel
     private int position_Y = 3; // initial y position of block when falling
     private int tallestPartOfTower = 19; // for determining if block is at bottom row + needs to stop falling
     private boolean gameOver = false; // for determining when the game is over for displaying win lose screen
-    private int score;
+    // private int score; // user's current score
+    private int thresholdScore = -1; // amount of tower blocks that must be covered to win
     //------------------------------------------------
     //  COLORS
     //------------------------------------------------
@@ -59,12 +60,13 @@ public class GameBoard extends JPanel
     private final Color COLOR_DANGER_ZONE = new Color(228, 207, 186); // for cutoff of when your tower is too high + you lose, we don't have to use this idea
     // yellow-ish -- definitely can change this color
     private final Color COLOR_TEXT = new Color(255, 239, 0); // CANARY YELLOW - text/directions
-
+    // grey??? -- goal tower color
+    private final Color COLOR_GOAL_TOWER = new Color(211, 211, 211); // LIGHT GREY 
     //---------------------------------------------------------------------------------------
     //  BOARD SETUP          0=empty spot       1=falling block in this spot        2=tower here
     //----------------------------------------------------------------------------------------
     int map[][] = new int[ROWS][COLUMNS];               // grid for blocks to move and stack on
-
+    int originalMap[][] = new int[ROWS][COLUMNS];
     //----------------------------------------------
     // FUNCTIONAL GAME OBJECTS AND ARRAYS
     //----------------------------------------------
@@ -82,7 +84,10 @@ public class GameBoard extends JPanel
         for (int row = 0; row < ROWS; row++) 
         {
             for (int col = 0; col < COLUMNS; col++) 
+            {
                 map[row][col] = 0;  // empty
+                originalMap[row][col] = 0;
+            }
         }
         //declare stack size
         stackTower = new StackArray<Integer>(STACK_MAX_LOAD);
@@ -95,7 +100,8 @@ public class GameBoard extends JPanel
             // prime number modding to increase randomization...? inspired by the hash table....
             stackTower.push(randomShapeNum);     // this part needs some work for randomization --> did this because realized >100 values will not fall into 0-9 range w/o it
         }   // change to %7 ***************************************************************
-        score = 0; // reset score
+        // score = 0; // reset score
+
         createGoalTower(); // ************************** make goal tower ************************************
     }
 
@@ -109,16 +115,25 @@ public class GameBoard extends JPanel
     public void createGoalTower()
     {
         int randomBaseSize = Randomizer.getRandomNumber(0, COLUMNS-1);
-        int randomDecreaseColumnsSize = Randomizer.getRandomNumber(0, 3);
+        int randomDecreaseColumnsSize = -1;
 
         int rowNum = ROWS - 1; 
-        while(randomBaseSize > 0)
+
+        while(randomBaseSize > 0 && rowNum > 0)
         {
             for(int i=randomBaseSize; i>0; i--)
+            {
                 map[rowNum][i] = 4; 
-            
+                originalMap[rowNum][i] = 4; 
+                // thresholdScore++;
+            }
+            randomDecreaseColumnsSize = Randomizer.getRandomNumber(0, 3);
+            // System.out.println(randomDecreaseColumnsSize);
             randomBaseSize -= randomDecreaseColumnsSize;
+            rowNum--;
         }
+
+        thresholdScore = 0; 
     }
     //-----------------------------------------------------------------------------------------------
     //-----------------------------------------------------------------------------------------------
@@ -149,39 +164,7 @@ public class GameBoard extends JPanel
             return; // **************** this could be an error message
         }
 
-        //*************************************************** */
         getTypeOfShape(shapeType);
-        //*************************************************** */
-
-        // switch(shapeType) // switch to mod 7!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        // {
-        //     case 0:
-        //     case 3:
-        //         getTypeOfShape(0); // Z
-        //         break;
-        //     case 2:
-        //         getTypeOfShape(1); // L
-        //         break;
-        //     case 4:
-        //     case 10:
-        //         getTypeOfShape(2); // O
-        //         break;
-        //     case 5:
-        //         getTypeOfShape(3); // S
-        //         break;
-        //     case 1:
-        //     case 7:
-        //         getTypeOfShape(4); // I
-        //         break;
-        //     case 8:
-        //         getTypeOfShape(5); // J
-        //         break;
-        //     case 9:
-        //         getTypeOfShape(6); // T
-        //         break;
-        //     default:
-
-        // }   
     }
 
     public void getTypeOfShape(int currShapeType)
@@ -241,7 +224,7 @@ public class GameBoard extends JPanel
         g.setColor(COLOR_TEXT); 
         g.drawString("Welcome to Jenga Stack!", (WINDOW_WIDTH/2) - 70, (WINDOW_HEIGHT/30)); //weird divided numbers are (x, y) positions
         g.drawString("Move mouse to move block", (WINDOW_WIDTH/2) - 70, ((WINDOW_HEIGHT/30) + 20));
-        g.drawString("SCORE: " + score, LEFT_CORNER_X, (WINDOW_HEIGHT/30));
+        // g.drawString("SCORE: " + , LEFT_CORNER_X, (WINDOW_HEIGHT/30));
         //--------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -262,6 +245,8 @@ public class GameBoard extends JPanel
                     g.setColor(COLOR_PERMANENTLY_OCCUPIED); // red tower
                 else if(map[row][col] == 1) // falling block
                     g.setColor(COLOR_OCCUPIED); // blue falling blocks
+                else if(map[row][col] == 4)
+                    g.setColor(COLOR_GOAL_TOWER);
                 else if(row<=2) // top  3 rows are grey to represent a zone of tower being too tall, could also black them out
                     g.setColor(COLOR_DANGER_ZONE); // still coming up with ways to avoid glitching for differnet block heights
                 else    
@@ -291,45 +276,126 @@ public class GameBoard extends JPanel
         switch(fallingShape)
         {
             case BlockTypes.Z:
-                map[position_Y-2][position_x+1] = color;
-                map[position_Y-1][position_x+1] = color;
-                map[position_Y-1][position_x] = color;
-                map[position_Y][position_x] = color;
+                if(originalMap[position_Y-2][position_x+1] == 0 && color==0)
+                    map[position_Y-2][position_x+1] = color;
+                else
+                    map[position_Y-2][position_x+1] = 4;
+                if(originalMap[position_Y-1][position_x+1] == 0 && color==0)
+                    map[position_Y-1][position_x+1] = color;
+                else
+                    map[position_Y-1][position_x+1] = 4;
+                if(map[position_Y-1][position_x] == 0 && color==0)
+                    map[position_Y-1][position_x] = color;
+                else
+                    map[position_Y-1][position_x] = 4;
+                if(map[position_Y][position_x] == 0 && color==0)
+                    map[position_Y][position_x] = color;
+                else
+                    map[position_Y][position_x] = 4;
                 break;
             case BlockTypes.L:
-                map[position_Y-2][position_x] = color;
-                map[position_Y-1][position_x] = color;
-                map[position_Y][position_x] = color;
-                map[position_Y][position_x+1] = color;
+                if(map[position_Y-2][position_x] == 0 && color==0)
+                    map[position_Y-2][position_x] = color;
+                else
+                    map[position_Y-2][position_x] = 4;
+                if(map[position_Y-1][position_x] == 0 && color==0)
+                    map[position_Y-1][position_x] = color;
+                else
+                    map[position_Y-1][position_x] = 4;
+                if(map[position_Y][position_x] == 0 && color==0)
+                    map[position_Y][position_x] = color;
+                else
+                    map[position_Y][position_x] = 4;
+                if(map[position_Y][position_x+1] == 0 && color==0)
+                    map[position_Y][position_x+1] = color;
+                else
+                    map[position_Y][position_x+1] = 4;
                 break;
             case BlockTypes.O:
-                map[position_Y-1][position_x+1] = color;
-                map[position_Y-1][position_x] = color;
-                map[position_Y][position_x+1] = color;
-                map[position_Y][position_x] = color;
+                if(map[position_Y-1][position_x+1] == 0 && color==0)
+                    map[position_Y-1][position_x+1] = color;
+                else
+                    map[position_Y-1][position_x+1] = 4;
+                if(map[position_Y-1][position_x] == 0 && color==0)
+                    map[position_Y-1][position_x] = color;
+                else
+                    map[position_Y-1][position_x] = 4;
+                if(map[position_Y][position_x+1] == 0 && color==0)
+                    map[position_Y][position_x+1] = color; 
+                else
+                    map[position_Y][position_x+1] = 4;
+                if(map[position_Y][position_x] == 0 && color==0)
+                    map[position_Y][position_x] = color;
+                else
+                    map[position_Y][position_x] = 4; 
                 break;
             case BlockTypes.S:
-                map[position_Y-2][position_x] = color;
-                map[position_Y-1][position_x] = color;
-                map[position_Y-1][position_x+1] = color;
-                map[position_Y][position_x+1] = color;
+                if(map[position_Y-2][position_x] == 0 && color==0)
+                    map[position_Y-2][position_x] = color;
+                else
+                    map[position_Y-2][position_x] = 4;
+                if(map[position_Y-1][position_x] == 0 && color==0) 
+                    map[position_Y-1][position_x] = color;
+                else
+                    map[position_Y-1][position_x] = 4;
+                if(map[position_Y-1][position_x+1] == 0 && color==0)
+                    map[position_Y-1][position_x+1] = color;
+                else
+                    map[position_Y-1][position_x+1] = 4;
+                if(map[position_Y][position_x+1] == 0 && color==0)
+                    map[position_Y][position_x+1] = color;
+                else
+                    map[position_Y][position_x+1] = 4;
                 break;
             case BlockTypes.I:
-                map[position_Y-2][position_x] = color;
-                map[position_Y-1][position_x] = color;
-                map[position_Y][position_x] = color;
+                if(map[position_Y-2][position_x] == 0 && color==0)
+                    map[position_Y-2][position_x] = color;
+                else
+                    map[position_Y-2][position_x] = 4;
+                if(map[position_Y-1][position_x] == 0 && color==0)
+                    map[position_Y-1][position_x] = color;
+                else
+                    map[position_Y-1][position_x] = 4;
+                if(map[position_Y][position_x] == 0 && color==0)
+                    map[position_Y][position_x] = color;
+                else
+                    map[position_Y][position_x] = 4;
                 break;
             case BlockTypes.J:
-                map[position_Y-2][position_x+1] = color;
-                map[position_Y-1][position_x+1] = color;
-                map[position_Y][position_x+1] = color;
-                map[position_Y][position_x] = color;
+                if(map[position_Y-2][position_x+1] == 0 && color==0)
+                    map[position_Y-2][position_x+1] = color;
+                else
+                    map[position_Y-2][position_x+1] = 4;
+                if(map[position_Y-1][position_x+1] == 0 && color==0)
+                    map[position_Y-1][position_x+1] = color;
+                else
+                    map[position_Y-1][position_x+1] = 4;
+                if(map[position_Y][position_x+1] == 0 && color==0)
+                    map[position_Y][position_x+1] = color;
+                else
+                    map[position_Y][position_x+1] = 4;
+                if(map[position_Y][position_x] == 0 && color==0)
+                    map[position_Y][position_x] = color;
+                else
+                    map[position_Y][position_x] = 4;
                 break;
             case BlockTypes.T:
-                map[position_Y-1][position_x+1] = color;
-                map[position_Y][position_x] = color;
-                map[position_Y][position_x+1] = color;
-                map[position_Y][position_x+2] = color; 
+                if(map[position_Y-1][position_x+1] == 0 && color==0)
+                    map[position_Y-1][position_x+1] = color;
+                else
+                    map[position_Y-1][position_x+1] = 4;
+                if(map[position_Y][position_x] == 0 && color==0)
+                    map[position_Y][position_x] = color;
+                else
+                    map[position_Y][position_x] = 4;
+                if(map[position_Y][position_x+1] == 0 && color==0)
+                    map[position_Y][position_x+1] = color;
+                else
+                    map[position_Y][position_x+1] = 4;
+                if(map[position_Y][position_x+2] == 0 && color==0)
+                    map[position_Y][position_x+2] = color; 
+                else
+                    map[position_Y][position_x+2] = 4;
                 break;
             default:
         }
@@ -356,7 +422,7 @@ public class GameBoard extends JPanel
             {
                 makeFallingBlockAtTopOfScreen(); // reset x/y position of falling block 
                 newShape();            // get another shape
-                score += 200;            // update score
+                // score += 200;            // update score
                 repaint();             // repaint the screen to show updates
             }
         }
@@ -368,9 +434,17 @@ public class GameBoard extends JPanel
 
     public boolean checkScoreForWin()
     {
-        if(score >= 20000) // 20,000 is 100 blocks on grid
-            return true;
-        return false;
+        // if(score >= 20000) // 20,000 is 100 blocks on grid
+        //     return true;
+        int tempScore = 0;
+        for (int row = 0; row < ROWS; row++) 
+        {
+            for (int col = 0; col < COLUMNS; col++) 
+                if(map[row][col] == 4)
+                    tempScore++;
+        }
+
+        return tempScore <= thresholdScore;
     }
 
     // tell if block is at bottom
