@@ -27,7 +27,7 @@ public class GameBoard extends JPanel
     // so 440/4 = 110 and the average between 147 and 110 is 129 --> should account with padding for 
     // if player somehow succeeds and fills most of board
     private final int STACK_MAX_LOAD = 300; // amount of blocks in stack -- could make lower to force user to use what they get
-
+    private final int BARRIER_ROw = 1; // top of tower barrier
     //-------------------------------------------------
     // PRIMITIVE TYPES 
     //--------------------------------------------------
@@ -114,7 +114,7 @@ public class GameBoard extends JPanel
     //-------------------------------------------------------------------------------------------------------
     public void createGoalTower()
     {
-        int randomBaseSize = Randomizer.getRandomNumber(0, COLUMNS-1);
+        int randomBaseSize = Randomizer.getRandomNumber(COLUMNS/3, COLUMNS-1);
         int randomDecreaseColumnsSize = -1;
 
         int rowNum = ROWS - 1; 
@@ -247,7 +247,7 @@ public class GameBoard extends JPanel
                     g.setColor(COLOR_OCCUPIED); // blue falling blocks
                 else if(map[row][col] == 4)
                     g.setColor(COLOR_GOAL_TOWER);
-                else if(row<=2) // top  3 rows are grey to represent a zone of tower being too tall, could also black them out
+                else if(row <= BARRIER_ROw) // top 2 rows are grey to represent a zone of tower being too tall, could also black them out
                     g.setColor(COLOR_DANGER_ZONE); // still coming up with ways to avoid glitching for differnet block heights
                 else    
                     g.setColor(COLOR_EMPTY); // white
@@ -720,8 +720,8 @@ public class GameBoard extends JPanel
     {
         // T shape is only 2 blocks tall (y, y-1 are filled)
         if(fallingShape == BlockTypes.T)
-            return position_Y - 1 <= 2;
+            return position_Y - 1 <= BARRIER_ROw; // top two blocks
         // all other shapes are 3 blocks tall (y, y-1, y-2 are filled)
-        return position_Y - 2 <= 2; // max top coordinate-y has entered danger zone
+        return position_Y - 2 <= 1; // max top coordinate-y has entered danger zone -- top two blocks
     }
 }
