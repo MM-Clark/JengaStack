@@ -119,8 +119,8 @@ public class Key_binding
         frame.setVisible(true);
 
         // load sounds and start playing music
-        // SoundPlayer.loadSounds();
-        // SoundPlayer.playMusic();
+        SoundPlayer.loadSounds();
+        SoundPlayer.playMusic();
         //-------------------------------------------------------------------------------------------------
 
         // ----------------------- TIMER SET UP TO RUN TETRIS  ----------------------------------------------------------

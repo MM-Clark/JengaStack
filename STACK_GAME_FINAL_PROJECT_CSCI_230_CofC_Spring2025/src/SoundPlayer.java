@@ -4,6 +4,7 @@
 
 import javax.sound.sampled.*;
 import java.io.File;
+import java.io.FileNotFoundException;
 
 // CLASS TO PLAY ALL SOUND EFFECTS
 
@@ -13,6 +14,9 @@ import java.io.File;
 
 public class SoundPlayer
 {
+    // alternate path prefix to allow both versions (me and Michelle's) to work without path issues.
+    private static final String ALTERNATE_PATH_PREFIX = "STACK_GAME_FINAL_PROJECT_CSCI_230_CofC_Spring2025/";
+
     // all sound effects
     private static Clip moveSound;       // when moving block
     private static Clip landSound;       // when block lands
@@ -29,18 +33,46 @@ public class SoundPlayer
         return clip;
     }
 
+    // helper method to try loading clips from multiple paths
+    private static Clip loadClipFix(String relativePath) throws Exception
+    {
+        // get all paths to try out
+        String[] possiblePaths = {
+
+            // Julian's path
+            relativePath,
+
+            // Michelle's path (which is her prefix + last word in the path, aka the file name)
+            ALTERNATE_PATH_PREFIX + new File(relativePath).getName()
+
+        };
+
+        // try loading file through all potential paths
+        for (String path : possiblePaths) {
+            File file = new File(path);
+            if (file.exists()) {
+
+                // return file only when it exists
+                return loadClip(path);
+            }
+        }
+
+        // when everything is broken :(
+        throw new FileNotFoundException("Sound file not found!! :(");
+    }
+
     public static void loadSounds()
     {
         // load all game sounds
         try
         {
             // this path format works on my computer. Check that it works on yours.
-            moveSound = loadClip("sounds/Move.wav");       // when moving block before placing it
-            landSound = loadClip("sounds/Land.wav");       // when block lands
-            cancelSound = loadClip("sounds/Cancel.wav");   // when block cannot be moved further
-            fallSound = loadClip("sounds/Fall.wav");       // when block moves down (UNUSED BECAUSE REALLY ANNOYING)
-            jumpscareSound = loadClip("sounds/StaticAudio.wav");  // game over sound *** STATIC AS A PLACEHOLDER
-            backgroundMusic = loadClip("sounds/StaticAudio.wav"); // background music *** STATIC AS A PLACEHOLDER
+            moveSound = loadClipFix("sounds/Move.wav");       // when moving block before placing it
+            landSound = loadClipFix("sounds/Land.wav");       // when block lands
+            cancelSound = loadClipFix("sounds/Cancel.wav");   // when block cannot be moved further
+            fallSound = loadClipFix("sounds/Fall.wav");       // when block moves down (UNUSED BECAUSE REALLY ANNOYING)
+            jumpscareSound = loadClipFix("sounds/StaticAudio.wav");  // game over sound *** STATIC AS A PLACEHOLDER
+            backgroundMusic = loadClipFix("sounds/StaticAudio.wav"); // background music *** STATIC AS A PLACEHOLDER
         }
 
         // print if loading error occurs

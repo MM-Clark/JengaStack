@@ -15,12 +15,23 @@ import javax.swing.*;
 public class WinLoseScreen extends JPanel {
     //************* must add images to outside src folder + use absolute path b/c github ****************/
     private String[] loseImagePaths = {
+            // ABSOLUTE PATHS
             "STACK_GAME_FINAL_PROJECT_CSCI_230_CofC_Spring2025/images/RedEyedFace.jpg",
             "STACK_GAME_FINAL_PROJECT_CSCI_230_CofC_Spring2025/images/StretchFace.jpg",
             "STACK_GAME_FINAL_PROJECT_CSCI_230_CofC_Spring2025/images/ThreeRedFigures.jpg",
+    
             // "STACK_GAME_FINAL_PROJECT_CSCI_230_CofC_Spring2025/images/testerImg.jpg" //commented out, got image prepared to use for demo
-    }; //STACK_GAME_FINAL_PROJECT_CSCI_230_CofC_Spring2025\RedEyedFace.jpg
+    };
+
+    private String[] relativeLoseImagePaths = {
+            // RELATIVE PATHS
+            "images/RedEyedFace.jpg",
+            "images/StretchFace.jpg",
+            "images/ThreeRedFigures.jpg",
+    };
+
     private String winImagePath = "STACK_GAME_FINAL_PROJECT_CSCI_230_CofC_Spring2025/images/BalloonGhostWinScreen.jpg";
+    private String relativeWinImagePath = "images/BalloonGhostWinScreen.jpg";
 
     public void showWinScreen(JFrame frame) throws IOException
     {
@@ -30,6 +41,14 @@ public class WinLoseScreen extends JPanel {
 
         // creating as BufferedImage to resize
         File imageFile = new File(winImagePath);
+
+        // check that image file exists. Try relative path if it doesn't.
+        if (!imageFile.exists())
+        {
+            // trying relative path
+            imageFile = new File(relativeWinImagePath);
+        }
+
         BufferedImage originalImage = ImageIO.read(imageFile);
 
         // resize img to fit frame
@@ -43,7 +62,7 @@ public class WinLoseScreen extends JPanel {
         frame.getContentPane().add(imageLabel, BorderLayout.CENTER);
         frame.revalidate();
 
-        //SoundPlayer.winSFX();     // ideally we should play a win SFX
+        // SoundPlayer.winSFX();     // ideally we should play a win SFX
         // SoundPlayer.stopMusic();
     }
     
@@ -59,6 +78,14 @@ public class WinLoseScreen extends JPanel {
 
         // creating as BufferedImage to resize
         File imageFile = new File(randomImagePath);
+
+        // check that image file exists. Try relative path if it doesn't.
+        if (!imageFile.exists())
+        {
+            // trying relative path
+            imageFile = new File(relativeLoseImagePaths[randomIndex]);
+        }
+
         BufferedImage originalImage = ImageIO.read(imageFile);
 
         // resize img to fit frame
@@ -76,7 +103,7 @@ public class WinLoseScreen extends JPanel {
         frame.revalidate();
 
         // stop music and play jumpscare sound
-        // SoundPlayer.stopMusic();
-        // SoundPlayer.jumpscareSFX();
+        SoundPlayer.stopMusic();
+        SoundPlayer.jumpscareSFX();
     }
 }

@@ -415,7 +415,7 @@ public class GameBoard extends JPanel
         if(atBottom() || isTouchingAnotherBlockBelow()) // if block is at bottom of screen or in stack,
         {                                               // get new block or end the game
             paintShape(2); // makes block indicated as red in integer grid
-            // SoundPlayer.landSFX(); // sound when block has landed
+            SoundPlayer.landSFX(); // sound when block has landed
             gameOver = checkTowerTooTall(); // check if tower too tall/in grey danger zone
 
             if(!gameOver) // game is not over, keep getting new blocks and doing Tetris
@@ -428,7 +428,7 @@ public class GameBoard extends JPanel
         }
         else
             position_Y++; // make the block move one grid space down
-            // SoundPlayer.fallSFX();  // play fall SFX // NEVERMIND, THIS SOUND IS REALLY ANNOYING. Might get a better one later
+            SoundPlayer.fallSFX();  // play fall SFX // NEVERMIND, THIS SOUND IS REALLY ANNOYING. Might get a better one later
         return gameOver;  // return whether game is over to key_binding class to stop timer
     }
 
@@ -552,11 +552,11 @@ public class GameBoard extends JPanel
         {
             paintShape(0); // clear old shape
             position_x--; // move shape one grid space left ****************************************************************************
-            // SoundPlayer.moveSFX(); // play move sound --> ***may want to check if creates a lag w/barriers b/c thread might stop to play
+            SoundPlayer.moveSFX(); // play move sound --> ***may want to check if creates a lag w/barriers b/c thread might stop to play
         }                                                   // *************************************************************************
         else
         {
-            // SoundPlayer.cancelSFX(); // sound when block cannot move
+            SoundPlayer.cancelSFX(); // sound when block cannot move
         }
     }
 
@@ -571,11 +571,11 @@ public class GameBoard extends JPanel
         {
             paintShape(0); // clear old shape
             position_x++; // move shape one grid space right
-            // SoundPlayer.moveSFX(); // play move sound
+            SoundPlayer.moveSFX(); // play move sound
         }
         else
         {
-            // SoundPlayer.cancelSFX(); // sound when block cannot move
+            SoundPlayer.cancelSFX(); // sound when block cannot move
         }
     }
 
