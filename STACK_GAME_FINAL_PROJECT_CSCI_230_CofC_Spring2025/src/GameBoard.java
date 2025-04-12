@@ -417,6 +417,7 @@ public class GameBoard extends JPanel
 
             if(!gameOver) // game is not over, keep getting new blocks and doing Tetris
             {
+                fallSpeed = 1; // reset fallspeed
                 makeFallingBlockAtTopOfScreen(); // reset x/y position of falling block 
                 newShape();            // get another shape
                 repaint();             // repaint the screen to show updates
@@ -431,12 +432,12 @@ public class GameBoard extends JPanel
     public void dropBlock()
     {
         fallSpeed = 4;
-        while(!closeToBottom() && !isTouchingAnotherBlockBelow())
-        {
-            position_Y += fallSpeed;
-            SoundPlayer.fallSFX();
-        }
-        fallSpeed = 1;
+        // while(!closeToBottom() && !isTouchingAnotherBlockBelow())
+        // {
+        //     position_Y += fallSpeed;
+        //     SoundPlayer.fallSFX();
+        // }
+        // fallSpeed = 1;
         // ---------- *********** DEAL WITH LOSE-CHECKING ****************** ----------------
     }
 
