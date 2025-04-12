@@ -18,6 +18,8 @@ public class Key_binding
     private Action rightAction;
     private Action spaceAction;
     private Action rAction;
+    private Action downAction;
+
 
     private JFrame frame;
     private GameBoard gameScreen;
@@ -90,6 +92,14 @@ public class Key_binding
             }
         };
 
+        downAction = new AbstractAction("down")
+        {
+            public void actionPerformed(ActionEvent e)
+            {
+                gameScreen.dropBlock();
+            }
+        };
+
         // add left-right functionality to gameplay screen
         gameScreen.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0), "left");
         gameScreen.getActionMap().put("left", leftAction);
@@ -100,6 +110,10 @@ public class Key_binding
         // add get-new-block-type to gameplay screen
         gameScreen.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_R, 0), "r");
         gameScreen.getActionMap().put("r", rAction);
+
+        // drop block on gameplay screen
+        gameScreen.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0), "down");
+        gameScreen.getActionMap().put("down", downAction);
 
         // add space to replay to end screen
         endScreen.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_SPACE, 0), "right");

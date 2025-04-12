@@ -66,13 +66,23 @@ public class SoundPlayer
         // load all game sounds
         try
         {
-            // this path format works on my computer. Check that it works on yours.
+            // this path format works on my computer. Check that it works on yours. ---> JUST TRIED, SAME ISSUE, PROB NEEDS ABS
+            
+            // RELATIVE PATHS
             moveSound = loadClipFix("sounds/Move.wav");       // when moving block before placing it
             landSound = loadClipFix("sounds/Land.wav");       // when block lands
             cancelSound = loadClipFix("sounds/Cancel.wav");   // when block cannot be moved further
             fallSound = loadClipFix("sounds/Fall.wav");       // when block moves down (UNUSED BECAUSE REALLY ANNOYING)
             jumpscareSound = loadClipFix("sounds/StaticAudio.wav");  // game over sound *** STATIC AS A PLACEHOLDER
             backgroundMusic = loadClipFix("sounds/StaticAudio.wav"); // background music *** STATIC AS A PLACEHOLDER
+
+            // ABSOLUTE PATHS
+            // moveSound = loadClipFix("STACK_GAME_FINAL_PROJECT_CSCI_230_CofC_Spring2025/sounds/Move.wav");       // when moving block before placing it
+            // landSound = loadClipFix("STACK_GAME_FINAL_PROJECT_CSCI_230_CofC_Spring2025/sounds/Land.wav");       // when block lands
+            // cancelSound = loadClipFix("STACK_GAME_FINAL_PROJECT_CSCI_230_CofC_Spring2025/sounds/Cancel.wav");   // when block cannot be moved further
+            // fallSound = loadClipFix("STACK_GAME_FINAL_PROJECT_CSCI_230_CofC_Spring2025/sounds/Fall.wav");       // when block moves down (UNUSED BECAUSE REALLY ANNOYING)
+            // jumpscareSound = loadClipFix("STACK_GAME_FINAL_PROJECT_CSCI_230_CofC_Spring2025/sounds/StaticAudio.wav");  // game over sound *** STATIC AS A PLACEHOLDER
+            // backgroundMusic = loadClipFix("STACK_GAME_FINAL_PROJECT_CSCI_230_CofC_Spring2025/sounds/StaticAudio.wav"); // background music *** STATIC AS A PLACEHOLDER
         }
 
         // print if loading error occurs

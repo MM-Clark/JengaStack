@@ -38,6 +38,7 @@ public class GameBoard extends JPanel
     private boolean gameOver = false; // for determining when the game is over for displaying win lose screen
     // private int score; // user's current score
     private int thresholdScore = -1; // amount of tower blocks that must be covered to win
+    private int fallSpeed = 1; // speed at which block falls
     //------------------------------------------------
     //  COLORS
     //------------------------------------------------
@@ -215,8 +216,6 @@ public class GameBoard extends JPanel
         super.paintComponent(g); // paint existing frame components
         this.setBackground(COLOR_HIDDEN); // set background    
     
-
-
         //------------------------------------------------------------------------------------------------------------------------------
         // SCORE + INSTRUCTIONS 
         // **** could make text different size + update x/y positions to avoid overlapping text **********
@@ -226,8 +225,6 @@ public class GameBoard extends JPanel
         g.drawString("Move mouse to move block", (WINDOW_WIDTH/2) - 70, ((WINDOW_HEIGHT/30) + 20));
         // g.drawString("SCORE: " + , LEFT_CORNER_X, (WINDOW_HEIGHT/30));
         //--------------------------------------------------------------------------------------------------------------------------------
-
-
 
         //-------------------------------------------------------------------------------------------------------------------------------------------------
         // PAINT/UPDATE GRID
@@ -422,14 +419,25 @@ public class GameBoard extends JPanel
             {
                 makeFallingBlockAtTopOfScreen(); // reset x/y position of falling block 
                 newShape();            // get another shape
-                // score += 200;            // update score
                 repaint();             // repaint the screen to show updates
             }
         }
         else
-            position_Y++; // make the block move one grid space down
+            position_Y += fallSpeed; // make the block move one grid space down
             SoundPlayer.fallSFX();  // play fall SFX // NEVERMIND, THIS SOUND IS REALLY ANNOYING. Might get a better one later
         return gameOver;  // return whether game is over to key_binding class to stop timer
+    }
+
+    public void dropBlock()
+    {
+        fallSpeed = 4;
+        while(!closeToBottom() && !isTouchingAnotherBlockBelow())
+        {
+            position_Y += fallSpeed;
+            SoundPlayer.fallSFX();
+        }
+        fallSpeed = 1;
+        // ---------- *********** DEAL WITH LOSE-CHECKING ****************** ----------------
     }
 
     public boolean checkScoreForWin()
@@ -455,6 +463,19 @@ public class GameBoard extends JPanel
         for(int i=0; i<COLUMNS; i++)
         {
             if(map[tallestPartOfTower][i] == 1) // falling block is occupying row 19 
+                return true;
+        }
+        return false;
+    }
+
+    // tell if block is close to bottom
+    public boolean closeToBottom()
+    {
+        if(position_Y > ROWS - 2) 
+            return true;
+        for(int i=0; i<COLUMNS; i++)
+        {
+            if(map[tallestPartOfTower - 4][i] == 1) // falling block is occupying row 15, prevent exception for exceeding bounds 
                 return true;
         }
         return false;
