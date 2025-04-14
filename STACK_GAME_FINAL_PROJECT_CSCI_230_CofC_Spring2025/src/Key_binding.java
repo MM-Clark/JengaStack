@@ -11,6 +11,8 @@ import java.awt.event.KeyEvent;
 import java.io.IOException;
 
 import javax.swing.*;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class Key_binding 
 {
@@ -24,10 +26,13 @@ public class Key_binding
     private JFrame frame;
     private GameBoard gameScreen;
     private WinLoseScreen endScreen; // end screen 
+    private Timer timer;
 
-    // private WinLoseScreen endScreen;
     private final int FRAME_SIZE = 900;
+    private final int SLOW_FRAME_RATE = 400;
+    private final int FAST_FRAME_RATE = 75; // will go faster b/c less time btwn timer runs
 
+    private int fallSpeed = SLOW_FRAME_RATE;
     private boolean gameOver = false;
     private boolean gameWon = false;
 
@@ -37,7 +42,6 @@ public class Key_binding
         frame = frameIn;
         gameScreen = gameScreenIn;
         endScreen = new WinLoseScreen(); 
-        // endScreen = endScreenIn;
 
         frame.setTitle("Start Screen");
         frame.setSize(FRAME_SIZE, FRAME_SIZE); //--------> manually set size, easier for placing boxes on x/y coordinates
@@ -92,11 +96,14 @@ public class Key_binding
             }
         };
 
+        // *****************************************
+        // increase fall speed -- does not work
+        // *****************************************
         downAction = new AbstractAction("down")
         {
             public void actionPerformed(ActionEvent e)
             {
-                gameScreen.dropBlock();
+                increaseFallSpeed();
             }
         };
 
@@ -128,7 +135,7 @@ public class Key_binding
         // add panel to frame
         //-------------------------------------------
         frame.add(gameScreen);
-        gameScreen.newGame();
+        gameScreen.newGame(this);
         // frame.pack();            //---------> set frame as predetermined size by system
         frame.setVisible(true);
 
@@ -140,48 +147,73 @@ public class Key_binding
         // ----------------------- TIMER SET UP TO RUN TETRIS  ----------------------------------------------------------
         //-----------------------------------------------------------------------------------------------
         //make a new Timer
-        Timer timer = new Timer(275, new ActionListener() 
+        timer = new Timer();
+        
+        startTimer();
+    }
+
+    public void startTimer()
+    {
+        TimerTask task = new TimerTask() 
         {
             @Override
-            public void actionPerformed(ActionEvent e) 
+            // public void actionPerformed(ActionEvent e) 
+            // {
+            public void run()
             {
-                gameOver = gameScreen.updateBlockPos(); // make block fall
-                gameWon = gameScreen.checkScoreForWin(); // add to score
-
-                if(gameOver || gameWon) // if user lost or user won
-                {
-                    if(gameOver) // user lost
-                    {
-                        // show lose screen
-                        try {
-                            //************************************************* */
-                            //***** DONE IN WAY THAT DOES NOT SUPPORT  ******** */
-                            //*************   REPLAY BACKGROUND MUSIC!   ****** */
-                            //************************************************* */
-                            endScreen.showLoseScreen(frame);
-                        } catch (IOException ex) {
-                            ex.printStackTrace();
-                        }
-                    }
-                    else
-                    {
-                        // show win screen
-                        try {
-                            endScreen.showWinScreen(frame); 
-                        } catch (IOException ex) {
-                            ex.printStackTrace();
-                        }
-                    }
-                    Timer timer = (Timer)e.getSource(); //*************** */
-                    timer.stop();
-                }
-                //repaint the screen if not gameover
-                gameScreen.repaint();
+                runGame();
+                this.cancel();
+                startTimer();
             }
-        });
+        };
 
-        //start the timer after it's been created
-        timer.start();
+        timer.schedule(task, fallSpeed, fallSpeed);
+        int countDeletedTasks = timer.purge();
+    }
+
+    private void reschedule() {
+        // timer.schedule(new TimerTask() {
+        //     @Override
+        //     public void run() {
+        //         runGame();
+        //         reschedule();
+        //     }
+        // }, fallSpeed);
+    }
+    
+    public void runGame()
+    {
+        gameOver = gameScreen.updateBlockPos(); // make block fall
+        gameWon = gameScreen.checkScoreForWin(); // add to score
+
+        if(gameOver || gameWon) // if user lost or user won
+        {
+            if(gameOver) // user lost
+            {
+                // show lose screen
+                try {
+                    //************************************************* */
+                    //***** DONE IN WAY THAT DOES NOT SUPPORT  ******** */
+                    //*************   REPLAY BACKGROUND MUSIC!   ****** */
+                    //************************************************* */
+                    endScreen.showLoseScreen(frame);
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            }
+            else
+            {
+                // show win screen
+                try {
+                    endScreen.showWinScreen(frame); 
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            }
+            timer.cancel();
+        }
+        //repaint the screen if not gameover
+        gameScreen.repaint();
     }
 
     //-----------------------------
@@ -190,5 +222,21 @@ public class Key_binding
     public void resetFrame()
     {
         frame.getContentPane().removeAll();
+    }
+
+    //-----------------------------------------------
+    // reset block fall speed
+    //-----------------------------------------------
+    public void resetFall()
+    {
+        fallSpeed = SLOW_FRAME_RATE; 
+    }
+
+    //------------------------------------------------
+    // make block fall faster
+    //------------------------------------------------ 
+    public void increaseFallSpeed()
+    {
+        fallSpeed = FAST_FRAME_RATE; 
     }
 }

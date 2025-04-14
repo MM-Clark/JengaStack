@@ -28,6 +28,7 @@ public class GameBoard extends JPanel
     // if player somehow succeeds and fills most of board
     private final int STACK_MAX_LOAD = 300; // amount of blocks in stack -- could make lower to force user to use what they get
     private final int BARRIER_ROw = 1; // top of tower barrier
+
     //-------------------------------------------------
     // PRIMITIVE TYPES 
     //--------------------------------------------------
@@ -39,6 +40,7 @@ public class GameBoard extends JPanel
     // private int score; // user's current score
     private int thresholdScore = -1; // amount of tower blocks that must be covered to win
     private int fallSpeed = 1; // speed at which block falls
+
     //------------------------------------------------
     //  COLORS
     //------------------------------------------------
@@ -63,24 +65,27 @@ public class GameBoard extends JPanel
     private final Color COLOR_TEXT = new Color(255, 239, 0); // CANARY YELLOW - text/directions
     // grey??? -- goal tower color
     private final Color COLOR_GOAL_TOWER = new Color(211, 211, 211); // LIGHT GREY 
+
     //---------------------------------------------------------------------------------------
     //  BOARD SETUP          0=empty spot       1=falling block in this spot        2=tower here
     //----------------------------------------------------------------------------------------
     int map[][] = new int[ROWS][COLUMNS];               // grid for blocks to move and stack on
     int originalMap[][] = new int[ROWS][COLUMNS];
+
     //----------------------------------------------
     // FUNCTIONAL GAME OBJECTS AND ARRAYS
     //----------------------------------------------
     protected BlockTypes fallingShape = BlockTypes.L;   // representation of falling block, determines shape type
                                                         // and how will be drawn on screen
     private StackArray<Integer> stackTower;             //for holding integers corresponding to block type
-    
+    private Key_binding controlKeys; // for resetting fall speed/frame rate in key binding class 
     
     //-----------------------------------------------------------------------------------------
     // constructor for making new game
     //------------------------------------------------------------------------------------------
-    public void newGame() 
+    public void newGame(Key_binding inKeyBinding) 
     {
+        controlKeys = inKeyBinding; // setting up class instance so that we can reset fall speed 
         // Clear the map, 0=empty, 1=falling block part, 2=tower part
         for (int row = 0; row < ROWS; row++) 
         {
@@ -417,7 +422,7 @@ public class GameBoard extends JPanel
 
             if(!gameOver) // game is not over, keep getting new blocks and doing Tetris
             {
-                fallSpeed = 1; // reset fallspeed
+                controlKeys.resetFall(); // reset fall speed after block lands
                 makeFallingBlockAtTopOfScreen(); // reset x/y position of falling block 
                 newShape();            // get another shape
                 repaint();             // repaint the screen to show updates
@@ -429,17 +434,17 @@ public class GameBoard extends JPanel
         return gameOver;  // return whether game is over to key_binding class to stop timer
     }
 
-    public void dropBlock()
-    {
-        fallSpeed = 4;
-        // while(!closeToBottom() && !isTouchingAnotherBlockBelow())
-        // {
-        //     position_Y += fallSpeed;
-        //     SoundPlayer.fallSFX();
-        // }
-        // fallSpeed = 1;
-        // ---------- *********** DEAL WITH LOSE-CHECKING ****************** ----------------
-    }
+    // public void dropBlock()
+    // {
+    //     fallSpeed = 4;
+    //     // while(!closeToBottom() && !isTouchingAnotherBlockBelow())
+    //     // {
+    //     //     position_Y += fallSpeed;
+    //     //     SoundPlayer.fallSFX();
+    //     // }
+    //     // fallSpeed = 1;
+    //     // ---------- *********** DEAL WITH LOSE-CHECKING ****************** ----------------
+    // }
 
     public boolean checkScoreForWin()
     {
@@ -469,18 +474,18 @@ public class GameBoard extends JPanel
         return false;
     }
 
-    // tell if block is close to bottom
-    public boolean closeToBottom()
-    {
-        if(position_Y > ROWS - 2) 
-            return true;
-        for(int i=0; i<COLUMNS; i++)
-        {
-            if(map[tallestPartOfTower - 4][i] == 1) // falling block is occupying row 15, prevent exception for exceeding bounds 
-                return true;
-        }
-        return false;
-    }
+    // // tell if block is close to bottom
+    // public boolean closeToBottom()
+    // {
+    //     if(position_Y > ROWS - 2) 
+    //         return true;
+    //     for(int i=0; i<COLUMNS; i++)
+    //     {
+    //         if(map[tallestPartOfTower - 4][i] == 1) // falling block is occupying row 15, prevent exception for exceeding bounds 
+    //             return true;
+    //     }
+    //     return false;
+    // }
 
     // check if block has fallen onto another block, if so stay in place to avoid overlapping
     public boolean isTouchingAnotherBlockBelow()
