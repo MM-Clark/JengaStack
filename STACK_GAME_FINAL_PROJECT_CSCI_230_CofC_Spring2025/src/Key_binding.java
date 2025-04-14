@@ -96,9 +96,9 @@ public class Key_binding
             }
         };
 
-        // *****************************************
-        // increase fall speed -- does not work
-        // *****************************************
+        // -------------------------------------------------
+        //         drop block - increases fall speed 
+        // -------------------------------------------------
         downAction = new AbstractAction("down")
         {
             public void actionPerformed(ActionEvent e)
@@ -142,14 +142,10 @@ public class Key_binding
         // load sounds and start playing music
         SoundPlayer.loadSounds();
         SoundPlayer.playMusic();
-        //-------------------------------------------------------------------------------------------------
-
-        // ----------------------- TIMER SET UP TO RUN TETRIS  ----------------------------------------------------------
-        //-----------------------------------------------------------------------------------------------
-        //make a new Timer
-        timer = new Timer();
         
-        startTimer();
+        // ----------------------- TIMER SET UP TO RUN TETRIS  ----------------------------------------------------------
+        timer = new Timer();
+        startTimer(); // run timer
     }
 
     public void startTimer()
@@ -157,8 +153,6 @@ public class Key_binding
         TimerTask task = new TimerTask() 
         {
             @Override
-            // public void actionPerformed(ActionEvent e) 
-            // {
             public void run()
             {
                 runGame();
@@ -168,17 +162,7 @@ public class Key_binding
         };
 
         timer.schedule(task, fallSpeed, fallSpeed);
-        int countDeletedTasks = timer.purge();
-    }
-
-    private void reschedule() {
-        // timer.schedule(new TimerTask() {
-        //     @Override
-        //     public void run() {
-        //         runGame();
-        //         reschedule();
-        //     }
-        // }, fallSpeed);
+        int countDeletedTasks = timer.purge(); // removes canceled tasks from timer
     }
     
     public void runGame()

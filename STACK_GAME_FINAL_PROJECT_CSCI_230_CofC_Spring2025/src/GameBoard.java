@@ -113,9 +113,7 @@ public class GameBoard extends JPanel
 
     //-------------------------------------------------------------------------------------------------------
     //-------------------------------------------------------------------------------------------------------
-    // 
     //                  Function to make a random tower for user to replicate -- switch cases 
-    // 
     //-------------------------------------------------------------------------------------------------------
     //-------------------------------------------------------------------------------------------------------
     public void createGoalTower()
@@ -434,18 +432,6 @@ public class GameBoard extends JPanel
         return gameOver;  // return whether game is over to key_binding class to stop timer
     }
 
-    // public void dropBlock()
-    // {
-    //     fallSpeed = 4;
-    //     // while(!closeToBottom() && !isTouchingAnotherBlockBelow())
-    //     // {
-    //     //     position_Y += fallSpeed;
-    //     //     SoundPlayer.fallSFX();
-    //     // }
-    //     // fallSpeed = 1;
-    //     // ---------- *********** DEAL WITH LOSE-CHECKING ****************** ----------------
-    // }
-
     public boolean checkScoreForWin()
     {
         // if(score >= 20000) // 20,000 is 100 blocks on grid
@@ -473,19 +459,6 @@ public class GameBoard extends JPanel
         }
         return false;
     }
-
-    // // tell if block is close to bottom
-    // public boolean closeToBottom()
-    // {
-    //     if(position_Y > ROWS - 2) 
-    //         return true;
-    //     for(int i=0; i<COLUMNS; i++)
-    //     {
-    //         if(map[tallestPartOfTower - 4][i] == 1) // falling block is occupying row 15, prevent exception for exceeding bounds 
-    //             return true;
-    //     }
-    //     return false;
-    // }
 
     // check if block has fallen onto another block, if so stay in place to avoid overlapping
     public boolean isTouchingAnotherBlockBelow()
