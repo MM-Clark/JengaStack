@@ -54,7 +54,6 @@ public class Key_binding
         {
             public void actionPerformed(ActionEvent e)
             {
-                // System.out.println("left key pressed");
                 gameScreen.moveBlockLeft();
                 gameScreen.repaint();
             }
@@ -64,7 +63,6 @@ public class Key_binding
         {
             public void actionPerformed(ActionEvent e)
             {
-                // System.out.println("right key pressed");
                 gameScreen.moveBlockRight();
                 gameScreen.repaint();
             }
@@ -136,7 +134,6 @@ public class Key_binding
         //-------------------------------------------
         frame.add(gameScreen);
         gameScreen.newGame(this);
-        // frame.pack();            //---------> set frame as predetermined size by system
         frame.setVisible(true);
 
         // load sounds and start playing music

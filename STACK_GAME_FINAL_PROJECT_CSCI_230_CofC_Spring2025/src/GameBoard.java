@@ -103,9 +103,8 @@ public class GameBoard extends JPanel
         for(int i=0; i < STACK_MAX_LOAD; i++)
         {
             int randomShapeNum = Randomizer.getRandomNumber(0, 7);
-            // prime number modding to increase randomization...? inspired by the hash table....
-            stackTower.push(randomShapeNum);     // this part needs some work for randomization --> did this because realized >100 values will not fall into 0-9 range w/o it
-        }   // change to %7 ***************************************************************
+            stackTower.push(randomShapeNum);     
+        }   
         // score = 0; // reset score
 
         createGoalTower(); // ************************** make goal tower ************************************
@@ -145,8 +144,8 @@ public class GameBoard extends JPanel
     public void makeFallingBlockAtTopOfScreen()
     {
         // reset falling positions so does not fall starting at bottom of screen
-        position_x = (COLUMNS/2)-2; // ************ this could be edited because is slightly left from center
-        position_Y = 2; // currently done to avoid glitching
+        position_x = (COLUMNS/2)-2; 
+        position_Y = 2; 
     }
     // ----------------------------------------------------------------------------------
     //     GET NEW SHAPES BY RESETTING X/Y POSITIONS, GETTING NEW SHAPE BY POPPING STACK
@@ -248,7 +247,7 @@ public class GameBoard extends JPanel
                 else if(map[row][col] == 4)
                     g.setColor(COLOR_GOAL_TOWER);
                 else if(row <= BARRIER_ROw) // top 2 rows are grey to represent a zone of tower being too tall, could also black them out
-                    g.setColor(COLOR_DANGER_ZONE); // still coming up with ways to avoid glitching for differnet block heights
+                    g.setColor(COLOR_DANGER_ZONE); 
                 else    
                     g.setColor(COLOR_EMPTY); // white
                 g.fill3DRect(col*CELL_SIZE + xOffset, row*CELL_SIZE + yOffset, CELL_SIZE, CELL_SIZE, true); // fill cell
