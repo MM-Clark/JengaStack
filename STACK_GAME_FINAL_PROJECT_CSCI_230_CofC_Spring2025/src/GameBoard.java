@@ -122,16 +122,14 @@ public class GameBoard extends JPanel
 
         int rowNum = ROWS - 1; 
 
-        while(randomBaseSize > 0 && rowNum > 0)
+        while(randomBaseSize > 0 && rowNum > BARRIER_ROw)
         {
-            for(int i=randomBaseSize; i>0; i--)
+            for(int i=randomBaseSize; i > 0; i--)
             {
                 map[rowNum][i] = 4; 
                 originalMap[rowNum][i] = 4; 
-                // thresholdScore++;
             }
             randomDecreaseColumnsSize = Randomizer.getRandomNumber(0, 3);
-            // System.out.println(randomDecreaseColumnsSize);
             randomBaseSize -= randomDecreaseColumnsSize;
             rowNum--;
         }
@@ -224,7 +222,7 @@ public class GameBoard extends JPanel
         //-------------------------------------------------------------------------------------------------------------------------------
         g.setColor(COLOR_TEXT); 
         g.drawString("Welcome to Jenga Stack!", (WINDOW_WIDTH/2) - 70, (WINDOW_HEIGHT/30)); //weird divided numbers are (x, y) positions
-        g.drawString("Move mouse to move block", (WINDOW_WIDTH/2) - 70, ((WINDOW_HEIGHT/30) + 20));
+        g.drawString("Move mouse to move block. Try to completely cover the grey tower.", (WINDOW_WIDTH/2) - 170, ((WINDOW_HEIGHT/30) + 20));
         // g.drawString("SCORE: " + , LEFT_CORNER_X, (WINDOW_HEIGHT/30));
         //--------------------------------------------------------------------------------------------------------------------------------
 

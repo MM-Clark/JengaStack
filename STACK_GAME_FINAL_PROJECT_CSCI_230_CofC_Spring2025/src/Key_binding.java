@@ -29,10 +29,11 @@ public class Key_binding
     private Timer timer;
 
     private final int FRAME_SIZE = 900;
-    private final int SLOW_FRAME_RATE = 400;
+
+    private final int NORMAL_FRAME_RATE = 500; // avg frame rate
     private final int FAST_FRAME_RATE = 75; // will go faster b/c less time btwn timer runs
 
-    private int fallSpeed = SLOW_FRAME_RATE;
+    private int fallSpeed = NORMAL_FRAME_RATE;
     private boolean gameOver = false;
     private boolean gameWon = false;
 
@@ -210,7 +211,7 @@ public class Key_binding
     //-----------------------------------------------
     public void resetFall()
     {
-        fallSpeed = SLOW_FRAME_RATE; 
+        fallSpeed = NORMAL_FRAME_RATE; 
     }
 
     //------------------------------------------------
